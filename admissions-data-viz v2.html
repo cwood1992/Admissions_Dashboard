@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions Performance Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .chart-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .performance-bar {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .performance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #0abde3);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .wide-chart {
+            grid-column: span 2;
+        }
+        
+        @media (max-width: 900px) {
+            .wide-chart {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Admissions Performance Dashboard</h1>
+        
+        <!-- Key Metrics -->
+        <div class="metric-grid">
+            <div class="metric-card">
+                <div class="metric-value">10.4%</div>
+                <div class="metric-label">Overall Start Rate</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">238</div>
+                <div class="metric-label">Total Starts</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">2,283</div>
+                <div class="metric-label">Total Enrollments</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$51.1M</div>
+                <div class="metric-label">Lost Revenue</div>
+            </div>
+        </div>
+        
+        <!-- Charts Grid -->
+        <div class="grid">
+            <!-- NDT Start Rate by Rep -->
+            <div class="chart-container">
+                <h3 class="chart-title">NDT Start Rate by Representative</h3>
+                <canvas id="ndtStartRateChart"></canvas>
+            </div>
+            
+            <!-- UDT Start Rate by Rep -->
+            <div class="chart-container">
+                <h3 class="chart-title">UDT Start Rate by Representative</h3>
+                <canvas id="udtStartRateChart"></canvas>
+            </div>
+            
+            <!-- Overall Start Rate by Rep -->
+            <div class="chart-container">
+                <h3 class="chart-title">Overall Start Rate by Representative</h3>
+                <canvas id="overallStartRateChart"></canvas>
+            </div>
+            
+            <!-- Volume vs Performance -->
+            <div class="chart-container">
+                <h3 class="chart-title">Volume vs Performance</h3>
+                <canvas id="volumeChart"></canvas>
+            </div>
+            
+            <!-- Program Performance -->
+            <div class="chart-container">
+                <h3 class="chart-title">Program Performance by Rep</h3>
+                <canvas id="programChart"></canvas>
+            </div>
+            
+            <!-- Trend Analysis -->
+            <div class="chart-container">
+                <h3 class="chart-title">Performance Trends Over Time</h3>
+                <canvas id="trendChart"></canvas>
+            </div>
+            
+            <!-- Overall Start Rate by Cohort - NEW CHART -->
+            <div class="chart-container wide-chart">
+                <h3 class="chart-title">Overall Start Rate by Cohort - All Reps</h3>
+                <canvas id="overallByCohortChart"></canvas>
+            </div>
+            
+            <!-- NDT Cohort Performance -->
+            <div class="chart-container wide-chart">
+                <h3 class="chart-title">NDT Cohort Performance - All Reps</h3>
+                <canvas id="ndtCohortChart"></canvas>
+            </div>
+            
+            <!-- NDT-NC Cohort Performance -->
+            <div class="chart-container wide-chart">
+                <h3 class="chart-title">NDT-NC Cohort Performance - All Reps</h3>
+                <canvas id="ndtNCCohortChart"></canvas>
+            </div>
+            
+            <!-- UDT Cohort Performance -->
+            <div class="chart-container wide-chart">
+                <h3 class="chart-title">UDT Cohort Performance - All Reps</h3>
+                <canvas id="udtCohortChart"></canvas>
+            </div>
+            
+            <!-- Distribution Charts -->
+            <div class="chart-container wide-chart">
+                <h3 class="chart-title">NDT Cohort Distribution - Enrollments & Starts</h3>
+                <canvas id="ndtDistChart"></canvas>
+            </div>
+            
+            <div class="chart-container wide-chart">
+                <h3 class="chart-title">UDT Cohort Distribution - Enrollments & Starts</h3>
+                <canvas id="udtDistChart"></canvas>
+            </div>
+            
+            <div class="chart-container wide-chart">
+                <h3 class="chart-title">Total Cohort Distribution - Enrollments & Starts</h3>
+                <canvas id="totalDistChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Performance Table -->
+        <div class="table-container">
+            <h3 class="chart-title">Detailed Performance Metrics</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Representative</th>
+                        <th>Enrollments</th>
+                        <th>Starts</th>
+                        <th>Start Rate</th>
+                        <th>Cancellations</th>
+                        <th>NDT Rate</th>
+                        <th>UDT Rate</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Thomas</strong></td>
+                        <td>300</td>
+                        <td>50</td>
+                        <td><strong>16.7%</strong></td>
+                        <td>245</td>
+                        <td>10.6%</td>
+                        <td><strong>22.8%</strong></td>
+                        <td>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 73%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Randy</strong></td>
+                        <td>854</td>
+                        <td>92</td>
+                        <td>10.8%</td>
+                        <td>757</td>
+                        <td>9.7%</td>
+                        <td>11.9%</td>
+                        <td>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 47%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cori</strong></td>
+                        <td>777</td>
+                        <td>77</td>
+                        <td>9.9%</td>
+                        <td>696</td>
+                        <td>10.4%</td>
+                        <td>9.5%</td>
+                        <td>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 43%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sue</strong></td>
+                        <td>352</td>
+                        <td>19</td>
+                        <td>5.4%</td>
+                        <td>331</td>
+                        <td>4.7%</td>
+                        <td>5.9%</td>
+                        <td>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 24%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart defaults
+            Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+            
+            // NDT Start Rate by Rep
+            const ndtStartRateCtx = document.getElementById('ndtStartRateChart').getContext('2d');
+            new Chart(ndtStartRateCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Thomas', 'Randy', 'Cori', 'Sue', 'Company Avg'],
+                    datasets: [{
+                        label: 'NDT Start Rate (%)',
+                        data: [10.6, 9.7, 10.4, 4.7, 9.4],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(237, 100, 166, 0.8)',
+                            'rgba(255, 107, 107, 0.8)',
+                            'rgba(150, 150, 150, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.parsed.y}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 15,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    }
+                }
+            });
+            
+            // UDT Start Rate by Rep
+            const udtStartRateCtx = document.getElementById('udtStartRateChart').getContext('2d');
+            new Chart(udtStartRateCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Thomas', 'Randy', 'Cori', 'Sue', 'Company Avg'],
+                    datasets: [{
+                        label: 'UDT Start Rate (%)',
+                        data: [22.8, 11.9, 9.5, 5.9, 11.4],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(237, 100, 166, 0.8)',
+                            'rgba(255, 107, 107, 0.8)',
+                            'rgba(150, 150, 150, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.parsed.y}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 25,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    }
+                }
+            });
+            
+            // Overall Start Rate by Rep
+            const overallStartRateCtx = document.getElementById('overallStartRateChart').getContext('2d');
+            new Chart(overallStartRateCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Thomas', 'Randy', 'Cori', 'Sue', 'Company Avg'],
+                    datasets: [{
+                        label: 'Overall Start Rate (%)',
+                        data: [16.7, 10.8, 9.9, 5.4, 10.4],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(237, 100, 166, 0.8)',
+                            'rgba(255, 107, 107, 0.8)',
+                            'rgba(150, 150, 150, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.parsed.y}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 20,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    }
+                }
+            });
+            
+            // Volume vs Performance
+            const volumeCtx = document.getElementById('volumeChart').getContext('2d');
+            new Chart(volumeCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Reps',
+                        data: [
+                            {x: 300, y: 16.7, name: 'Thomas'},
+                            {x: 854, y: 10.8, name: 'Randy'},
+                            {x: 777, y: 9.9, name: 'Cori'},
+                            {x: 352, y: 5.4, name: 'Sue'}
+                        ],
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        pointRadius: 10,
+                        pointHoverRadius: 12
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const point = context.raw;
+                                    return `${point.name}: ${point.x} enrollments, ${point.y}% start rate`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Total Enrollments' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Start Rate (%)' },
+                            beginAtZero: true,
+                            max: 20
+                        }
+                    }
+                }
+            });
+            
+            // Program Performance
+            const programCtx = document.getElementById('programChart').getContext('2d');
+            new Chart(programCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Thomas', 'Randy', 'Cori', 'Sue'],
+                    datasets: [
+                        {
+                            label: 'NDT',
+                            data: [10.6, 9.7, 10.4, 4.7],
+                            backgroundColor: 'rgba(102, 126, 234, 0.8)'
+                        },
+                        {
+                            label: 'UDT',
+                            data: [22.8, 11.9, 9.5, 5.9],
+                            backgroundColor: 'rgba(118, 75, 162, 0.8)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 25,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    }
+                }
+            });
+            
+            // Trend Analysis
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['551-552', '553-554', '555-556', '557-558'],
+                    datasets: [
+                        {
+                            label: 'Thomas',
+                            data: [15.8, 11.4, 12.5, 26.0],
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Randy',
+                            data: [11.5, 7.7, 10.7, 13.5],
+                            borderColor: 'rgba(118, 75, 162, 1)',
+                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Cori',
+                            data: [9.1, 10.6, 7.5, 11.7],
+                            borderColor: 'rgba(237, 100, 166, 1)',
+                            backgroundColor: 'rgba(237, 100, 166, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Sue',
+                            data: [null, 2.7, 6.0, 6.2],
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 30,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    }
+                }
+            });
+            
+            // Overall Start Rate by Cohort - NEW CHART
+            const overallByCohortCtx = document.getElementById('overallByCohortChart').getContext('2d');
+            new Chart(overallByCohortCtx, {
+                type: 'line',
+                data: {
+                    labels: ['551', '552', '553', '554', '555', '556', '557', '558'],
+                    datasets: [
+                        {
+                            label: 'Thomas',
+                            data: [13.7, 21.4, 6.8, 10.9, 14.4, 12.9, 22.5, 24.4],
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Randy',
+                            data: [11.1, 13.5, 5.1, 6.4, 12.6, 8.4, 13.6, 11.4],
+                            borderColor: 'rgba(118, 75, 162, 1)',
+                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Cori',
+                            data: [6.6, 15.7, 7.1, 12.0, 7.4, 6.7, 13.8, 8.4],
+                            borderColor: 'rgba(237, 100, 166, 1)',
+                            backgroundColor: 'rgba(237, 100, 166, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Sue',
+                            data: [null, null, 0, 3.6, 8.4, 4.2, 3.0, 9.9],
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Average',
+                            data: [10.5, 16.8, 5.0, 8.2, 10.7, 8.0, 13.2, 13.5],
+                            borderColor: 'rgba(150, 150, 150, 1)',
+                            backgroundColor: 'rgba(150, 150, 150, 0.05)',
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y?.toFixed(1)}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 30,
+                            ticks: { callback: (value) => value + '%' },
+                            title: { display: true, text: 'Start Rate (%)' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Cohort Number' }
+                        }
+                    }
+                }
+            });
+            
+            // NDT Cohort Performance
+            const ndtCohortCtx = document.getElementById('ndtCohortChart').getContext('2d');
+            new Chart(ndtCohortCtx, {
+                type: 'line',
+                data: {
+                    labels: ['NDT551', 'NDT552', 'NDT553', 'NDT554', 'NDT555', 'NDT556', 'NDT557', 'NDT558'],
+                    datasets: [
+                        {
+                            label: 'Thomas',
+                            data: [0, 7.1, 5.3, 0, 23.1, 13.3, 20.0, 15.4],
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Randy',
+                            data: [11.3, 9.4, 5.2, 1.9, 15.9, 6.7, 14.9, 5.1],
+                            borderColor: 'rgba(118, 75, 162, 1)',
+                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Cori',
+                            data: [4.5, 8.2, 7.5, 5.1, 12.1, 4.5, 22.4, 8.1],
+                            borderColor: 'rgba(237, 100, 166, 1)',
+                            backgroundColor: 'rgba(237, 100, 166, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Sue',
+                            data: [null, null, 0, 4.5, 4.2, 8.3, 3.8, 9.1],
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Average',
+                            data: [5.3, 8.2, 4.5, 2.9, 13.8, 8.2, 15.3, 9.5],
+                            borderColor: 'rgba(150, 150, 150, 1)',
+                            backgroundColor: 'rgba(150, 150, 150, 0.05)',
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 25,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    }
+                }
+            });
+            
+            // NDT-NC Cohort Performance
+            const ndtNCCohortCtx = document.getElementById('ndtNCCohortChart').getContext('2d');
+            new Chart(ndtNCCohortCtx, {
+                type: 'line',
+                data: {
+                    labels: ['NDT552NC', 'NDT554NC', 'NDT556NC', 'NDT558NC'],
+                    datasets: [
+                        {
+                            label: 'Thomas',
+                            data: [0, 25.0, 0, 50.0],
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Randy',
+                            data: [0, 27.8, 11.1, 20.0],
+                            borderColor: 'rgba(118, 75, 162, 1)',
+                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Cori',
+                            data: [0, 22.2, 0, 28.6],
+                            borderColor: 'rgba(237, 100, 166, 1)',
+                            backgroundColor: 'rgba(237, 100, 166, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Sue',
+                            data: [null, 0, 0, 0],
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Average',
+                            data: [0, 18.8, 2.8, 24.7],
+                            borderColor: 'rgba(150, 150, 150, 1)',
+                            backgroundColor: 'rgba(150, 150, 150, 0.05)',
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 60,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    }
+                }
+            });
+            
+            // UDT Cohort Performance
+            const udtCohortCtx = document.getElementById('udtCohortChart').getContext('2d');
+            new Chart(udtCohortCtx, {
+                type: 'line',
+                data: {
+                    labels: ['UDT551', 'UDT552', 'UDT553', 'UDT554', 'UDT555', 'UDT556', 'UDT557', 'UDT558'],
+                    datasets: [
+                        {
+                            label: 'Thomas',
+                            data: [27.3, 35.7, 8.3, 21.7, 5.6, 12.5, 25.0, 33.3],
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Randy',
+                            data: [10.9, 17.5, 5.0, 10.9, 9.3, 10.0, 12.2, 17.6],
+                            borderColor: 'rgba(118, 75, 162, 1)',
+                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Cori',
+                            data: [8.6, 23.1, 6.7, 18.8, 2.6, 8.8, 5.1, 8.6],
+                            borderColor: 'rgba(237, 100, 166, 1)',
+                            backgroundColor: 'rgba(237, 100, 166, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Sue',
+                            data: [null, null, 0, 2.7, 12.5, 0, 2.2, 10.7],
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Average',
+                            data: [15.6, 25.4, 5.0, 13.5, 7.5, 7.8, 11.1, 17.6],
+                            borderColor: 'rgba(150, 150, 150, 1)',
+                            backgroundColor: 'rgba(150, 150, 150, 0.05)',
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 40,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    }
+                }
+            });
+            
+            // NDT Distribution Chart
+            const ndtDistCtx = document.getElementById('ndtDistChart').getContext('2d');
+            new Chart(ndtDistCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['NDT551', 'NDT552', 'NDT553', 'NDT554', 'NDT555', 'NDT556', 'NDT557', 'NDT558'],
+                    datasets: [
+                        // Thomas
+                        {
+                            label: 'Thomas Enrollments',
+                            data: [22, 28, 19, 12, 13, 15, 15, 13],
+                            backgroundColor: 'rgba(102, 126, 234, 0.4)',
+                            stack: 'Thomas'
+                        },
+                        {
+                            label: 'Thomas Starts',
+                            data: [0, 2, 1, 0, 3, 2, 3, 2],
+                            backgroundColor: 'rgba(102, 126, 234, 1)',
+                            stack: 'Thomas'
+                        },
+                        // Randy
+                        {
+                            label: 'Randy Enrollments',
+                            data: [71, 53, 58, 54, 44, 30, 47, 39],
+                            backgroundColor: 'rgba(118, 75, 162, 0.4)',
+                            stack: 'Randy'
+                        },
+                        {
+                            label: 'Randy Starts',
+                            data: [8, 5, 3, 1, 7, 2, 7, 2],
+                            backgroundColor: 'rgba(118, 75, 162, 1)',
+                            stack: 'Randy'
+                        },
+                        // Cori
+                        {
+                            label: 'Cori Enrollments',
+                            data: [44, 49, 40, 39, 58, 22, 49, 37],
+                            backgroundColor: 'rgba(237, 100, 166, 0.4)',
+                            stack: 'Cori'
+                        },
+                        {
+                            label: 'Cori Starts',
+                            data: [2, 4, 3, 2, 7, 1, 11, 3],
+                            backgroundColor: 'rgba(237, 100, 166, 1)',
+                            stack: 'Cori'
+                        },
+                        // Sue
+                        {
+                            label: 'Sue Enrollments',
+                            data: [0, 0, 4, 22, 24, 24, 26, 22],
+                            backgroundColor: 'rgba(255, 107, 107, 0.4)',
+                            stack: 'Sue'
+                        },
+                        {
+                            label: 'Sue Starts',
+                            data: [0, 0, 0, 1, 1, 2, 1, 2],
+                            backgroundColor: 'rgba(255, 107, 107, 1)',
+                            stack: 'Sue'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                filter: function(item, chart) {
+                                    // Only show the rep names, not "Enrollments" or "Starts"
+                                    return item.datasetIndex % 2 === 0 && !item.text.includes('Enrollments');
+                                },
+                                generateLabels: function(chart) {
+                                    // Custom labels showing just rep names
+                                    return [
+                                        {text: 'Thomas', fillStyle: 'rgba(102, 126, 234, 1)', strokeStyle: 'rgba(102, 126, 234, 1)'},
+                                        {text: 'Randy', fillStyle: 'rgba(118, 75, 162, 1)', strokeStyle: 'rgba(118, 75, 162, 1)'},
+                                        {text: 'Cori', fillStyle: 'rgba(237, 100, 166, 1)', strokeStyle: 'rgba(237, 100, 166, 1)'},
+                                        {text: 'Sue', fillStyle: 'rgba(255, 107, 107, 1)', strokeStyle: 'rgba(255, 107, 107, 1)'}
+                                    ];
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label;
+                                    const value = context.parsed.y;
+                                    if (label.includes('Starts')) {
+                                        return `Starts: ${value}`;
+                                    } else {
+                                        return `Enrollments: ${value}`;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            stacked: true,
+                            title: { display: true, text: 'NDT Cohort' }
+                        },
+                        y: { 
+                            stacked: true,
+                            title: { display: true, text: 'Number of Students' }
+                        }
+                    }
+                }
+            });
+            
+            // UDT Distribution Chart
+            const udtDistCtx = document.getElementById('udtDistChart').getContext('2d');
+            new Chart(udtDistCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['UDT551', 'UDT552', 'UDT553', 'UDT554', 'UDT555', 'UDT556', 'UDT557', 'UDT558'],
+                    datasets: [
+                        // Thomas
+                        {
+                            label: 'Thomas Enrollments',
+                            data: [33, 14, 12, 23, 18, 8, 20, 21],
+                            backgroundColor: 'rgba(102, 126, 234, 0.4)',
+                            stack: 'Thomas'
+                        },
+                        {
+                            label: 'Thomas Starts',
+                            data: [9, 5, 1, 5, 1, 1, 5, 7],
+                            backgroundColor: 'rgba(102, 126, 234, 1)',
+                            stack: 'Thomas'
+                        },
+                        // Randy
+                        {
+                            label: 'Randy Enrollments',
+                            data: [64, 40, 40, 64, 54, 40, 49, 68],
+                            backgroundColor: 'rgba(118, 75, 162, 0.4)',
+                            stack: 'Randy'
+                        },
+                        {
+                            label: 'Randy Starts',
+                            data: [7, 7, 2, 7, 5, 4, 6, 12],
+                            backgroundColor: 'rgba(118, 75, 162, 1)',
+                            stack: 'Randy'
+                        },
+                        // Cori
+                        {
+                            label: 'Cori Enrollments',
+                            data: [70, 26, 45, 48, 38, 34, 59, 81],
+                            backgroundColor: 'rgba(237, 100, 166, 0.4)',
+                            stack: 'Cori'
+                        },
+                        {
+                            label: 'Cori Starts',
+                            data: [6, 6, 3, 9, 1, 3, 3, 7],
+                            backgroundColor: 'rgba(237, 100, 166, 1)',
+                            stack: 'Cori'
+                        },
+                        // Sue
+                        {
+                            label: 'Sue Enrollments',
+                            data: [0, 0, 5, 37, 32, 28, 46, 56],
+                            backgroundColor: 'rgba(255, 107, 107, 0.4)',
+                            stack: 'Sue'
+                        },
+                        {
+                            label: 'Sue Starts',
+                            data: [0, 0, 0, 1, 4, 0, 1, 6],
+                            backgroundColor: 'rgba(255, 107, 107, 1)',
+                            stack: 'Sue'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                generateLabels: function(chart) {
+                                    return [
+                                        {text: 'Thomas', fillStyle: 'rgba(102, 126, 234, 1)', strokeStyle: 'rgba(102, 126, 234, 1)'},
+                                        {text: 'Randy', fillStyle: 'rgba(118, 75, 162, 1)', strokeStyle: 'rgba(118, 75, 162, 1)'},
+                                        {text: 'Cori', fillStyle: 'rgba(237, 100, 166, 1)', strokeStyle: 'rgba(237, 100, 166, 1)'},
+                                        {text: 'Sue', fillStyle: 'rgba(255, 107, 107, 1)', strokeStyle: 'rgba(255, 107, 107, 1)'}
+                                    ];
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label;
+                                    const value = context.parsed.y;
+                                    if (label.includes('Starts')) {
+                                        return `Starts: ${value}`;
+                                    } else {
+                                        return `Enrollments: ${value}`;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            stacked: true,
+                            title: { display: true, text: 'UDT Cohort' }
+                        },
+                        y: { 
+                            stacked: true,
+                            title: { display: true, text: 'Number of Students' }
+                        }
+                    }
+                }
+            });
+            
+            // Total Distribution Chart
+            const totalDistCtx = document.getElementById('totalDistChart').getContext('2d');
+            new Chart(totalDistCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['551', '552', '553', '554', '555', '556', '557', '558'],
+                    datasets: [
+                        // Thomas
+                        {
+                            label: 'Thomas Enrollments',
+                            data: [55, 42, 31, 35, 31, 23, 35, 34],
+                            backgroundColor: 'rgba(102, 126, 234, 0.4)',
+                            stack: 'Thomas'
+                        },
+                        {
+                            label: 'Thomas Starts',
+                            data: [9, 7, 2, 5, 4, 3, 8, 9],
+                            backgroundColor: 'rgba(102, 126, 234, 1)',
+                            stack: 'Thomas'
+                        },
+                        // Randy
+                        {
+                            label: 'Randy Enrollments',
+                            data: [135, 93, 98, 118, 98, 70, 96, 107],
+                            backgroundColor: 'rgba(118, 75, 162, 0.4)',
+                            stack: 'Randy'
+                        },
+                        {
+                            label: 'Randy Starts',
+                            data: [15, 12, 5, 8, 12, 6, 13, 14],
+                            backgroundColor: 'rgba(118, 75, 162, 1)',
+                            stack: 'Randy'
+                        },
+                        // Cori
+                        {
+                            label: 'Cori Enrollments',
+                            data: [114, 75, 85, 87, 96, 56, 108, 118],
+                            backgroundColor: 'rgba(237, 100, 166, 0.4)',
+                            stack: 'Cori'
+                        },
+                        {
+                            label: 'Cori Starts',
+                            data: [8, 10, 6, 11, 8, 4, 14, 10],
+                            backgroundColor: 'rgba(237, 100, 166, 1)',
+                            stack: 'Cori'
+                        },
+                        // Sue
+                        {
+                            label: 'Sue Enrollments',
+                            data: [0, 0, 9, 59, 56, 52, 72, 78],
+                            backgroundColor: 'rgba(255, 107, 107, 0.4)',
+                            stack: 'Sue'
+                        },
+                        {
+                            label: 'Sue Starts',
+                            data: [0, 0, 0, 2, 5, 2, 2, 8],
+                            backgroundColor: 'rgba(255, 107, 107, 1)',
+                            stack: 'Sue'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                generateLabels: function(chart) {
+                                    return [
+                                        {text: 'Thomas', fillStyle: 'rgba(102, 126, 234, 1)', strokeStyle: 'rgba(102, 126, 234, 1)'},
+                                        {text: 'Randy', fillStyle: 'rgba(118, 75, 162, 1)', strokeStyle: 'rgba(118, 75, 162, 1)'},
+                                        {text: 'Cori', fillStyle: 'rgba(237, 100, 166, 1)', strokeStyle: 'rgba(237, 100, 166, 1)'},
+                                        {text: 'Sue', fillStyle: 'rgba(255, 107, 107, 1)', strokeStyle: 'rgba(255, 107, 107, 1)'}
+                                    ];
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label;
+                                    const value = context.parsed.y;
+                                    if (label.includes('Starts')) {
+                                        return `Starts: ${value}`;
+                                    } else {
+                                        return `Enrollments: ${value}`;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            stacked: true,
+                            title: { display: true, text: 'Cohort Number (NDT + UDT Combined)' }
+                        },
+                        y: { 
+                            stacked: true,
+                            title: { display: true, text: 'Number of Students' }
+                        }
+                    }
+                }
+            });
+            
+        }); // End of DOMContentLoaded
+    </script>
+</body>
+</html>
