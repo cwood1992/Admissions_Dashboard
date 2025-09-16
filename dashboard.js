@@ -544,23 +544,31 @@ function updateVolumeChart() {
     const cohorts = dataset.cohorts;
     
     // Create datasets for starts (bottom) and enrollments (top)
-    const startsDatasets = reps.map(rep => ({
-        label: `${rep} - Starts`,
-        data: dataset.reps[rep].starts,
-        backgroundColor: repColors[rep],
-        borderColor: repColors[rep],
-        borderWidth: 1,
-        stack: 'volume'
-    }));
-    
-    const enrollmentsDatasets = reps.map(rep => ({
-        label: `${rep} - Enrollments`,
-        data: dataset.reps[rep].enrollments,
-        backgroundColor: repColors[rep] + '50',
-        borderColor: repColors[rep],
-        borderWidth: 1,
-        stack: 'volume'
-    }));
+    const datasets = [];
+
+    // Add starts datasets first (these will be on bottom)
+    reps.forEach(rep => {
+        datasets.push({
+            label: `${rep} - Starts`,
+            data: dataset.reps[rep].starts,
+            backgroundColor: repColors[rep],
+            borderColor: repColors[rep],
+            borderWidth: 1,
+            stack: rep // Each rep gets its own stack
+        });
+    });
+
+    // Add enrollments datasets (these will stack on top of starts)
+    reps.forEach(rep => {
+        datasets.push({
+            label: `${rep} - Enrollments`,
+            data: dataset.reps[rep].enrollments,
+            backgroundColor: repColors[rep] + '50',
+            borderColor: repColors[rep],
+            borderWidth: 1,
+            stack: rep // Same stack name as starts for this rep
+        });
+    });
 
     const programTitles = {
         'combined': 'Combined Programs (NDT + UDT)',
@@ -573,7 +581,7 @@ function updateVolumeChart() {
         type: 'bar',
         data: {
             labels: cohorts,
-            datasets: [...startsDatasets, ...enrollmentsDatasets]
+            datasets: datasets
         },
         options: {
             responsive: true,
