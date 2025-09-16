@@ -151,6 +151,7 @@ let currentChart = null;
 let comparisonChart = null;
 let repFunnelCharts = {};
 let shareCharts = {};
+let volumeChart = null;
 let currentChartType = 'line';
 
 // Initialize
@@ -165,8 +166,12 @@ function setupEventListeners() {
     document.getElementById('programFilter').addEventListener('change', function() {
         updateDashboard();
         toggleFunnelVisibility();
+        updateVolumeChart(); // Add this line
     });
-    document.getElementById('repFilter').addEventListener('change', updateDashboard);
+    document.getElementById('repFilter').addEventListener('change', function() {
+        updateDashboard();
+        updateVolumeChart(); // Add this line
+    });
     
     document.getElementById('lineChart').addEventListener('click', function() {
         setChartType('line');
@@ -509,41 +514,14 @@ function updateShareCharts() {
     });
 }
 
-// Update the setupEventListeners function
-function setupEventListeners() {
-    document.getElementById('programFilter').addEventListener('change', function() {
-        updateDashboard();
-        toggleFunnelVisibility();
-        toggleVolumeVisibility(); // Add this line
-        updateVolumeChart(); // Add this line
-    });
-    document.getElementById('repFilter').addEventListener('change', updateDashboard);
-    
-    document.getElementById('lineChart').addEventListener('click', function() {
-        setChartType('line');
-    });
-    
-    document.getElementById('barChart').addEventListener('click', function() {
-        setChartType('bar');
-    });
-}
-
-// Add this new function for volume visibility
-function toggleVolumeVisibility() {
-    const programType = document.getElementById('programFilter').value;
-    const volumeSection = document.getElementById('volumeSection');
-    
-    // Show volume chart for all program types
-    volumeSection.style.display = 'block';
-}
 
 // Updated volume chart function (uses main program filter)
 function updateVolumeChart() {
     const ctx = document.getElementById('volumeChart').getContext('2d');
     const programType = document.getElementById('programFilter').value;
-    
-    // Don't show volume chart for individual rep filters
     const repFilter = document.getElementById('repFilter').value;
+    
+    // Hide volume chart when individual rep is selected
     if (repFilter !== 'all') {
         document.getElementById('volumeSection').style.display = 'none';
         return;
@@ -554,7 +532,6 @@ function updateVolumeChart() {
     const dataset = volumeData[programType];
     
     if (!dataset) {
-        // Hide if no data for this program type
         document.getElementById('volumeSection').style.display = 'none';
         return;
     }
