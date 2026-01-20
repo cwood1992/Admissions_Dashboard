@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean Corporation - Cohort Performance Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #333;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.header p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.controls {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-group label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9em;
+}
+
+select, button {
+    padding: 8px 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+select:focus, button:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+}
+
+button {
+    background: #2a5298;
+    color: white;
+    border: 2px solid #2a5298;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover {
+    background: #1e3c72;
+    border-color: #1e3c72;
+    transform: translateY(-1px);
+}
+
+button.active {
+    background: #1e3c72;
+    border-color: #1e3c72;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.summary-card h4 {
+    color: #2a5298;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.summary-card .value {
+    font-size: 2em;
+    font-weight: bold;
+    color: #1e3c72;
+}
+
+.summary-card .label {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.chart-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.chart-container h3 {
+    margin-bottom: 20px;
+    color: #2a5298;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 400px;
+}
+
+.volume-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.volume-section h3 {
+    margin-bottom: 20px;
+    color: #2a5298;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.volume-chart-container {
+    position: relative;
+    height: 500px;
+}
+
+.data-table {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+.data-table h3 {
+    margin-bottom: 20px;
+    color: #2a5298;
+    font-size: 1.3em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+    position: sticky;
+    top: 0;
+}
+
+tr:hover {
+    background: #f8f9fa;
+}
+
+.rep-cori { border-left: 4px solid #FF6384; }
+.rep-randy { border-left: 4px solid #36A2EB; }
+.rep-sue { border-left: 4px solid #FFCE56; }
+.rep-thomas { border-left: 4px solid #4BC0C0; }
+
+.funnel-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.funnel-charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.funnel-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid #ccc;
+}
+
+.funnel-card h4 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+.funnel-card.funnel-cori { border-left-color: #FF6384; }
+.funnel-card.funnel-randy { border-left-color: #36A2EB; }
+.funnel-card.funnel-sue { border-left-color: #FFCE56; }
+.funnel-card.funnel-thomas { border-left-color: #4BC0C0; }
+
+.funnel-chart-wrapper {
+    height: 180px;
+}
+
+.funnel-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75em;
+    color: #666;
+    margin-top: 8px;
+    padding: 0 5px;
+}
+
+.funnel-labels span {
+    text-align: center;
+    flex: 1;
+}
+
+.funnel-doughnuts {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.doughnut-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.doughnut-card h4 {
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #2a5298;
+}
+
+.doughnut-card canvas {
+    max-height: 150px;
+}
+
+.funnel-metrics-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.metric-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid #2a5298;
+}
+
+.metric-card h5 {
+    color: #2a5298;
+    margin-bottom: 12px;
+    font-size: 0.95em;
+    text-decoration: underline;
+}
+
+.metric-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 0.85em;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.metric-row:last-child {
+    border-bottom: none;
+}
+
+.metric-row .label {
+    color: #666;
+}
+
+.metric-row .value {
+    font-weight: 600;
+}
+
+.metric-row.overall {
+    font-weight: 600;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 4px;
+    padding-bottom: 8px;
+}
+
+.metric-row.rep-cori .label { color: #FF6384; }
+.metric-row.rep-randy .label { color: #36A2EB; }
+.metric-row.rep-sue .label { color: #FFCE56; }
+.metric-row.rep-thomas .label { color: #4BC0C0; }
+
+.loading {
+    text-align: center;
+    padding: 60px;
+    color: white;
+    font-size: 1.2em;
+}
+
+.error {
+    background: #ffe0e0;
+    color: #c00;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .header h1 {
+        font-size: 2em;
+    }
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ocean Corporation</h1>
+            <p>Cohort Performance Dashboard - Lead Rep Analysis</p>
+        </div>
+
+        <div id="loadingMessage" class="loading">Loading data...</div>
+
+        <div id="dashboardContent" style="display: none;">
+            <div class="controls">
+                <div class="control-group">
+                    <label>Program Type</label>
+                    <select id="programFilter">
+                        <option value="combined">Combined (NDT + NDT-NC + UDT)</option>
+                        <option value="NDT">NDT Day Classes</option>
+                        <option value="NDT-NC">NDT Night Classes</option>
+                        <option value="UDT">UDT Classes</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Chart Type</label>
+                    <button id="lineChart" class="active">Line Chart</button>
+                    <button id="barChart">Bar Chart</button>
+                </div>
+                
+                <div class="control-group">
+                    <label>Lead Rep Filter</label>
+                    <select id="repFilter">
+                        <option value="all">All Reps</option>
+                        <option value="Cori">Cori Only</option>
+                        <option value="Randy">Randy Only</option>
+                        <option value="Sue">Sue Only</option>
+                        <option value="Thomas">Thomas Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h4>Top Performer</h4>
+                    <div class="value" id="topPerformer">-</div>
+                    <div class="label">Highest Average Rate</div>
+                </div>
+                <div class="summary-card">
+                    <h4>Most Consistent</h4>
+                    <div class="value" id="mostConsistent">-</div>
+                    <div class="label">Lowest Variance</div>
+                </div>
+                <div class="summary-card">
+                    <h4>Best Cohort</h4>
+                    <div class="value" id="bestCohort">-</div>
+                    <div class="label">Highest Overall Rate</div>
+                </div>
+                <div class="summary-card">
+                    <h4>Program Average</h4>
+                    <div class="value" id="programAverage">-</div>
+                    <div class="label">Current Selection</div>
+                </div>
+            </div>
+
+            <div class="volume-section">
+                <h3 id="chartTitle">Performance Trends - COMBINED</h3>
+                <div class="volume-chart-container">
+                    <canvas id="trendsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="volume-section" id="volumeSection">
+                <h3>Volume Analysis - Enrollments and Starts by Cohort</h3>
+                <div class="volume-chart-container">
+                    <canvas id="volumeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="dashboard" id="totalsRow">
+                <div class="chart-container" id="totalsSection">
+                    <h3>Total Volume by Rep</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="totalsChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Rep Comparison</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="volume-section" id="compositionSection">
+                <h3>Enrollment Composition by Rep</h3>
+                <div class="volume-chart-container" style="height: 300px;">
+                    <canvas id="compositionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="volume-section" id="funnelSection" style="display: none;">
+                <h3>Sales Funnel Analysis - Lead to Start Conversion</h3>
+                <div class="funnel-layout">
+                    <div class="funnel-charts-grid">
+                        <div class="funnel-card funnel-cori">
+                            <h4>Cori's Funnel</h4>
+                            <div class="funnel-chart-wrapper"><canvas id="funnelCori"></canvas></div>
+                            <div class="funnel-labels" id="labelsCori"></div>
+                        </div>
+                        <div class="funnel-card funnel-randy">
+                            <h4>Randy's Funnel</h4>
+                            <div class="funnel-chart-wrapper"><canvas id="funnelRandy"></canvas></div>
+                            <div class="funnel-labels" id="labelsRandy"></div>
+                        </div>
+                        <div class="funnel-card funnel-sue">
+                            <h4>Sue's Funnel</h4>
+                            <div class="funnel-chart-wrapper"><canvas id="funnelSue"></canvas></div>
+                            <div class="funnel-labels" id="labelsSue"></div>
+                        </div>
+                        <div class="funnel-card funnel-thomas">
+                            <h4>Thomas's Funnel</h4>
+                            <div class="funnel-chart-wrapper"><canvas id="funnelThomas"></canvas></div>
+                            <div class="funnel-labels" id="labelsThomas"></div>
+                        </div>
+                    </div>
+                    <div class="funnel-doughnuts">
+                        <div class="doughnut-card">
+                            <h4>Lead Distribution</h4>
+                            <canvas id="leadsDoughnut"></canvas>
+                        </div>
+                        <div class="doughnut-card">
+                            <h4>Enrollment Share</h4>
+                            <canvas id="enrollmentDoughnut"></canvas>
+                        </div>
+                        <div class="doughnut-card">
+                            <h4>Start Share</h4>
+                            <canvas id="startsDoughnut"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="funnel-metrics-row" id="funnelMetrics"></div>
+            </div>
+
+            <div class="data-table">
+                <h3 id="tableTitle">Detailed Performance Data</h3>
+                <div id="tableContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+// Configuration
+const VALID_REPS = ['Cori', 'Randy', 'Sue', 'Thomas'];
+const repColors = {
+    'Cori': '#FF6384',
+    'Randy': '#36A2EB', 
+    'Sue': '#FFCE56',
+    'Thomas': '#4BC0C0'
+};
+
+// Global state
+let rawData = [];
+let leadsData = {};
+let processedData = {};
+let currentChart = null;
+let comparisonChart = null;
+let volumeChart = null;
+let totalsChart = null;
+let compositionChart = null;
+let funnelCharts = {};
+let doughnutCharts = {};
+let currentChartType = 'line';
+
+// Load CSV data
+async function loadData() {
+    try {
+        // Load summary.csv
+        const response = await fetch('summary.csv');
+        if (!response.ok) throw new Error('Could not load summary.csv');
+        
+        const csvText = await response.text();
+        const parsed = Papa.parse(csvText, {
+            header: true,
+            dynamicTyping: true,
+            skipEmptyLines: true
+        });
+        
+        // Filter to valid reps only
+        rawData = parsed.data.filter(row => 
+            row.Cohort && VALID_REPS.includes(row.Rep)
+        );
+        
+        // Load leads.csv (optional - won't fail if missing)
+        try {
+            const leadsResponse = await fetch('leads.csv');
+            if (leadsResponse.ok) {
+                const leadsText = await leadsResponse.text();
+                const leadsParsed = Papa.parse(leadsText, {
+                    header: true,
+                    dynamicTyping: true,
+                    skipEmptyLines: true
+                });
+                leadsParsed.data.forEach(row => {
+                    if (VALID_REPS.includes(row.Rep)) {
+                        leadsData[row.Rep] = row.Leads || 0;
+                    }
+                });
+            }
+        } catch (e) {
+            console.log('leads.csv not found, skipping funnel');
+        }
+        
+        processData();
+        
+        document.getElementById('loadingMessage').style.display = 'none';
+        document.getElementById('dashboardContent').style.display = 'block';
+        
+        setupEventListeners();
+        updateDashboard();
+        
+    } catch (error) {
+        console.error('Error loading data:', error);
+        document.getElementById('loadingMessage').innerHTML = `
+            <div class="error">
+                <strong>Could not load data</strong><br>
+                Make sure summary.csv exists in the same folder.<br>
+                Error: ${error.message}
+            </div>
+        `;
+    }
+}
+
+function extractCohortNumber(cohortName) {
+    const match = cohortName.match(/\d+/);
+    return match ? parseInt(match[0]) : 0;
+}
+
+function processData() {
+    // Get unique cohort numbers across all programs
+    const allCohortNumbers = [...new Set(rawData.map(r => extractCohortNumber(r.Cohort)))].sort((a, b) => a - b);
+    
+    // Process for each view type
+    processedData = {
+        'combined': processCombined(allCohortNumbers),
+        'NDT': processProgram('NDT', allCohortNumbers),
+        'NDT-NC': processProgram('NDT-NC', allCohortNumbers),
+        'UDT': processProgram('UDT', allCohortNumbers)
+    };
+}
+
+function processCombined(cohortNumbers) {
+    const result = {
+        cohorts: [],
+        reps: {},
+        volume: {},
+        composition: {}
+    };
+    
+    VALID_REPS.forEach(rep => {
+        result.reps[rep] = [];
+        result.volume[rep] = { enrollments: [], starts: [] };
+        result.composition[rep] = { new: [], transfer: [], reenroll: [] };
+    });
+    
+    // For combined: aggregate NDT + NDT-NC + UDT by cohort number
+    cohortNumbers.forEach(num => {
+        // Get data for this cohort number from all programs
+        const cohortData = rawData.filter(r => 
+            extractCohortNumber(r.Cohort) === num && 
+            (r.Program === 'NDT' || r.Program === 'NDT-NC' || r.Program === 'UDT')
+        );
+        
+        if (cohortData.length === 0) return;
+        
+        result.cohorts.push(num.toString());
+        
+        VALID_REPS.forEach(rep => {
+            const repData = cohortData.filter(r => r.Rep === rep);
+            const totalEnrollments = repData.reduce((sum, r) => sum + (r.Enrollments || 0), 0);
+            const totalStarts = repData.reduce((sum, r) => sum + (r.Starts || 0), 0);
+            const totalNew = repData.reduce((sum, r) => sum + (r.New || 0), 0);
+            const totalTransfer = repData.reduce((sum, r) => sum + (r.Transfer || 0), 0);
+            const totalReenroll = repData.reduce((sum, r) => sum + (r.Reenroll || 0), 0);
+            
+            const startRate = totalEnrollments > 0 ? 
+                Math.round((totalStarts / totalEnrollments) * 1000) / 10 : null;
+            
+            result.reps[rep].push(startRate);
+            result.volume[rep].enrollments.push(totalEnrollments);
+            result.volume[rep].starts.push(totalStarts);
+            result.composition[rep].new.push(totalNew);
+            result.composition[rep].transfer.push(totalTransfer);
+            result.composition[rep].reenroll.push(totalReenroll);
+        });
+    });
+    
+    return result;
+}
+
+function processProgram(program, allCohortNumbers) {
+    const result = {
+        cohorts: [],
+        reps: {},
+        volume: {},
+        composition: {}
+    };
+    
+    VALID_REPS.forEach(rep => {
+        result.reps[rep] = [];
+        result.volume[rep] = { enrollments: [], starts: [] };
+        result.composition[rep] = { new: [], transfer: [], reenroll: [] };
+    });
+    
+    // Get cohorts for this program
+    const programCohorts = [...new Set(
+        rawData.filter(r => r.Program === program).map(r => r.Cohort)
+    )].sort((a, b) => extractCohortNumber(a) - extractCohortNumber(b));
+    
+    programCohorts.forEach(cohort => {
+        result.cohorts.push(cohort);
+        
+        VALID_REPS.forEach(rep => {
+            const row = rawData.find(r => r.Cohort === cohort && r.Rep === rep);
+            
+            if (row) {
+                result.reps[rep].push(row.StartRate);
+                result.volume[rep].enrollments.push(row.Enrollments);
+                result.volume[rep].starts.push(row.Starts);
+                result.composition[rep].new.push(row.New || 0);
+                result.composition[rep].transfer.push(row.Transfer || 0);
+                result.composition[rep].reenroll.push(row.Reenroll || 0);
+            } else {
+                result.reps[rep].push(null);
+                result.volume[rep].enrollments.push(0);
+                result.volume[rep].starts.push(0);
+                result.composition[rep].new.push(0);
+                result.composition[rep].transfer.push(0);
+                result.composition[rep].reenroll.push(0);
+            }
+        });
+    });
+    
+    return result;
+}
+
+function setupEventListeners() {
+    document.getElementById('programFilter').addEventListener('change', updateDashboard);
+    document.getElementById('repFilter').addEventListener('change', updateDashboard);
+    
+    document.getElementById('lineChart').addEventListener('click', () => setChartType('line'));
+    document.getElementById('barChart').addEventListener('click', () => setChartType('bar'));
+}
+
+function setChartType(type) {
+    currentChartType = type;
+    document.querySelectorAll('.controls button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(type + 'Chart').classList.add('active');
+    updateDashboard();
+}
+
+function updateDashboard() {
+    const programType = document.getElementById('programFilter').value;
+    const repFilter = document.getElementById('repFilter').value;
+    
+    updateSummaryCards(programType, repFilter);
+    updateTrendsChart(programType, repFilter);
+    updateComparisonChart(programType, repFilter);
+    updateVolumeChart(programType, repFilter);
+    updateTotalsChart(programType, repFilter);
+    updateCompositionChart(programType, repFilter);
+    updateFunnelChart(programType, repFilter);
+    updateDataTable(programType, repFilter);
+}
+
+function getFilteredReps(repFilter) {
+    return repFilter === 'all' ? VALID_REPS : [repFilter];
+}
+
+function updateSummaryCards(programType, repFilter) {
+    const data = processedData[programType];
+    const reps = getFilteredReps(repFilter);
+    
+    // Calculate averages and variances
+    const averages = {};
+    const variances = {};
+    
+    reps.forEach(rep => {
+        const values = data.reps[rep].filter(v => v !== null);
+        if (values.length > 0) {
+            averages[rep] = values.reduce((a, b) => a + b, 0) / values.length;
+            const mean = averages[rep];
+            variances[rep] = values.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / values.length;
+        }
+    });
+    
+    // Top performer
+    if (Object.keys(averages).length > 0) {
+        const topPerformer = Object.keys(averages).reduce((a, b) => averages[a] > averages[b] ? a : b);
+        document.getElementById('topPerformer').textContent = topPerformer;
+        
+        const mostConsistent = Object.keys(variances).reduce((a, b) => variances[a] < variances[b] ? a : b);
+        document.getElementById('mostConsistent').textContent = mostConsistent;
+    }
+    
+    // Best cohort
+    const cohortAverages = data.cohorts.map((cohort, index) => {
+        const values = reps.map(rep => data.reps[rep][index]).filter(v => v !== null);
+        return {
+            cohort: cohort,
+            average: values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0
+        };
+    });
+    
+    if (cohortAverages.length > 0) {
+        const bestCohort = cohortAverages.reduce((a, b) => a.average > b.average ? a : b);
+        document.getElementById('bestCohort').textContent = bestCohort.cohort;
+    }
+    
+    // Program average
+    const allValues = Object.values(averages);
+    const programAvg = allValues.length > 0 ? 
+        (allValues.reduce((a, b) => a + b, 0) / allValues.length).toFixed(1) + '%' : 'N/A';
+    document.getElementById('programAverage').textContent = programAvg;
+}
+
+function updateTrendsChart(programType, repFilter) {
+    const ctx = document.getElementById('trendsChart').getContext('2d');
+    const data = processedData[programType];
+    const reps = getFilteredReps(repFilter);
+    
+    if (currentChart) currentChart.destroy();
+    
+    // Calculate rolling 3-cohort average
+    function rollingAverage(arr, window = 3) {
+        return arr.map((val, i) => {
+            if (val === null) return null;
+            const start = Math.max(0, i - window + 1);
+            const slice = arr.slice(start, i + 1).filter(v => v !== null);
+            return slice.length > 0 ? slice.reduce((a, b) => a + b, 0) / slice.length : null;
+        });
+    }
+    
+    // Calculate overall average per cohort (across all filtered reps)
+    const overallAvg = data.cohorts.map((_, i) => {
+        const values = reps.map(rep => data.reps[rep][i]).filter(v => v !== null);
+        return values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : null;
+    });
+    
+    const datasets = [];
+    
+    // Add rep lines
+    reps.forEach(rep => {
+        datasets.push({
+            label: rep,
+            data: data.reps[rep],
+            borderColor: repColors[rep],
+            backgroundColor: repColors[rep],
+            fill: false,
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6
+        });
+        
+        // Add rolling average line (dashed)
+        datasets.push({
+            label: `${rep} (3-cohort avg)`,
+            data: rollingAverage(data.reps[rep]),
+            borderColor: repColors[rep],
+            backgroundColor: 'transparent',
+            borderDash: [5, 5],
+            fill: false,
+            tension: 0.4,
+            pointRadius: 0,
+            borderWidth: 2
+        });
+    });
+    
+    // Add overall average line
+    datasets.push({
+        label: 'Overall Average',
+        data: overallAvg,
+        borderColor: '#666666',
+        backgroundColor: 'transparent',
+        borderWidth: 3,
+        fill: false,
+        tension: 0.4,
+        pointRadius: 0,
+        borderDash: [10, 5]
+    });
+    
+    currentChart = new Chart(ctx, {
+        type: currentChartType,
+        data: {
+            labels: data.cohorts,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        filter: function(item) {
+                            // Hide rolling average lines from legend
+                            return !item.text.includes('3-cohort avg');
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Start Rate (%)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Cohort'
+                    }
+                }
+            }
+        }
+    });
+    
+    const titles = {
+        'combined': 'COMBINED',
+        'NDT': 'NDT Day Classes',
+        'NDT-NC': 'NDT Night Classes',
+        'UDT': 'UDT Classes'
+    };
+    document.getElementById('chartTitle').textContent = `Performance Trends - ${titles[programType]}`;
+}
+
+function updateComparisonChart(programType, repFilter) {
+    const ctx = document.getElementById('comparisonChart').getContext('2d');
+    const data = processedData[programType];
+    const reps = getFilteredReps(repFilter);
+    
+    if (comparisonChart) comparisonChart.destroy();
+    
+    // Calculate overall averages
+    const totals = reps.map(rep => {
+        const values = data.reps[rep].filter(v => v !== null);
+        return values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0;
+    });
+    
+    comparisonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: reps,
+            datasets: [{
+                label: 'Avg Start Rate (%)',
+                data: totals.map(v => Math.round(v * 10) / 10),
+                backgroundColor: reps.map(rep => repColors[rep]),
+                borderColor: reps.map(rep => repColors[rep]),
+                borderWidth: 2
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Start Rate (%)'
+                    }
+                }
+            },
+            elements: {
+                bar: { borderRadius: 4 }
+            }
+        }
+    });
+}
+
+function updateVolumeChart(programType, repFilter) {
+    const ctx = document.getElementById('volumeChart').getContext('2d');
+    const data = processedData[programType];
+    const reps = getFilteredReps(repFilter);
+    
+    if (repFilter !== 'all') {
+        document.getElementById('volumeSection').style.display = 'none';
+        return;
+    }
+    document.getElementById('volumeSection').style.display = 'block';
+    
+    if (volumeChart) volumeChart.destroy();
+    
+    const datasets = [];
+    
+    // For each rep: starts (solid) stacked on enrollments (transparent)
+    reps.forEach(rep => {
+        // Starts (bottom of stack)
+        datasets.push({
+            label: `${rep} - Starts`,
+            data: data.volume[rep].starts,
+            backgroundColor: repColors[rep],
+            borderColor: repColors[rep],
+            borderWidth: 1,
+            stack: rep
+        });
+        
+        // Enrollments (top of stack) - show only the non-start portion
+        const enrollmentsOnly = data.volume[rep].enrollments.map((e, i) => 
+            Math.max(0, e - data.volume[rep].starts[i])
+        );
+        
+        datasets.push({
+            label: `${rep} - Enrollments`,
+            data: enrollmentsOnly,
+            backgroundColor: repColors[rep] + '40',
+            borderColor: repColors[rep],
+            borderWidth: 1,
+            stack: rep
+        });
+    });
+    
+    const titles = {
+        'combined': 'Combined Programs (NDT + NDT-NC + UDT)',
+        'NDT': 'NDT Day Classes',
+        'NDT-NC': 'NDT Night Classes',
+        'UDT': 'UDT Classes'
+    };
+    
+    volumeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.cohorts,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: `${titles[programType]} - Volume by Cohort`,
+                    font: { size: 16, weight: 'bold' }
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        generateLabels: function(chart) {
+                            return reps.map(rep => ({
+                                text: rep,
+                                fillStyle: repColors[rep],
+                                strokeStyle: repColors[rep],
+                                lineWidth: 2
+                            }));
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const rep = context.dataset.label.split(' - ')[0];
+                            const isStarts = context.dataset.label.includes('Starts');
+                            const cohortIndex = context.dataIndex;
+                            
+                            if (isStarts) {
+                                return `${rep} Starts: ${context.parsed.y}`;
+                            } else {
+                                const totalEnroll = data.volume[rep].enrollments[cohortIndex];
+                                return `${rep} Enrollments: ${totalEnroll}`;
+                            }
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Cohort' }
+                },
+                y: {
+                    beginAtZero: true,
+                    stacked: true,
+                    title: { display: true, text: 'Count' }
+                }
+            },
+            elements: {
+                bar: { borderRadius: 2 }
+            }
+        }
+    });
+}
+
+function updateTotalsChart(programType, repFilter) {
+    const ctx = document.getElementById('totalsChart').getContext('2d');
+    const data = processedData[programType];
+    const reps = getFilteredReps(repFilter);
+    
+    if (repFilter !== 'all') {
+        document.getElementById('totalsRow').style.display = 'none';
+        return;
+    }
+    document.getElementById('totalsRow').style.display = 'grid';
+    
+    if (totalsChart) totalsChart.destroy();
+    
+    // Calculate totals for each rep
+    const startsData = [];
+    const enrollmentsOnlyData = [];
+    const totalEnrollmentsData = [];
+    
+    reps.forEach(rep => {
+        const totalStarts = data.volume[rep].starts.reduce((a, b) => a + b, 0);
+        const totalEnrollments = data.volume[rep].enrollments.reduce((a, b) => a + b, 0);
+        startsData.push(totalStarts);
+        enrollmentsOnlyData.push(Math.max(0, totalEnrollments - totalStarts));
+        totalEnrollmentsData.push(totalEnrollments);
+    });
+    
+    const titles = {
+        'combined': 'Combined Programs (NDT + NDT-NC + UDT)',
+        'NDT': 'NDT Day Classes',
+        'NDT-NC': 'NDT Night Classes',
+        'UDT': 'UDT Classes'
+    };
+    
+    totalsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: reps,
+            datasets: [
+                {
+                    label: 'Starts',
+                    data: startsData,
+                    backgroundColor: reps.map(rep => repColors[rep]),
+                    borderColor: reps.map(rep => repColors[rep]),
+                    borderWidth: 1
+                },
+                {
+                    label: 'Enrollments (non-starts)',
+                    data: enrollmentsOnlyData,
+                    backgroundColor: reps.map(rep => repColors[rep] + '40'),
+                    borderColor: reps.map(rep => repColors[rep]),
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: `${titles[programType]} - Total Volume`,
+                    font: { size: 16, weight: 'bold' }
+                },
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const repIndex = context.dataIndex;
+                            if (context.dataset.label === 'Starts') {
+                                return `Starts: ${startsData[repIndex]}`;
+                            } else {
+                                return `Enrollments: ${totalEnrollmentsData[repIndex]}`;
+                            }
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    title: { display: true, text: 'Rep' }
+                },
+                y: {
+                    beginAtZero: true,
+                    stacked: true,
+                    title: { display: true, text: 'Count' }
+                }
+            },
+            elements: {
+                bar: { borderRadius: 4 }
+            }
+        }
+    });
+}
+
+function updateCompositionChart(programType, repFilter) {
+    const ctx = document.getElementById('compositionChart').getContext('2d');
+    const data = processedData[programType];
+    const reps = getFilteredReps(repFilter);
+    
+    if (repFilter !== 'all') {
+        document.getElementById('compositionSection').style.display = 'none';
+        return;
+    }
+    document.getElementById('compositionSection').style.display = 'block';
+    
+    if (compositionChart) compositionChart.destroy();
+    
+    // Calculate totals for each rep
+    const newData = [];
+    const transferData = [];
+    const reenrollData = [];
+    
+    reps.forEach(rep => {
+        const totalNew = data.composition[rep].new.reduce((a, b) => a + b, 0);
+        const totalTransfer = data.composition[rep].transfer.reduce((a, b) => a + b, 0);
+        const totalReenroll = data.composition[rep].reenroll.reduce((a, b) => a + b, 0);
+        newData.push(totalNew);
+        transferData.push(totalTransfer);
+        reenrollData.push(totalReenroll);
+    });
+    
+    const titles = {
+        'combined': 'Combined Programs (NDT + NDT-NC + UDT)',
+        'NDT': 'NDT Day Classes',
+        'NDT-NC': 'NDT Night Classes',
+        'UDT': 'UDT Classes'
+    };
+    
+    compositionChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: reps,
+            datasets: [
+                {
+                    label: 'New',
+                    data: newData,
+                    backgroundColor: '#4BC0C0',
+                    borderColor: '#4BC0C0',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Transfer',
+                    data: transferData,
+                    backgroundColor: '#FF9F40',
+                    borderColor: '#FF9F40',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Re-enroll',
+                    data: reenrollData,
+                    backgroundColor: '#9966FF',
+                    borderColor: '#9966FF',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: `${titles[programType]} - Enrollment Composition`,
+                    font: { size: 16, weight: 'bold' }
+                },
+                legend: { 
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        afterBody: function(context) {
+                            const repIndex = context[0].dataIndex;
+                            const total = newData[repIndex] + transferData[repIndex] + reenrollData[repIndex];
+                            const newPct = ((newData[repIndex] / total) * 100).toFixed(1);
+                            const transferPct = ((transferData[repIndex] / total) * 100).toFixed(1);
+                            const reenrollPct = ((reenrollData[repIndex] / total) * 100).toFixed(1);
+                            return `\nNew: ${newPct}% | Transfer: ${transferPct}% | Re-enroll: ${reenrollPct}%`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    title: { display: true, text: 'Rep' }
+                },
+                y: {
+                    beginAtZero: true,
+                    stacked: true,
+                    title: { display: true, text: 'Count' }
+                }
+            },
+            elements: {
+                bar: { borderRadius: 4 }
+            }
+        }
+    });
+}
+
+function updateFunnelChart(programType, repFilter) {
+    // Only show funnel if we have leads data
+    const hasLeads = Object.keys(leadsData).length > 0 && Object.values(leadsData).some(v => v > 0);
+    
+    if (!hasLeads || repFilter !== 'all') {
+        document.getElementById('funnelSection').style.display = 'none';
+        return;
+    }
+    document.getElementById('funnelSection').style.display = 'block';
+    
+    const data = processedData[programType];
+    const reps = VALID_REPS;
+    
+    // Destroy existing charts
+    Object.values(funnelCharts).forEach(c => c && c.destroy());
+    Object.values(doughnutCharts).forEach(c => c && c.destroy());
+    funnelCharts = {};
+    doughnutCharts = {};
+    
+    // Calculate totals for each rep
+    const funnelData = {};
+    reps.forEach(rep => {
+        const leads = leadsData[rep] || 0;
+        const enrollments = data.volume[rep].enrollments.reduce((a, b) => a + b, 0);
+        const starts = data.volume[rep].starts.reduce((a, b) => a + b, 0);
+        funnelData[rep] = { leads, enrollments, starts };
+    });
+    
+    // Overall totals
+    const totalLeads = Object.values(funnelData).reduce((sum, d) => sum + d.leads, 0);
+    const totalEnrollments = Object.values(funnelData).reduce((sum, d) => sum + d.enrollments, 0);
+    const totalStarts = Object.values(funnelData).reduce((sum, d) => sum + d.starts, 0);
+    
+    // Create individual funnel charts for each rep
+    reps.forEach(rep => {
+        const ctx = document.getElementById('funnel' + rep).getContext('2d');
+        const d = funnelData[rep];
+        const color = repColors[rep];
+        const lightColor = color + '80';
+        
+        funnelCharts[rep] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Leads', 'Enrollments', 'Starts'],
+                datasets: [{
+                    data: [d.leads, d.enrollments, d.starts],
+                    backgroundColor: [color, lightColor, color],
+                    borderColor: color,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, display: false },
+                    x: { display: false }
+                },
+                elements: {
+                    bar: { borderRadius: 4 }
+                }
+            }
+        });
+        
+        // Update labels below chart
+        const leadToEnroll = d.leads > 0 ? ((d.enrollments / d.leads) * 100).toFixed(1) : 0;
+        const enrollToStart = d.enrollments > 0 ? ((d.starts / d.enrollments) * 100).toFixed(1) : 0;
+        document.getElementById('labels' + rep).innerHTML = `
+            <span>Leads ${d.leads.toLocaleString()}</span>
+            <span>Enrollments ${d.enrollments.toLocaleString()} (${leadToEnroll}%)</span>
+            <span>Starts ${d.starts.toLocaleString()} (${enrollToStart}%)</span>
+        `;
+    });
+    
+    // Create doughnut charts
+    const doughnutColors = reps.map(r => repColors[r]);
+    
+    // Lead Distribution
+    doughnutCharts.leads = new Chart(document.getElementById('leadsDoughnut').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: reps.map(r => `${r} ${funnelData[r].leads.toLocaleString()} (${((funnelData[r].leads / totalLeads) * 100).toFixed(1)}%)`),
+            datasets: [{
+                data: reps.map(r => funnelData[r].leads),
+                backgroundColor: doughnutColors,
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 10 }, boxWidth: 12 }
+                }
+            }
+        }
+    });
+    
+    // Enrollment Share
+    doughnutCharts.enrollments = new Chart(document.getElementById('enrollmentDoughnut').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: reps.map(r => `${r} ${funnelData[r].enrollments.toLocaleString()} (${((funnelData[r].enrollments / totalEnrollments) * 100).toFixed(1)}%)`),
+            datasets: [{
+                data: reps.map(r => funnelData[r].enrollments),
+                backgroundColor: doughnutColors,
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 10 }, boxWidth: 12 }
+                }
+            }
+        }
+    });
+    
+    // Start Share
+    doughnutCharts.starts = new Chart(document.getElementById('startsDoughnut').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: reps.map(r => `${r} ${funnelData[r].starts.toLocaleString()} (${((funnelData[r].starts / totalStarts) * 100).toFixed(1)}%)`),
+            datasets: [{
+                data: reps.map(r => funnelData[r].starts),
+                backgroundColor: doughnutColors,
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 10 }, boxWidth: 12 }
+                }
+            }
+        }
+    });
+    
+    // Update metrics
+    const metricsHTML = `
+        <div class="metric-card">
+            <h5>Lead to Enrollment Rate</h5>
+            <div class="metric-row overall"><span class="label">Overall:</span><span class="value">${totalLeads > 0 ? ((totalEnrollments / totalLeads) * 100).toFixed(1) : 0}%</span></div>
+            ${reps.map(r => `<div class="metric-row rep-${r.toLowerCase()}"><span class="label">${r}:</span><span class="value">${funnelData[r].leads > 0 ? ((funnelData[r].enrollments / funnelData[r].leads) * 100).toFixed(1) : 0}%</span></div>`).join('')}
+        </div>
+        <div class="metric-card">
+            <h5>Enrollment to Start Rate</h5>
+            <div class="metric-row overall"><span class="label">Overall:</span><span class="value">${totalEnrollments > 0 ? ((totalStarts / totalEnrollments) * 100).toFixed(1) : 0}%</span></div>
+            ${reps.map(r => `<div class="metric-row rep-${r.toLowerCase()}"><span class="label">${r}:</span><span class="value">${funnelData[r].enrollments > 0 ? ((funnelData[r].starts / funnelData[r].enrollments) * 100).toFixed(1) : 0}%</span></div>`).join('')}
+        </div>
+        <div class="metric-card">
+            <h5>Overall Lead to Start Rate</h5>
+            <div class="metric-row overall"><span class="label">Overall:</span><span class="value">${totalLeads > 0 ? ((totalStarts / totalLeads) * 100).toFixed(1) : 0}%</span></div>
+            ${reps.map(r => `<div class="metric-row rep-${r.toLowerCase()}"><span class="label">${r}:</span><span class="value">${funnelData[r].leads > 0 ? ((funnelData[r].starts / funnelData[r].leads) * 100).toFixed(1) : 0}%</span></div>`).join('')}
+        </div>
+    `;
+    document.getElementById('funnelMetrics').innerHTML = metricsHTML;
+}
+
+function updateDataTable(programType, repFilter) {
+    const data = processedData[programType];
+    const reps = getFilteredReps(repFilter);
+    
+    let tableHTML = '<table><thead><tr><th>Lead Rep</th>';
+    data.cohorts.forEach(cohort => {
+        tableHTML += `<th>${cohort}</th>`;
+    });
+    tableHTML += '<th>TOTAL</th></tr></thead><tbody>';
+    
+    reps.forEach(rep => {
+        const values = data.reps[rep];
+        const validValues = values.filter(v => v !== null);
+        const total = validValues.length > 0 ? 
+            (validValues.reduce((a, b) => a + b, 0) / validValues.length).toFixed(1) : 'N/A';
+        
+        tableHTML += `<tr class="rep-${rep.toLowerCase()}"><td><strong>${rep}</strong></td>`;
+        values.forEach(value => {
+            tableHTML += `<td>${value === null ? 'N/A' : value.toFixed(1) + '%'}</td>`;
+        });
+        tableHTML += `<td><strong>${total}%</strong></td></tr>`;
+    });
+    
+    tableHTML += '</tbody></table>';
+    document.getElementById('tableContainer').innerHTML = tableHTML;
+    
+    const titles = {
+        'combined': 'COMBINED',
+        'NDT': 'NDT Day Classes',
+        'NDT-NC': 'NDT Night Classes',
+        'UDT': 'UDT Classes'
+    };
+    document.getElementById('tableTitle').textContent = `Detailed Performance Data - ${titles[programType]}`;
+}
+
+// Initialize
+loadData();
+    </script>
+</body>
+</html>
