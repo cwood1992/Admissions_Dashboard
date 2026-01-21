@@ -102,7 +102,7 @@ def aggregate_data(all_records):
         reenroll_count = enroll_types.get('REENROLL', 0)
     
          # Count starts (Active, Drop, Grad, less reenrollments)
-        starts = len(group[group['CCS Status'].isin(START_STATUSES)]) - reenroll_count
+        starts = len(group[group['CCS Status'].isin(START_STATUSES) & (group['Enroll Type'] != 'REENROLL')])
        
         # Start rate
         start_rate = round(starts / enrollments * 100, 1) if enrollments > 0 else 0
