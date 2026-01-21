@@ -1,0 +1,13 @@
+"Selected School: The Ocean Corp"
+"Admissions Department Class Control Sheet (All Enrolled Students)"
+"As Of: 01/21/2026, 13:44:54"
+"Selected Cohort: 'NDT522NC'"
+"Total Records: 6"
+
+"Enroll Type","ID","Student Name","Lead Rep","Lead Origin","Response Mode","PREV Cohort","PREV Status","CCS Cohort","CCS Status","NEXT Cohort","NEXT Status","Current Cohort","Current Status","FULL Student Name","FULL Current Status"
+"NEW","76232","Poke, Lerodrick Michael","Tom","INTERNET","TELEPHONE CALL","","","NDT522NC","Cancel","","","","","Poke, Lerodrick Michael","Cancelled Enrollment"
+"NEW","78190","Spilman III, Calvin Curtis","Brian","INTERNET","WALK-IN","","","NDT522NC","Cancel","","","","","Spilman III, Calvin Curtis","Cancelled Enrollment"
+"NEW","77345","Tyson, Adam Tyler","Clanton","INTERNET","Online Application","","","NDT522NC","Cancel","","","","","Tyson, Adam Tyler","Cancelled Enrollment"
+"NEW","78064","Alvarado, David A","Tom","INTERNET","Online Application","","","NDT522NC","Drop","","","","","Alvarado, David A","DROP - Lack of SAP"
+"TRANSFER","78709","Flores, Paul Arriaga","Tom","INTERNET","Online Application","NDT522","Cancel","NDT522NC","Cancel","","","","","Flores, Paul Arriaga","Cancelled Enrollment"
+"TRANSFER","77983","Cosentino-Gamboa, Amelia Fern","Clanton","INTERNET","ONLINE IMPORT","UDT522","Cancel","NDT522NC","Grad","NDT522","Grad","","","Cosentino-Gamboa, Amelia Fern","Graduated"

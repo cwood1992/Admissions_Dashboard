@@ -95,15 +95,15 @@ def aggregate_data(all_records):
         # Count enrollments (all records)
         enrollments = len(group)
         
-        # Count starts (Active, Drop, Grad)
-        starts = len(group[group['CCS Status'].isin(START_STATUSES)])
-        
         # Count by enrollment type
         enroll_types = group['Enroll Type'].value_counts()
         new_count = enroll_types.get('NEW', 0)
         transfer_count = enroll_types.get('TRANSFER', 0)
         reenroll_count = enroll_types.get('REENROLL', 0)
-        
+    
+         # Count starts (Active, Drop, Grad, less reenrollments)
+        starts = len(group[group['CCS Status'].isin(START_STATUSES)]) - reenroll_count
+       
         # Start rate
         start_rate = round(starts / enrollments * 100, 1) if enrollments > 0 else 0
         
