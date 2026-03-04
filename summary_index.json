@@ -15,6 +15,10 @@
     {
       "year": "2025",
       "file": "summary_2025.csv"
+    },
+    {
+      "year": "2026",
+      "file": "summary_2026.csv"
     }
   ]
 }
