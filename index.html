@@ -186,6 +186,71 @@ table.perf-table { width: 100%; border-collapse: collapse; font-size: 14px; }
     .controls { flex-direction: column; align-items: stretch; }
     .header h1 { font-size: 2em; }
 }
+
+/* Progress bars */
+.progress-section { margin-top: 12px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: #666; margin-bottom: 4px; }
+.progress-track {
+    position: relative;
+    height: 14px;
+    background: #eee;
+    border-radius: 7px;
+    overflow: visible;
+    margin-bottom: 14px;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #36A2EB, #4BC0C0);
+    border-radius: 7px;
+    transition: width 0.3s ease;
+}
+.progress-marker {
+    position: absolute;
+    top: -4px;
+    width: 3px;
+    height: 22px;
+    border-radius: 2px;
+    transform: translateX(-50%);
+}
+.progress-marker-label {
+    position: absolute;
+    top: 20px;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    white-space: nowrap;
+    color: #888;
+}
+.program-progress-bar {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.program-progress-bar h3 {
+    margin: 0 0 16px 0;
+    font-size: 1rem;
+    color: #333;
+}
+.prog-bar-stats {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+.prog-bar-stat { text-align: center; }
+.prog-bar-stat .val { font-size: 1.4rem; font-weight: 700; color: #2a5298; }
+.prog-bar-stat .lbl { font-size: 0.75rem; color: #888; margin-top: 2px; }
+
+/* ---- Rep Filter Chips ---- */
+.rep-chip-group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-width: 180px; }
+.rep-chip {
+    padding: 5px 12px; border-radius: 20px; border: 2px solid #e1e5e9;
+    background: #fff; color: #555; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s ease; line-height: 1.2; white-space: nowrap;
+}
+.rep-chip:hover:not(.active) { border-color: #2a5298; background: #f0f4ff; color: #2a5298; }
+.rep-chip.active { color: #fff; border-color: transparent; background-color: #2a5298; }
     </style>
 </head>
 <body>
@@ -229,7 +294,7 @@ table.perf-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 
             <div class="control-group">
                 <label>Chart Type</label>
-                <div style="display:flex;gap:6px;">
+                <div id="chartTypeButtons" style="display:flex;gap:6px;">
                     <button id="lineChart" class="active">Line</button>
                     <button id="barChart">Bar</button>
                 </div>
@@ -237,12 +302,15 @@ table.perf-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 
             <div class="control-group">
                 <label>Rep Filter</label>
-                <select id="repFilter"><option value="all">All Reps</option></select>
+                <div id="repFilterChips" class="rep-chip-group"></div>
             </div>
         </div>
 
         <!-- Summary pills -->
         <div class="summary-bar" id="summaryBar"></div>
+
+        <!-- Program Progress Bar -->
+        <div id="programProgressBar" class="program-progress-bar" style="display:none"></div>
 
         <!-- Rep Scorecards -->
         <div class="scorecards-grid" id="repScorecards"></div>
@@ -331,6 +399,30 @@ const PROG_LABELS = {
     UDT: 'UDT'
 };
 
+// Per-rep history cutoff: set to the first cohort NUMBER where the rep's data is valid.
+// Cohorts with a number BELOW this threshold are excluded from that rep's calculations.
+// Example: REP_START_COHORT = { 'Thomas': 560 } means Thomas's data only counts from NDT560 onwards.
+const REP_START_COHORT = {'Ashley': 532, 'Cielo': 533, 'Cori': 549, 'Randy': 534, 'Sue': 553, 'Thomas': 528};
+
+// Start rate targets (percentage) per rep. Shown as reference lines and badges.
+// Leave empty {} to disable target tracking, or omit a rep to show no target for them.
+const REP_TARGETS = {
+    'Cori':   12,
+    'Randy':  12,
+    'Sue':    12,
+    'Thomas': 12
+};
+// Program-level target: shown as a dashed reference line when "All Reps" is selected
+const PROGRAM_TARGET = 15;
+
+// Absolute start count targets per rep for the current year (used for progress bars on scorecards)
+const REP_START_TARGETS = {
+    'Cori':   25,
+    'Randy':  100,
+    'Sue':    80,
+    'Thomas': 50
+};
+
 // ============================================================
 // STATE
 // ============================================================
@@ -345,6 +437,8 @@ let repColorMap     = {};   // persists across filter changes
 let processedData   = {};
 let charts          = {};
 let currentChartType = 'line';
+let selectedRepsFilter = new Set(); // empty = all reps (mirrors selectedYears pattern)
+let leadsPeriod = '';  // date range label from leads.csv _period_ row
 
 // ============================================================
 // UTILITIES
@@ -372,6 +466,13 @@ function rollingAvg(arr, w = 3) {
         const slice = arr.slice(Math.max(0, i - w + 1), i + 1).filter(x => x !== null);
         return slice.length ? slice.reduce((a, b) => a + b, 0) / slice.length : null;
     });
+}
+
+function isAllReps()    { return selectedRepsFilter.size === 0; }
+function getSingleRep() { return selectedRepsFilter.size === 1 ? [...selectedRepsFilter][0] : null; }
+function getFilteredReps() {
+    if (isAllReps()) return activeReps;
+    return activeReps.filter(r => selectedRepsFilter.has(r));
 }
 
 // ============================================================
@@ -422,7 +523,13 @@ async function loadData() {
             if (lr.ok) {
                 const lt = await lr.text();
                 Papa.parse(lt, { header: true, dynamicTyping: true, skipEmptyLines: true })
-                    .data.forEach(row => { if (row.Rep && row.Leads) leadsData[row.Rep] = row.Leads; });
+                    .data.forEach(row => {
+                    if (row.Rep === '_period_') {
+                        leadsPeriod = String(row.Leads || '');
+                    } else if (row.Rep && row.Leads) {
+                        leadsData[row.Rep] = row.Leads;
+                    }
+                });
             }
         } catch (_) {}
 
@@ -485,7 +592,10 @@ function initControls() {
     });
 
     document.getElementById('programFilter').addEventListener('change', updateDashboard);
-    document.getElementById('repFilter').addEventListener('change', updateDashboard);
+    document.getElementById('repFilterChips').addEventListener('click', e => {
+        const chip = e.target.closest('.rep-chip');
+        if (chip) toggleRepChip(chip.dataset.rep);
+    });
     document.getElementById('lineChart').addEventListener('click', () => setChartType('line'));
     document.getElementById('barChart').addEventListener('click',  () => setChartType('bar'));
 }
@@ -497,7 +607,7 @@ function toggleYear(year, checked) {
 
 function setChartType(type) {
     currentChartType = type;
-    document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#chartTypeButtons button').forEach(b => b.classList.remove('active'));
     document.getElementById(type + 'Chart').classList.add('active');
     updateDashboard();
 }
@@ -544,12 +654,36 @@ function detectActiveReps(data) {
     // Ensure persistent color assigned
     activeReps.forEach(rep => getRepColor(rep));
 
-    // Rebuild rep filter dropdown
-    const sel   = document.getElementById('repFilter');
-    const prev  = sel.value;
-    sel.innerHTML = '<option value="all">All Reps</option>' +
-        activeReps.map(r => `<option value="${r}"${r === prev ? ' selected' : ''}>${r} Only</option>`).join('');
-    if (prev !== 'all' && !activeReps.includes(prev)) sel.value = 'all';
+    // Prune stale selections, then rebuild chip UI
+    selectedRepsFilter = new Set([...selectedRepsFilter].filter(r => activeReps.includes(r)));
+    buildRepFilterChips();
+}
+
+function buildRepFilterChips() {
+    const container = document.getElementById('repFilterChips');
+    if (!container) return;
+    const allActive = isAllReps();
+    let html = `<button class="rep-chip${allActive ? ' active' : ''}" data-rep="all">All</button>`;
+    activeReps.forEach(rep => {
+        const active = selectedRepsFilter.has(rep);
+        const color  = getRepColor(rep);
+        const style  = active ? `style="background-color:${color}"` : '';
+        html += `<button class="rep-chip${active ? ' active' : ''}" data-rep="${rep}" ${style}>${rep}</button>`;
+    });
+    container.innerHTML = html;
+}
+
+function toggleRepChip(rep) {
+    if (rep === 'all') {
+        selectedRepsFilter.clear();
+    } else {
+        if (selectedRepsFilter.has(rep)) selectedRepsFilter.delete(rep);
+        else selectedRepsFilter.add(rep);
+        // If every active rep is individually selected, collapse back to "all"
+        if (activeReps.every(r => selectedRepsFilter.has(r))) selectedRepsFilter.clear();
+    }
+    buildRepFilterChips();
+    updateDashboard();
 }
 
 function processCombined(cohortNums, data) {
@@ -569,6 +703,16 @@ function processCombined(cohortNums, data) {
         res.cohorts.push(String(num));
 
         activeReps.forEach(rep => {
+            const minCohort = REP_START_COHORT[rep];
+            if (minCohort && num < minCohort) {
+                res.reps[rep].push(null);
+                res.volume[rep].enrollments.push(0);
+                res.volume[rep].starts.push(0);
+                res.composition[rep].new.push(0);
+                res.composition[rep].transfer.push(0);
+                res.composition[rep].reenroll.push(0);
+                return;
+            }
             const rd = rows.filter(r => r.Rep === rep);
             const e  = rd.reduce((s, r) => s + (r.Enrollments || 0), 0);
             const st = rd.reduce((s, r) => s + (r.Starts      || 0), 0);
@@ -596,7 +740,18 @@ function processProgram(prog, data) {
 
     cohorts.forEach(cohort => {
         res.cohorts.push(cohort);
+        const cohortNum = extractCohortNumber(cohort);
         activeReps.forEach(rep => {
+            const minCohort = REP_START_COHORT[rep];
+            if (minCohort && cohortNum < minCohort) {
+                res.reps[rep].push(null);
+                res.volume[rep].enrollments.push(0);
+                res.volume[rep].starts.push(0);
+                res.composition[rep].new.push(0);
+                res.composition[rep].transfer.push(0);
+                res.composition[rep].reenroll.push(0);
+                return;
+            }
             const row = data.find(r => r.Cohort === cohort && r.Rep === rep);
             if (row) {
                 res.reps[rep].push(row.StartRate);
@@ -644,31 +799,27 @@ function buildYearData(filtered, prog) {
 // DASHBOARD ORCHESTRATOR
 // ============================================================
 function updateDashboard() {
-    const prog      = document.getElementById('programFilter').value;
-    const repFilter = document.getElementById('repFilter').value;
+    const prog = document.getElementById('programFilter').value;
 
-    updateSummaryBar(prog, repFilter);
-    updateRepScorecards(prog, repFilter);
-    updateTrendsChart(prog, repFilter);
+    updateSummaryBar(prog);
+    updateRepScorecards(prog);
+    updateProgramProgressBar(prog);
+    updateTrendsChart(prog);
     updateYOYChart(prog);
     updateCrossYearChart(prog);
-    updateVolumeChart(prog, repFilter);
-    updateTotalsAndComparison(prog, repFilter);
-    updateCompositionChart(prog, repFilter);
-    updateFunnelChart(prog, repFilter);
-    updateDataTable(prog, repFilter);
-}
-
-function getFilteredReps(repFilter) {
-    return repFilter === 'all' ? activeReps : (activeReps.includes(repFilter) ? [repFilter] : []);
+    updateVolumeChart(prog);
+    updateTotalsAndComparison(prog);
+    updateCompositionChart(prog);
+    updateFunnelChart(prog);
+    updateDataTable(prog);
 }
 
 // ============================================================
 // SUMMARY BAR
 // ============================================================
-function updateSummaryBar(prog, repFilter) {
+function updateSummaryBar(prog) {
     const data = processedData[prog];
-    const reps = getFilteredReps(repFilter);
+    const reps = getFilteredReps();
     if (!reps.length) { document.getElementById('summaryBar').innerHTML = ''; return; }
 
     const avgs = {};
@@ -677,18 +828,31 @@ function updateSummaryBar(prog, repFilter) {
         if (vals.length) avgs[rep] = vals.reduce((a, b) => a + b, 0) / vals.length;
     });
 
-    const topRep   = Object.keys(avgs).reduce((a, b) => avgs[a] > avgs[b] ? a : b, Object.keys(avgs)[0]);
-    const progAvg  = Object.values(avgs).reduce((a, b) => a + b, 0) / Object.values(avgs).length;
+    const repKeys = Object.keys(avgs);
+    const topRep  = repKeys.length ? repKeys.reduce((a, b) => avgs[a] > avgs[b] ? a : b, repKeys[0]) : null;
+    const avgVals = Object.values(avgs);
+    const progAvg = avgVals.length ? avgVals.reduce((a, b) => a + b, 0) / avgVals.length : null;
     const cohortAvgs = data.cohorts.map((c, i) => {
         const vals = reps.map(r => data.reps[r][i]).filter(v => v !== null);
         return { cohort: c, avg: vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0 };
     });
-    const bestCohort = cohortAvgs.reduce((a, b) => a.avg > b.avg ? a : b, cohortAvgs[0] || { cohort: '-', avg: 0 });
+    const bestCohort = cohortAvgs.length
+        ? cohortAvgs.reduce((a, b) => a.avg > b.avg ? a : b, cohortAvgs[0])
+        : { cohort: '-', avg: 0 };
+
+    const overallRate = progAvg;
+    const progAvgTarget = PROGRAM_TARGET;
+    const progDiff = (progAvgTarget && overallRate !== null)
+        ? (overallRate - progAvgTarget).toFixed(1)
+        : null;
+    const targetNote = progDiff !== null
+        ? `<div style="font-size:0.7rem;opacity:0.8">target ${progAvgTarget}% (${progDiff >= 0 ? '+' : ''}${progDiff}pp)</div>`
+        : '';
 
     document.getElementById('summaryBar').innerHTML = `
-        <div class="summary-pill">Top Performer: <strong>${topRep}</strong></div>
-        <div class="summary-pill">Best Cohort: <strong>${bestCohort.cohort}</strong> (${bestCohort.avg.toFixed(1)}%)</div>
-        <div class="summary-pill">Program Average: <strong>${progAvg.toFixed(1)}%</strong></div>
+        <div class="summary-pill">Top Performer: <strong>${topRep !== null ? topRep : '-'}</strong></div>
+        <div class="summary-pill">Best Cohort: <strong>${bestCohort.cohort}</strong>${bestCohort.cohort !== '-' ? ' (' + bestCohort.avg.toFixed(1) + '%)' : ''}</div>
+        <div class="summary-pill">Program Average: <strong>${progAvg !== null ? progAvg.toFixed(1) + '%' : '-'}</strong>${targetNote}</div>
         <div class="summary-pill">Program: <strong>${PROG_LABELS[prog]}</strong></div>
     `;
 }
@@ -696,9 +860,9 @@ function updateSummaryBar(prog, repFilter) {
 // ============================================================
 // REP SCORECARDS
 // ============================================================
-function updateRepScorecards(prog, repFilter) {
+function updateRepScorecards(prog) {
     const data = processedData[prog];
-    const reps = getFilteredReps(repFilter);
+    const reps = getFilteredReps();
     const el   = document.getElementById('repScorecards');
 
     if (!reps.length) { el.innerHTML = ''; return; }
@@ -731,6 +895,77 @@ function updateRepScorecards(prog, repFilter) {
         const latestRate = valid[valid.length - 1];
 
         const color = getRepColor(rep);
+        const startNote = REP_START_COHORT[rep]
+            ? `<p style="font-size:0.75rem;color:#aaa;margin-top:4px">Data from cohort ${REP_START_COHORT[rep]}+</p>`
+            : '';
+
+        // Compute target badge HTML
+        let targetBadge = '';
+        if (REP_TARGETS[rep] !== undefined) {
+            const target = REP_TARGETS[rep];
+            const diff = parseFloat(avg.toFixed(1)) - target;
+            const badgeColor = diff >= 0 ? '#4CAF50' : '#FF6384';
+            const sign = diff >= 0 ? '+' : '';
+            targetBadge = `<div style="font-size:0.75rem;margin-top:4px;color:${badgeColor};font-weight:600">
+                Target: ${target}% &nbsp;|&nbsp; ${sign}${diff.toFixed(1)}pp
+            </div>`;
+        }
+
+        // Compute current year starts for this rep
+        const repCurrentYear = [...selectedYears].sort().at(-1);
+        const repPriorYear   = [...selectedYears].sort().at(-2) || null;
+
+        const repCurrentStarts = rawData
+            .filter(r => String(r.Year) === String(repCurrentYear) && r.Rep === rep && ['NDT','NDT-NC','UDT'].includes(r.Program))
+            .reduce((s, r) => s + (parseInt(r.Starts) || 0), 0);
+
+        const repPriorStarts = repPriorYear
+            ? rawData
+                .filter(r => String(r.Year) === String(repPriorYear) && r.Rep === rep && ['NDT','NDT-NC','UDT'].includes(r.Program))
+                .reduce((s, r) => s + (parseInt(r.Starts) || 0), 0)
+            : null;
+
+        const repGoal = REP_START_TARGETS[rep] || null;
+
+        // Build progress bar if at least current year data exists
+        let repProgressHtml = '';
+        if (repCurrentStarts > 0 || repGoal) {
+            const maxVal = Math.max(repCurrentStarts, repPriorStarts || 0, repGoal || 0, 1);
+            const fillPct   = Math.min(100, repCurrentStarts / maxVal * 100).toFixed(1);
+
+            let priorMarker = '';
+            if (repPriorStarts !== null) {
+                const priorPct = Math.min(100, repPriorStarts / maxVal * 100).toFixed(1);
+                priorMarker = `<div class="progress-marker" style="left:${priorPct}%;background:#888">
+                    <span class="progress-marker-label">${repPriorYear}: ${repPriorStarts}</span>
+                </div>`;
+            }
+
+            let goalMarker = '';
+            if (repGoal) {
+                const goalPct = Math.min(100, repGoal / maxVal * 100).toFixed(1);
+                goalMarker = `<div class="progress-marker" style="left:${goalPct}%;background:#FF9F40">
+                    <span class="progress-marker-label">Goal: ${repGoal}</span>
+                </div>`;
+            }
+
+            const subLabel = [
+                `${repCurrentYear}: ${repCurrentStarts}`,
+                repPriorStarts !== null ? `${repPriorYear}: ${repPriorStarts}` : null,
+                repGoal ? `Goal: ${repGoal}` : null
+            ].filter(Boolean).join('  \u00b7  ');
+
+            repProgressHtml = `
+                <div class="progress-section">
+                    <div class="progress-label"><span>Starts</span><span style="font-size:0.65rem">${subLabel}</span></div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width:${fillPct}%"></div>
+                        ${priorMarker}${goalMarker}
+                    </div>
+                </div>
+            `;
+        }
+
         return `
             <div class="scorecard">
                 <div class="scorecard-header" style="background:${color}">
@@ -738,23 +973,183 @@ function updateRepScorecards(prog, repFilter) {
                 </div>
                 <div class="scorecard-body">
                     <div class="sc-big" style="color:${color}">${avg.toFixed(1)}%</div>
+                    ${targetBadge}
                     <div class="sc-metric"><span class="sc-label">Actual start rate</span><span class="sc-value">${overallRate}%</span></div>
                     <div class="sc-metric"><span class="sc-label">Total enrollments</span><span class="sc-value">${totalEnroll}</span></div>
                     <div class="sc-metric"><span class="sc-label">Total starts</span><span class="sc-value">${totalStarts}</span></div>
                     <div class="sc-metric"><span class="sc-label">Best cohort</span><span class="sc-value">${bestC.c} (${bestC.v.toFixed(1)}%)</span></div>
                     <div class="sc-metric"><span class="sc-label">Latest cohort</span><span class="sc-value">${latestRate !== null ? latestRate.toFixed(1) + '%' : 'N/A'}</span></div>
+                    ${startNote}
+                    ${repProgressHtml}
                 </div>
             </div>`;
     }).join('');
 }
 
 // ============================================================
+// PROGRAM PROGRESS BAR
+// ============================================================
+function updateProgramProgressBar(prog) {
+    const el = document.getElementById('programProgressBar');
+    if (!el) return;
+
+    if (availableYears.length < 2) { el.style.display = 'none'; return; }
+
+    const years = [...selectedYears].sort();
+    if (years.length < 2) { el.style.display = 'none'; return; }
+
+    const currentYear = years[years.length - 1];
+    const priorYear   = years[years.length - 2];
+    const programs    = prog === 'combined' ? ['NDT', 'NDT-NC', 'UDT'] : [prog];
+
+    function getYearCohorts(year) {
+        return [...new Set(
+            rawData
+                .filter(r => String(r.Year) === String(year) && programs.includes(r.Program)
+                    && extractCohortNumber(r.Cohort) >= cohortMinFilter
+                    && extractCohortNumber(r.Cohort) <= cohortMaxFilter)
+                .map(r => extractCohortNumber(r.Cohort))
+        )].sort((a, b) => a - b);
+    }
+
+    function sumStartsForCohorts(year, cohortNums) {
+        return rawData
+            .filter(r => String(r.Year) === String(year) && programs.includes(r.Program)
+                && cohortNums.includes(extractCohortNumber(r.Cohort)))
+            .reduce((s, r) => s + (parseInt(r.Starts) || 0), 0);
+    }
+
+    const currentCohorts  = getYearCohorts(currentYear);
+    const N = currentCohorts.length;
+    if (N === 0) { el.style.display = 'none'; return; }
+
+    const currentStarts = sumStartsForCohorts(currentYear, currentCohorts);
+
+    const priorAllCohorts   = getYearCohorts(priorYear);
+    const priorPacedCohorts = priorAllCohorts.slice(0, N);
+    const priorStartsPaced  = sumStartsForCohorts(priorYear, priorPacedCohorts);
+    const priorStartsFull   = sumStartsForCohorts(priorYear, priorAllCohorts);
+
+    // Composite best excludes the current year (so the target is always achievable)
+    const allYears = [...new Set(rawData.map(r => String(r.Year)))];
+    const priorYears = allYears.filter(yr => yr !== currentYear);
+    const yearCohortLists = {};
+    allYears.forEach(yr => { yearCohortLists[yr] = getYearCohorts(yr); });
+
+    // Composite best PACED: best starts at each of the first N positions, across prior years only
+    let compositeBestPaced = 0;
+    for (let pos = 0; pos < N; pos++) {
+        let maxAtPos = 0;
+        priorYears.forEach(yr => {
+            const yrCohorts = yearCohortLists[yr];
+            if (pos < yrCohorts.length) {
+                const s = rawData
+                    .filter(r => String(r.Year) === yr && programs.includes(r.Program)
+                        && extractCohortNumber(r.Cohort) === yrCohorts[pos])
+                    .reduce((sum, r) => sum + (parseInt(r.Starts) || 0), 0);
+                maxAtPos = Math.max(maxAtPos, s);
+            }
+        });
+        compositeBestPaced += maxAtPos;
+    }
+
+    // Composite best FULL: best starts at each position across full years (prior years only)
+    const maxPositions = Math.max(...priorYears.map(yr => yearCohortLists[yr].length), 0);
+    let compositeBestFull = 0;
+    for (let pos = 0; pos < maxPositions; pos++) {
+        let maxAtPos = 0;
+        priorYears.forEach(yr => {
+            const yrCohorts = yearCohortLists[yr];
+            if (pos < yrCohorts.length) {
+                const s = rawData
+                    .filter(r => String(r.Year) === yr && programs.includes(r.Program)
+                        && extractCohortNumber(r.Cohort) === yrCohorts[pos])
+                    .reduce((sum, r) => sum + (parseInt(r.Starts) || 0), 0);
+                maxAtPos = Math.max(maxAtPos, s);
+            }
+        });
+        compositeBestFull += maxAtPos;
+    }
+
+    if (compositeBestFull === 0 && priorStartsFull === 0) { el.style.display = 'none'; return; }
+
+    el.style.display = 'block';
+
+    // Paced bar
+    const pacedMax    = Math.max(currentStarts, priorStartsPaced, compositeBestPaced, 1);
+    const pacedFill   = Math.min(100, currentStarts     / pacedMax * 100).toFixed(1);
+    const pacedPrior  = Math.min(100, priorStartsPaced  / pacedMax * 100).toFixed(1);
+    const pacedBest   = Math.min(100, compositeBestPaced/ pacedMax * 100).toFixed(1);
+
+    // Full year bar
+    const fullMax     = Math.max(currentStarts, priorStartsFull, compositeBestFull, 1);
+    const fullFill    = Math.min(100, currentStarts    / fullMax * 100).toFixed(1);
+    const fullPrior   = Math.min(100, priorStartsFull  / fullMax * 100).toFixed(1);
+    const fullBest    = Math.min(100, compositeBestFull/ fullMax * 100).toFixed(1);
+
+    const diff    = currentStarts - priorStartsPaced;
+    const diffStr = diff >= 0 ? `+${diff}` : `${diff}`;
+    const priorTotalCohorts = priorAllCohorts.length;
+
+    el.innerHTML = `
+        <h3>Program Starts Progress \u2014 ${currentYear} vs ${priorYear}</h3>
+        <div class="prog-bar-stats">
+            <div class="prog-bar-stat">
+                <div class="val">${currentStarts}</div>
+                <div class="lbl">${currentYear} so far (${N} cohorts)</div>
+            </div>
+            <div class="prog-bar-stat">
+                <div class="val" style="color:#888">${priorStartsPaced}</div>
+                <div class="lbl">${priorYear} at same pace</div>
+            </div>
+            <div class="prog-bar-stat">
+                <div class="val" style="color:#888">${priorStartsFull}</div>
+                <div class="lbl">${priorYear} full year (${priorTotalCohorts} cohorts)</div>
+            </div>
+            <div class="prog-bar-stat">
+                <div class="val" style="color:${diff >= 0 ? '#4CAF50' : '#FF6384'}">${diffStr}</div>
+                <div class="lbl">vs ${priorYear} pace</div>
+            </div>
+        </div>
+
+        <div style="font-size:0.75rem;color:#666;margin-bottom:4px;font-weight:600">At this pace &mdash; cohort ${N} of ${priorTotalCohorts}</div>
+        <div class="progress-track">
+            <div class="progress-fill" style="width:${pacedFill}%"></div>
+            <div class="progress-marker" style="left:${pacedPrior}%;background:#888">
+                <span class="progress-marker-label">${priorYear}: ${priorStartsPaced}</span>
+            </div>
+            <div class="progress-marker" style="left:${pacedBest}%;background:#FF9F40">
+                <span class="progress-marker-label">Best: ${compositeBestPaced}</span>
+            </div>
+        </div>
+
+        <div style="font-size:0.75rem;color:#666;margin:16px 0 4px;font-weight:600">Full year projection</div>
+        <div class="progress-track">
+            <div class="progress-fill" style="width:${fullFill}%;opacity:0.5"></div>
+            <div class="progress-marker" style="left:${fullPrior}%;background:#888">
+                <span class="progress-marker-label">${priorYear}: ${priorStartsFull}</span>
+            </div>
+            <div class="progress-marker" style="left:${fullBest}%;background:#FF9F40">
+                <span class="progress-marker-label">Best: ${compositeBestFull}</span>
+            </div>
+        </div>
+    `;
+}
+
+// ============================================================
 // TRENDS CHART
 // ============================================================
-function updateTrendsChart(prog, repFilter) {
+function updateTrendsChart(prog) {
     const data = processedData[prog];
-    const reps = getFilteredReps(repFilter);
+    const reps = getFilteredReps();
     destroyChart('trends');
+
+    const cohorts = data.cohorts || [];
+    if (!cohorts.length) {
+        const wrapper = document.getElementById('trendsChart').parentElement;
+        wrapper.innerHTML = '<p style="text-align:center;padding:2rem;color:#999">No data for current filters</p>';
+        return;
+    }
 
     const overallAvg = data.cohorts.map((_, i) => {
         const vals = reps.map(r => data.reps[r][i]).filter(v => v !== null);
@@ -780,6 +1175,38 @@ function updateTrendsChart(prog, repFilter) {
         borderColor: '#666', backgroundColor: 'transparent',
         borderWidth: 3, fill: false, tension: 0.4, pointRadius: 0, borderDash: [10, 5]
     });
+
+    // Add rep-specific target line if exactly one rep is selected and has a target
+    const singleRep = getSingleRep();
+    if (singleRep !== null && REP_TARGETS[singleRep] !== undefined) {
+        const target = REP_TARGETS[singleRep];
+        datasets.push({
+            label: `${singleRep} target (${target}%)`,
+            data: Array(data.cohorts.length).fill(target),
+            borderColor: 'rgba(255, 99, 132, 0.7)',
+            borderWidth: 2,
+            borderDash: [8, 4],
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+            order: 99
+        });
+    }
+
+    // Add program-level target line when multiple reps are shown
+    if (singleRep === null && PROGRAM_TARGET) {
+        datasets.push({
+            label: `Program target (${PROGRAM_TARGET}%)`,
+            data: Array(data.cohorts.length).fill(PROGRAM_TARGET),
+            borderColor: 'rgba(255, 99, 132, 0.7)',
+            borderWidth: 2,
+            borderDash: [8, 4],
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+            order: 99
+        });
+    }
 
     charts.trends = new Chart(document.getElementById('trendsChart').getContext('2d'), {
         type: currentChartType,
@@ -911,8 +1338,9 @@ function updateCrossYearChart(prog) {
             starts.map(s => `<td class="${s === null ? 'na' : ''}">${s ?? '-'}</td>`).join('') +
             `<td class="avg">${avg}</td><td class="total">${rowTot || '-'}</td></tr>`;
     }
-    const grandTotal = yearTotals.reduce((a, b) => a + b, 0);
-    const grandAvg   = yearTotals.length ? (grandTotal / yearTotals.filter(t => t > 0).length).toFixed(1) : '-';
+    const grandTotal   = yearTotals.reduce((a, b) => a + b, 0);
+    const nonZeroYears = yearTotals.filter(t => t > 0).length;
+    const grandAvg     = nonZeroYears > 0 ? (grandTotal / nonZeroYears).toFixed(1) : '-';
 
     document.getElementById('crossYearTable').innerHTML = `
         <div style="overflow-x:auto">
@@ -940,16 +1368,16 @@ function updateCrossYearChart(prog) {
 // ============================================================
 // VOLUME CHART
 // ============================================================
-function updateVolumeChart(prog, repFilter) {
+function updateVolumeChart(prog) {
     const section = document.getElementById('volumeSection');
-    if (repFilter !== 'all') { section.style.display = 'none'; return; }
     section.style.display = 'block';
 
     const data = processedData[prog];
+    const filteredReps = getFilteredReps();
     destroyChart('volume');
 
     const datasets = [];
-    activeReps.forEach(rep => {
+    filteredReps.forEach(rep => {
         const color = getRepColor(rep);
         datasets.push({
             label: `${rep} - Starts`, data: data.volume[rep].starts,
@@ -972,7 +1400,7 @@ function updateVolumeChart(prog, repFilter) {
                     position: 'top',
                     labels: {
                         generateLabels: chart =>
-                            activeReps.map(rep => ({
+                            getFilteredReps().map(rep => ({
                                 text: rep, fillStyle: getRepColor(rep),
                                 strokeStyle: getRepColor(rep), lineWidth: 2
                             }))
@@ -1001,17 +1429,17 @@ function updateVolumeChart(prog, repFilter) {
 // ============================================================
 // TOTALS + COMPARISON (side by side)
 // ============================================================
-function updateTotalsAndComparison(prog, repFilter) {
+function updateTotalsAndComparison(prog) {
     const row = document.getElementById('totalsRow');
-    if (repFilter !== 'all') { row.style.display = 'none'; return; }
     row.style.display = 'grid';
 
     const data = processedData[prog];
+    const filteredReps = getFilteredReps();
     destroyChart('totals');
     destroyChart('comparison');
 
-    const startsData = activeReps.map(r => data.volume[r].starts.reduce((a, b) => a + b, 0));
-    const enrollOnly = activeReps.map((r, i) => {
+    const startsData = filteredReps.map(r => data.volume[r].starts.reduce((a, b) => a + b, 0));
+    const enrollOnly = filteredReps.map((r, i) => {
         const e = data.volume[r].enrollments.reduce((a, b) => a + b, 0);
         return Math.max(0, e - startsData[i]);
     });
@@ -1019,17 +1447,17 @@ function updateTotalsAndComparison(prog, repFilter) {
     charts.totals = new Chart(document.getElementById('totalsChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: activeReps,
+            labels: filteredReps,
             datasets: [
                 {
                     label: 'Starts', data: startsData,
-                    backgroundColor: activeReps.map(r => getRepColor(r)),
-                    borderColor: activeReps.map(r => getRepColor(r)), borderWidth: 1
+                    backgroundColor: filteredReps.map(r => getRepColor(r)),
+                    borderColor: filteredReps.map(r => getRepColor(r)), borderWidth: 1
                 },
                 {
                     label: 'Enrollments (non-starts)', data: enrollOnly,
-                    backgroundColor: activeReps.map(r => getRepColor(r) + '40'),
-                    borderColor: activeReps.map(r => getRepColor(r)), borderWidth: 1
+                    backgroundColor: filteredReps.map(r => getRepColor(r) + '40'),
+                    borderColor: filteredReps.map(r => getRepColor(r)), borderWidth: 1
                 }
             ]
         },
@@ -1044,7 +1472,7 @@ function updateTotalsAndComparison(prog, repFilter) {
         }
     });
 
-    const avgRates = activeReps.map(r => {
+    const avgRates = filteredReps.map(r => {
         const vals = data.reps[r].filter(v => v !== null);
         return vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length * 10) / 10 : 0;
     });
@@ -1052,11 +1480,11 @@ function updateTotalsAndComparison(prog, repFilter) {
     charts.comparison = new Chart(document.getElementById('comparisonChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: activeReps,
+            labels: filteredReps,
             datasets: [{
                 label: 'Avg Start Rate (%)', data: avgRates,
-                backgroundColor: activeReps.map(r => getRepColor(r)),
-                borderColor: activeReps.map(r => getRepColor(r)), borderWidth: 2
+                backgroundColor: filteredReps.map(r => getRepColor(r)),
+                borderColor: filteredReps.map(r => getRepColor(r)), borderWidth: 2
             }]
         },
         options: {
@@ -1073,22 +1501,22 @@ function updateTotalsAndComparison(prog, repFilter) {
 // ============================================================
 // COMPOSITION CHART
 // ============================================================
-function updateCompositionChart(prog, repFilter) {
+function updateCompositionChart(prog) {
     const section = document.getElementById('compositionSection');
-    if (repFilter !== 'all') { section.style.display = 'none'; return; }
     section.style.display = 'block';
 
     const data = processedData[prog];
+    const filteredReps = getFilteredReps();
     destroyChart('composition');
 
-    const newData      = activeReps.map(r => data.composition[r].new.reduce((a, b) => a + b, 0));
-    const transferData = activeReps.map(r => data.composition[r].transfer.reduce((a, b) => a + b, 0));
-    const reenrollData = activeReps.map(r => data.composition[r].reenroll.reduce((a, b) => a + b, 0));
+    const newData      = filteredReps.map(r => data.composition[r].new.reduce((a, b) => a + b, 0));
+    const transferData = filteredReps.map(r => data.composition[r].transfer.reduce((a, b) => a + b, 0));
+    const reenrollData = filteredReps.map(r => data.composition[r].reenroll.reduce((a, b) => a + b, 0));
 
     charts.composition = new Chart(document.getElementById('compositionChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: activeReps,
+            labels: filteredReps,
             datasets: [
                 { label: 'New',       data: newData,      backgroundColor: '#4BC0C0', borderWidth: 1 },
                 { label: 'Transfer',  data: transferData, backgroundColor: '#FF9F40', borderWidth: 1 },
@@ -1122,15 +1550,21 @@ function updateCompositionChart(prog, repFilter) {
 // ============================================================
 // FUNNEL CHART
 // ============================================================
-function updateFunnelChart(prog, repFilter) {
+function updateFunnelChart(prog) {
     const section  = document.getElementById('funnelSection');
     const hasLeads = Object.values(leadsData).some(v => v > 0);
 
-    if (!hasLeads || repFilter !== 'all') { section.style.display = 'none'; return; }
+    if (!hasLeads) { section.style.display = 'none'; return; }
     section.style.display = 'block';
 
+    const h3 = section.querySelector('h3');
+    if (h3) {
+        h3.innerHTML = 'Sales Funnel \u2014 Lead to Start Conversion' +
+            (leadsPeriod ? `<span style="font-size:0.7em;font-weight:400;color:#888;margin-left:10px">leads: ${leadsPeriod}</span>` : '');
+    }
+
     const data = processedData[prog];
-    const reps = activeReps.filter(r => leadsData[r] != null);
+    const reps = getFilteredReps().filter(r => leadsData[r] != null);
     if (!reps.length) { section.style.display = 'none'; return; }
 
     // Destroy old funnel charts
@@ -1228,9 +1662,9 @@ function updateFunnelChart(prog, repFilter) {
 // ============================================================
 // DATA TABLE
 // ============================================================
-function updateDataTable(prog, repFilter) {
+function updateDataTable(prog) {
     const data = processedData[prog];
-    const reps = getFilteredReps(repFilter);
+    const reps = getFilteredReps();
 
     let html = `<table class="perf-table"><thead><tr><th>Rep</th>`;
     data.cohorts.forEach(c => { html += `<th>${c}</th>`; });
@@ -1242,7 +1676,15 @@ function updateDataTable(prog, repFilter) {
         const avg   = valid.length ? (valid.reduce((a, b) => a + b, 0) / valid.length).toFixed(1) : 'N/A';
         const color = getRepColor(rep);
         html += `<tr style="border-left:4px solid ${color}"><td><strong>${rep}</strong></td>`;
-        vals.forEach(v => { html += `<td>${v === null ? 'N/A' : v.toFixed(1) + '%'}</td>`; });
+        vals.forEach((v, i) => {
+            const cohortNum = extractCohortNumber(data.cohorts[i]);
+            const minCohort = REP_START_COHORT[rep];
+            if (minCohort && cohortNum < minCohort) {
+                html += `<td style="color:#ccc">&#8212;</td>`;
+            } else {
+                html += `<td>${v === null ? 'N/A' : v.toFixed(1) + '%'}</td>`;
+            }
+        });
         html += `<td><strong>${avg !== 'N/A' ? avg + '%' : avg}</strong></td></tr>`;
     });
 
