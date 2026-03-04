@@ -15,8 +15,9 @@ Drop raw CCS exports (CCS-N560.csv, etc.) into input folder and run.
 
 import pandas as pd
 import os
-import sys
 import re
+import json
+import argparse
 from pathlib import Path
 from datetime import datetime
 
@@ -121,10 +122,44 @@ def aggregate_data(all_records):
     
     return pd.DataFrame(summary)
 
+def update_index(year, output_file, index_path):
+    """Update summary_index.json with a new or updated year entry."""
+    try:
+        with open(index_path) as f:
+            index = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        index = {"files": []}
+
+    entry = next((e for e in index['files'] if e['year'] == year), None)
+    if entry:
+        entry['file'] = str(output_file)
+    else:
+        index['files'].append({'year': year, 'file': str(output_file)})
+
+    index['files'].sort(key=lambda x: x['year'])
+
+    with open(index_path, 'w') as f:
+        json.dump(index, f, indent=2)
+    print(f"Updated {index_path}")
+
+
 def main():
-    # Parse arguments
-    input_folder = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('./CCS_Raw/')
-    output_file = Path(sys.argv[2]) if len(sys.argv) > 2 else Path('./summary.csv')
+    parser = argparse.ArgumentParser(description='Process CCS exports into dashboard summary CSV')
+    parser.add_argument('input_folder', nargs='?', default='./CCS_Raw/',
+                        help='Folder containing raw CCS CSV exports (default: ./CCS_Raw/)')
+    parser.add_argument('output_file', nargs='?', default=None,
+                        help='Output CSV path (default: summary.csv, or summary_YEAR.csv when --year is used)')
+    parser.add_argument('--year', type=str, default=None,
+                        help='Year label for this dataset (e.g. 2025). Saves to summary_YEAR.csv and updates summary_index.json')
+    args = parser.parse_args()
+
+    input_folder = Path(args.input_folder)
+    if args.output_file:
+        output_file = Path(args.output_file)
+    elif args.year:
+        output_file = Path(f'./summary_{args.year}.csv')
+    else:
+        output_file = Path('./summary.csv')
     
     print(f"CCS Export Processor")
     print(f"=" * 50)
@@ -185,9 +220,17 @@ def main():
     summary = summary.sort_values(['Program', '_sort', 'Rep'], ascending=[True, False, True])
     summary = summary.drop('_sort', axis=1)
     
+    # Add Year column when --year is specified
+    if args.year:
+        summary.insert(0, 'Year', args.year)
+
     # Save
     summary.to_csv(output_file, index=False)
     print(f"\nSummary saved to {output_file}")
+
+    # Update summary_index.json when --year is specified
+    if args.year:
+        update_index(args.year, output_file.name, Path('./summary_index.json'))
     print(f"  {len(summary)} rows (Rep x Cohort combinations)")
     
     # Print preview
