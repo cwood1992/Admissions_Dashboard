@@ -404,7 +404,7 @@ async function loadData() {
                 const parsed = Papa.parse(text, { header: true, dynamicTyping: true, skipEmptyLines: true });
                 parsed.data.forEach(row => {
                     if (!row.Cohort) return;
-                    row.Year = row.Year || entry.year;
+                    row.Year = String(row.Year || entry.year);
                     rawData.push(row);
                 });
                 if (!availableYears.includes(entry.year)) availableYears.push(entry.year);
