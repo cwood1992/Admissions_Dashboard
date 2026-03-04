@@ -1,0 +1,20 @@
+{
+  "files": [
+    {
+      "year": "2022",
+      "file": "summary_2022.csv"
+    },
+    {
+      "year": "2023",
+      "file": "summary_2023.csv"
+    },
+    {
+      "year": "2024",
+      "file": "summary_2024.csv"
+    },
+    {
+      "year": "2025",
+      "file": "summary_2025.csv"
+    }
+  ]
+}
