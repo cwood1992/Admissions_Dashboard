@@ -6,6 +6,9 @@
     <title>Ocean Corporation - Cohort Performance Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <!-- Shared canonical dark palette (:root tokens). Resolves to /shell/assets/theme.css
+         whether this page is opened directly or embedded in the shell iframe. -->
+    <link rel="stylesheet" href="shell/assets/theme.css">
     <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -251,6 +254,87 @@ table.perf-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 }
 .rep-chip:hover:not(.active) { border-color: #2a5298; background: #f0f4ff; color: #2a5298; }
 .rep-chip.active { color: #fff; border-color: transparent; background-color: #2a5298; }
+
+/* ============================================================================
+   UNIFIED DARK THEME OVERRIDES
+   Palette tokens come from shell/assets/theme.css. This block intentionally
+   comes last so it wins by cascade order — it recolors surfaces, text and
+   borders only; layout and the per-rep COLORS palette are untouched.
+   ============================================================================ */
+body { background: var(--bg); color: var(--text); }
+.header { color: var(--text); }
+.header p { color: var(--muted); opacity: 1; }
+
+.controls { background: var(--panel); box-shadow: var(--shadow); }
+.control-group label { color: var(--muted); }
+
+select { background: var(--panel-2); color: var(--text); border-color: var(--border); }
+select:focus, button:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(106,169,255,0.25); }
+button { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+button:hover { background: var(--accent); border-color: var(--accent); filter: brightness(1.12); }
+button.active { background: var(--bg); color: var(--text); border-color: var(--accent); filter: none; }
+
+.year-checkbox { border-color: var(--border); color: var(--text); }
+.year-checkbox:hover { border-color: var(--accent); background: rgba(106,169,255,0.12); }
+
+.cohort-range-row input[type="range"] { accent-color: var(--accent); }
+.cohort-range-val { color: var(--accent); background: rgba(106,169,255,0.12); }
+.range-sep { color: var(--muted); }
+
+.summary-pill { background: var(--panel); color: var(--muted); box-shadow: var(--shadow); }
+.summary-pill strong { color: var(--accent); }
+
+.scorecard { background: var(--panel); box-shadow: var(--shadow); }
+.sc-metric { border-bottom-color: var(--border); }
+.sc-metric .sc-label { color: var(--muted); }
+.sc-metric .sc-value { color: var(--text); }
+.trend-up { color: var(--good); }
+.trend-down { color: var(--bad); }
+.trend-flat { color: var(--muted); }
+
+.chart-section { background: var(--panel); box-shadow: var(--shadow); }
+.chart-section h3 { color: var(--accent); }
+
+.funnel-card { background: var(--panel); border-left-color: var(--border); }
+.funnel-card h4 { color: var(--text); }
+.funnel-labels { color: var(--muted); }
+.doughnut-card { background: var(--panel); }
+.doughnut-card h4 { color: var(--accent); }
+.metric-card { background: var(--panel); border-left-color: var(--accent); }
+.metric-card h5 { color: var(--accent); }
+.metric-row { border-bottom-color: var(--border); }
+.metric-row.overall { border-bottom-color: var(--border); }
+.metric-row .m-label { color: var(--muted); }
+.metric-row .m-value { color: var(--text); }
+
+.cross-year-table { color: var(--text); }
+.cross-year-table th, .cross-year-table td { border-bottom-color: var(--border); }
+.cross-year-table th { background: var(--panel-2); color: var(--muted); }
+.cross-year-table td.na { color: var(--muted); }
+.cross-year-table td.avg { color: var(--muted); }
+.cross-year-table td.total { color: var(--accent); }
+.cross-year-table tr.totals-row td { background: var(--row-alt); border-top-color: var(--border); }
+.cross-year-table tr:hover td { background: var(--row-alt); }
+
+table.perf-table { color: var(--text); }
+.perf-table th, .perf-table td { border-bottom-color: var(--border); }
+.perf-table th { background: var(--panel-2); color: var(--muted); }
+.perf-table tr:hover td { background: var(--row-alt); }
+
+.loading { color: var(--muted); }
+.error { background: rgba(255,118,118,0.15); color: var(--bad); }
+
+.progress-label { color: var(--muted); }
+.progress-track { background: var(--border); }
+.progress-marker-label { color: var(--muted); }
+.program-progress-bar { background: var(--panel); box-shadow: var(--shadow); }
+.program-progress-bar h3 { color: var(--text); }
+.prog-bar-stat .val { color: var(--accent); }
+.prog-bar-stat .lbl { color: var(--muted); }
+
+.rep-chip { border-color: var(--border); background: var(--panel); color: var(--muted); }
+.rep-chip:hover:not(.active) { border-color: var(--accent); background: rgba(106,169,255,0.12); color: var(--accent); }
+.rep-chip.active { color: var(--bg); border-color: transparent; background-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -392,6 +476,12 @@ const COLORS = [
     '#FF9F40','#9966FF','#FF6B6B','#4CAF50',
     '#E91E63','#00BCD4'
 ];
+
+// Dark-theme defaults for Chart.js: light tick/legend text + subtle grid lines.
+if (window.Chart) {
+    Chart.defaults.color = '#e6e8ec';            // --text
+    Chart.defaults.borderColor = 'rgba(42,49,66,0.7)';  // --border, for gridlines
+}
 const PROG_LABELS = {
     combined: 'Combined (NDT + NDT-NC + UDT)',
     NDT: 'NDT Day',
