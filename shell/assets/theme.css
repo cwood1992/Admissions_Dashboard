@@ -1,0 +1,43 @@
+/* ============================================================================
+   Unified Strategic Dashboard — canonical dark theme
+   Single source of truth for the palette shared by the shell, the historical
+   dashboard (../index.html) and the projection dashboard
+   (../projection/dashboard/index.html). Seeded from cohort-fill's original
+   dark design system. No build step — plain CSS custom properties.
+   ============================================================================ */
+
+:root {
+  /* Surfaces */
+  --bg: #0f1115;            /* app background (no white backgrounds anywhere) */
+  --panel: #161a22;         /* cards, tables, controls */
+  --panel-2: #11151d;       /* table headers, slightly deeper panel */
+  --row-alt: #1b2030;       /* zebra-stripe alt rows */
+  --border: #2a3142;        /* hairlines, card borders */
+
+  /* Text */
+  --text: #e6e8ec;          /* primary text */
+  --muted: #8b93a7;         /* secondary / labels */
+
+  /* Semantic accents */
+  --accent: #6aa9ff;        /* primary brand / links / focus */
+  --good: #5fd49a;          /* positive / on-pace / up */
+  --warn: #ffb86b;          /* caution / placeholder */
+  --bad: #ff7676;           /* negative / below-pace / down */
+
+  /* Elevation */
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --radius: 10px;
+
+  /* Categorical series palette — legible on the dark background.
+     Mirrored in JS for Chart.js (see THEME_SERIES in ../index.html). */
+  --series-1: #6aa9ff;
+  --series-2: #5fd49a;
+  --series-3: #ffb86b;
+  --series-4: #c89bff;
+  --series-5: #ff9f68;
+  --series-6: #58d6d6;
+  --series-7: #ffd866;
+  --series-8: #7f9cff;
+  --series-9: #ff7676;
+  --series-10: #9ad36b;
+}

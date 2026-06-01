@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOC Strategic Dashboard</title>
+  <link rel="stylesheet" href="assets/theme.css">
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top bar -------------------------------------------------------------- */
+    header {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0.85rem 1.5rem;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .brand .accent { color: var(--accent); }
+
+    nav { display: flex; gap: 0.4rem; }
+    nav button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      font: inherit;
+      cursor: pointer;
+      transition: color 120ms, border-color 120ms, background 120ms;
+    }
+    nav button:hover:not(:disabled) { color: var(--text); }
+    nav button.active {
+      background: var(--bg);
+      color: var(--text);
+      border-color: var(--accent);
+    }
+    nav button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    nav button .soon {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--warn);
+      margin-left: 0.4rem;
+    }
+
+    /* View frames ---------------------------------------------------------- */
+    main { flex: 1 1 auto; position: relative; }
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: var(--bg);
+    }
+    iframe[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">TOC <span class="accent">Strategic</span> Dashboard</div>
+    <nav id="view-nav">
+      <button data-view="historical" class="active">Historical Performance</button>
+      <button data-view="projections">Forward Projections</button>
+      <button data-view="cash" disabled title="Coming soon — reads the canonical cohort ledger">
+        Cash Position<span class="soon">soon</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Each existing dashboard runs unmodified inside its own document, so its
+         own relative data fetches resolve against its own URL. -->
+    <iframe id="view-historical"  src="../index.html"
+            title="Historical Performance dashboard"></iframe>
+    <iframe id="view-projections" src="../projection/dashboard/index.html"
+            title="Forward Projections dashboard" hidden></iframe>
+  </main>
+
+  <script>
+    const frames = {
+      historical:  document.getElementById('view-historical'),
+      projections: document.getElementById('view-projections'),
+    };
+    const buttons = document.querySelectorAll('#view-nav button[data-view]');
+
+    function show(view) {
+      if (!frames[view]) return;                 // e.g. disabled "cash" tab
+      for (const [name, frame] of Object.entries(frames)) {
+        frame.hidden = (name !== view);
+      }
+      buttons.forEach(b => b.classList.toggle('active', b.dataset.view === view));
+    }
+
+    buttons.forEach(b => {
+      if (b.disabled) return;
+      b.addEventListener('click', () => show(b.dataset.view));
+    });
+  </script>
+</body>
+</html>
