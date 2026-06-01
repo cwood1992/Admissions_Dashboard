@@ -1,0 +1,2516 @@
+{
+  "generated_at": "2026-06-01T20:51:59.200778+00:00",
+  "snapshot_date": "2026-06-01",
+  "revenue_per_start": 25300,
+  "cohorts": [
+    {
+      "cohort": "NDT522",
+      "program": "NDT-Day",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 7,
+      "total_ever_enrolled": 83,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 177100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 7,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT522NC",
+      "program": "NDT-Night",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 2,
+      "total_ever_enrolled": 6,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 50600,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 2,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT522",
+      "program": "UDT",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 18,
+      "total_ever_enrolled": 119,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 455400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 18,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT523",
+      "program": "NDT-Day",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 14,
+      "total_ever_enrolled": 50,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 354200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 14,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT523",
+      "program": "UDT",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 7,
+      "total_ever_enrolled": 45,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 177100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 7,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT524",
+      "program": "NDT-Day",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 61,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT524NC",
+      "program": "NDT-Night",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 0,
+      "total_ever_enrolled": 9,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 0,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 0,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT524",
+      "program": "UDT",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 13,
+      "total_ever_enrolled": 109,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 328900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 13,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT525",
+      "program": "NDT-Day",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 2,
+      "total_ever_enrolled": 32,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 50600,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 2,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT525",
+      "program": "UDT",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 10,
+      "total_ever_enrolled": 54,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 253000,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 10,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT526",
+      "program": "NDT-Day",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 68,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT526NC",
+      "program": "NDT-Night",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 16,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT526",
+      "program": "UDT",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 9,
+      "total_ever_enrolled": 108,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 227700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 9,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT527",
+      "program": "NDT-Day",
+      "position_in_year": 6,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 51,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT527",
+      "program": "UDT",
+      "position_in_year": 6,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 17,
+      "total_ever_enrolled": 75,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 430100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 17,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT528",
+      "program": "NDT-Day",
+      "position_in_year": 7,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 84,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT528NC",
+      "program": "NDT-Night",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 6,
+      "total_ever_enrolled": 23,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 151800,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 6,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT528",
+      "program": "UDT",
+      "position_in_year": 7,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 22,
+      "total_ever_enrolled": 145,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 556600,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 22,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT529",
+      "program": "NDT-Day",
+      "position_in_year": 8,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 41,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT529",
+      "program": "UDT",
+      "position_in_year": 8,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 23,
+      "total_ever_enrolled": 94,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 581900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 23,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT530",
+      "program": "NDT-Day",
+      "position_in_year": 9,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 57,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT530NC",
+      "program": "NDT-Night",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 18,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT530",
+      "program": "UDT",
+      "position_in_year": 9,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 17,
+      "total_ever_enrolled": 125,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 430100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 17,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT531",
+      "program": "NDT-Day",
+      "position_in_year": 10,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 48,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT531",
+      "program": "UDT",
+      "position_in_year": 10,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 11,
+      "total_ever_enrolled": 65,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 278300,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 11,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT532",
+      "program": "NDT-Day",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 2,
+      "total_ever_enrolled": 73,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 50600,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 2,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT532NC",
+      "program": "NDT-Night",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 16,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT532",
+      "program": "UDT",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 15,
+      "total_ever_enrolled": 183,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 379500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 15,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT533",
+      "program": "NDT-Day",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 34,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT533",
+      "program": "UDT",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 10,
+      "total_ever_enrolled": 64,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 253000,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 10,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT534",
+      "program": "NDT-Day",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 9,
+      "total_ever_enrolled": 52,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 227700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 9,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT534NC",
+      "program": "NDT-Night",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 11,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT534",
+      "program": "UDT",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 14,
+      "total_ever_enrolled": 106,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 354200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 14,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT535",
+      "program": "NDT-Day",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 37,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT535",
+      "program": "UDT",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 11,
+      "total_ever_enrolled": 46,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 278300,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 11,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT536",
+      "program": "NDT-Day",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 48,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT536NC",
+      "program": "NDT-Night",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 1,
+      "total_ever_enrolled": 10,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 25300,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 1,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT536",
+      "program": "UDT",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 11,
+      "total_ever_enrolled": 112,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 278300,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 11,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT537",
+      "program": "NDT-Day",
+      "position_in_year": 6,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 54,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT537",
+      "program": "UDT",
+      "position_in_year": 6,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 13,
+      "total_ever_enrolled": 75,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 328900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 13,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT538",
+      "program": "NDT-Day",
+      "position_in_year": 7,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 67,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT538NC",
+      "program": "NDT-Night",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 9,
+      "total_ever_enrolled": 19,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 227700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 9,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT538",
+      "program": "UDT",
+      "position_in_year": 7,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 24,
+      "total_ever_enrolled": 198,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 607200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 24,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT539",
+      "program": "NDT-Day",
+      "position_in_year": 8,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 69,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT539",
+      "program": "UDT",
+      "position_in_year": 8,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 25,
+      "total_ever_enrolled": 143,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 632500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 25,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT540",
+      "program": "NDT-Day",
+      "position_in_year": 9,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 74,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT540NC",
+      "program": "NDT-Night",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 6,
+      "total_ever_enrolled": 22,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 151800,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 6,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT540",
+      "program": "UDT",
+      "position_in_year": 9,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 22,
+      "total_ever_enrolled": 162,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 556600,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 22,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT541",
+      "program": "NDT-Day",
+      "position_in_year": 10,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 61,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT541",
+      "program": "UDT",
+      "position_in_year": 10,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 16,
+      "total_ever_enrolled": 109,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 404800,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 16,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT542",
+      "program": "NDT-Day",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 58,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT542NC",
+      "program": "NDT-Night",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 0,
+      "total_ever_enrolled": 11,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 0,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 0,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT542",
+      "program": "UDT",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 9,
+      "total_ever_enrolled": 92,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 227700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 9,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT543",
+      "program": "NDT-Day",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 71,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT543",
+      "program": "UDT",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 74,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT544",
+      "program": "NDT-Day",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 52,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT544NC",
+      "program": "NDT-Night",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 20,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT544",
+      "program": "UDT",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 14,
+      "total_ever_enrolled": 99,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 354200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 14,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT545",
+      "program": "NDT-Day",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 50,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT545",
+      "program": "UDT",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 9,
+      "total_ever_enrolled": 91,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 227700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 9,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT546",
+      "program": "NDT-Day",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 51,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT546NC",
+      "program": "NDT-Night",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 1,
+      "total_ever_enrolled": 19,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 25300,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 1,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT546",
+      "program": "UDT",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 9,
+      "total_ever_enrolled": 120,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 227700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 9,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT547",
+      "program": "NDT-Day",
+      "position_in_year": 6,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 16,
+      "total_ever_enrolled": 87,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 404800,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 16,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT547",
+      "program": "UDT",
+      "position_in_year": 6,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 15,
+      "total_ever_enrolled": 117,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 379500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 15,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT548",
+      "program": "NDT-Day",
+      "position_in_year": 7,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 81,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT548NC",
+      "program": "NDT-Night",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 6,
+      "total_ever_enrolled": 26,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 151800,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 6,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT548",
+      "program": "UDT",
+      "position_in_year": 7,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 19,
+      "total_ever_enrolled": 119,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 480700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 19,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT549",
+      "program": "NDT-Day",
+      "position_in_year": 8,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 13,
+      "total_ever_enrolled": 111,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 328900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 13,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT549",
+      "program": "UDT",
+      "position_in_year": 8,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 31,
+      "total_ever_enrolled": 169,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 784300,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 31,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT550",
+      "program": "NDT-Day",
+      "position_in_year": 9,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 100,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT550NC",
+      "program": "NDT-Night",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 7,
+      "total_ever_enrolled": 30,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 177100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 7,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT550",
+      "program": "UDT",
+      "position_in_year": 9,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 24,
+      "total_ever_enrolled": 138,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 607200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 24,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT551",
+      "program": "NDT-Day",
+      "position_in_year": 10,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 10,
+      "total_ever_enrolled": 139,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 253000,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 10,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT551",
+      "program": "UDT",
+      "position_in_year": 10,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 18,
+      "total_ever_enrolled": 172,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 455400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 18,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT552",
+      "program": "NDT-Day",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 130,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT552NC",
+      "program": "NDT-Night",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 0,
+      "total_ever_enrolled": 20,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 0,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 0,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT552",
+      "program": "UDT",
+      "position_in_year": 1,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 15,
+      "total_ever_enrolled": 80,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 379500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 15,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT553",
+      "program": "NDT-Day",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 121,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT553",
+      "program": "UDT",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 102,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT554",
+      "program": "NDT-Day",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 128,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT554NC",
+      "program": "NDT-Night",
+      "position_in_year": 2,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 37,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT554",
+      "program": "UDT",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 17,
+      "total_ever_enrolled": 172,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 430100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 17,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT555",
+      "program": "NDT-Day",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 13,
+      "total_ever_enrolled": 139,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 328900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 13,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT555",
+      "program": "UDT",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 143,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT556",
+      "program": "NDT-Day",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 6,
+      "total_ever_enrolled": 92,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 151800,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 6,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT556NC",
+      "program": "NDT-Night",
+      "position_in_year": 3,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 2,
+      "total_ever_enrolled": 29,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 50600,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 2,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT556",
+      "program": "UDT",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 7,
+      "total_ever_enrolled": 110,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 177100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 7,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT557",
+      "program": "NDT-Day",
+      "position_in_year": 6,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 20,
+      "total_ever_enrolled": 138,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 506000,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 20,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT557",
+      "program": "UDT",
+      "position_in_year": 6,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 15,
+      "total_ever_enrolled": 176,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 379500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 15,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT558",
+      "program": "NDT-Day",
+      "position_in_year": 7,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 111,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT558NC",
+      "program": "NDT-Night",
+      "position_in_year": 4,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 9,
+      "total_ever_enrolled": 38,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 227700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 9,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT558",
+      "program": "UDT",
+      "position_in_year": 7,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 30,
+      "total_ever_enrolled": 226,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 759000,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 30,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT559",
+      "program": "NDT-Day",
+      "position_in_year": 8,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 17,
+      "total_ever_enrolled": 112,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 430100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 17,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT559",
+      "program": "UDT",
+      "position_in_year": 8,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 14,
+      "total_ever_enrolled": 157,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 354200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 14,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT560",
+      "program": "NDT-Day",
+      "position_in_year": 9,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 7,
+      "total_ever_enrolled": 99,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 177100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 7,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT560NC",
+      "program": "NDT-Night",
+      "position_in_year": 5,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 5,
+      "total_ever_enrolled": 29,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 126500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 5,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT560",
+      "program": "UDT",
+      "position_in_year": 9,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 15,
+      "total_ever_enrolled": 159,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 379500,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 15,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT561",
+      "program": "NDT-Day",
+      "position_in_year": 10,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 9,
+      "total_ever_enrolled": 106,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 227700,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 9,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT561",
+      "program": "UDT",
+      "position_in_year": 10,
+      "start_date": null,
+      "lifecycle": "completed",
+      "actual_starts": 20,
+      "total_ever_enrolled": 203,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 506000,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 20,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT562",
+      "program": "NDT-Day",
+      "position_in_year": 1,
+      "start_date": "2026-01-05",
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 113,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT562NC",
+      "program": "NDT-Night",
+      "position_in_year": 1,
+      "start_date": "2026-01-05",
+      "lifecycle": "completed",
+      "actual_starts": 4,
+      "total_ever_enrolled": 27,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 101200,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 4,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT562",
+      "program": "UDT",
+      "position_in_year": 1,
+      "start_date": "2026-01-05",
+      "lifecycle": "completed",
+      "actual_starts": 27,
+      "total_ever_enrolled": 156,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 683100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 27,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT563",
+      "program": "NDT-Day",
+      "position_in_year": 2,
+      "start_date": "2026-02-09",
+      "lifecycle": "completed",
+      "actual_starts": 7,
+      "total_ever_enrolled": 89,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 177100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 7,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT563",
+      "program": "UDT",
+      "position_in_year": 2,
+      "start_date": "2026-02-09",
+      "lifecycle": "completed",
+      "actual_starts": 8,
+      "total_ever_enrolled": 65,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 202400,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 8,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT564",
+      "program": "NDT-Day",
+      "position_in_year": 3,
+      "start_date": "2026-03-16",
+      "lifecycle": "completed",
+      "actual_starts": 6,
+      "total_ever_enrolled": 87,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 151800,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 6,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT564NC",
+      "program": "NDT-Night",
+      "position_in_year": 2,
+      "start_date": "2026-03-16",
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 19,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT564",
+      "program": "UDT",
+      "position_in_year": 3,
+      "start_date": "2026-03-16",
+      "lifecycle": "completed",
+      "actual_starts": 11,
+      "total_ever_enrolled": 99,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 278300,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 11,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT565",
+      "program": "NDT-Day",
+      "position_in_year": 4,
+      "start_date": "2026-04-20",
+      "lifecycle": "completed",
+      "actual_starts": 7,
+      "total_ever_enrolled": 92,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 177100,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 7,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT565",
+      "program": "UDT",
+      "position_in_year": 4,
+      "start_date": "2026-04-20",
+      "lifecycle": "completed",
+      "actual_starts": 10,
+      "total_ever_enrolled": 66,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 253000,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 10,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT566",
+      "program": "NDT-Day",
+      "position_in_year": 5,
+      "start_date": "2026-05-18",
+      "lifecycle": "completed",
+      "actual_starts": 3,
+      "total_ever_enrolled": 98,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 75900,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 3,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT566NC",
+      "program": "NDT-Night",
+      "position_in_year": 3,
+      "start_date": "2026-05-18",
+      "lifecycle": "completed",
+      "actual_starts": 6,
+      "total_ever_enrolled": 14,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 151800,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 6,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "UDT566",
+      "program": "UDT",
+      "position_in_year": 5,
+      "start_date": "2026-05-18",
+      "lifecycle": "completed",
+      "actual_starts": 10,
+      "total_ever_enrolled": 94,
+      "currently_enrolled": null,
+      "proj_low": null,
+      "proj_mid": null,
+      "proj_high": null,
+      "booked_revenue": 253000,
+      "projected_revenue_mid": null,
+      "reconciliation": {
+        "v2_starts": 10,
+        "matches": true
+      }
+    },
+    {
+      "cohort": "NDT567",
+      "program": "NDT-Day",
+      "position_in_year": 6,
+      "start_date": "2026-06-29",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 60,
+      "proj_low": 8,
+      "proj_mid": 12,
+      "proj_high": 15,
+      "booked_revenue": null,
+      "projected_revenue_mid": 303600,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT567",
+      "program": "UDT",
+      "position_in_year": 6,
+      "start_date": "2026-06-29",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 57,
+      "proj_low": 10,
+      "proj_mid": 15,
+      "proj_high": 19,
+      "booked_revenue": null,
+      "projected_revenue_mid": 379500,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT568",
+      "program": "NDT-Day",
+      "position_in_year": 7,
+      "start_date": "2026-08-03",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 19,
+      "proj_low": 8,
+      "proj_mid": 10,
+      "proj_high": 13,
+      "booked_revenue": null,
+      "projected_revenue_mid": 253000,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT568NC",
+      "program": "NDT-Night",
+      "position_in_year": 4,
+      "start_date": "2026-08-03",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 3,
+      "proj_low": 6,
+      "proj_mid": 8,
+      "proj_high": 10,
+      "booked_revenue": null,
+      "projected_revenue_mid": 202400,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT568",
+      "program": "UDT",
+      "position_in_year": 7,
+      "start_date": "2026-08-03",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 33,
+      "proj_low": 16,
+      "proj_mid": 21,
+      "proj_high": 26,
+      "booked_revenue": null,
+      "projected_revenue_mid": 531300,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT569",
+      "program": "NDT-Day",
+      "position_in_year": 8,
+      "start_date": "2026-09-08",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 2,
+      "proj_low": 10,
+      "proj_mid": 14,
+      "proj_high": 18,
+      "booked_revenue": null,
+      "projected_revenue_mid": 354200,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT569",
+      "program": "UDT",
+      "position_in_year": 8,
+      "start_date": "2026-09-08",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 6,
+      "proj_low": 26,
+      "proj_mid": 34,
+      "proj_high": 43,
+      "booked_revenue": null,
+      "projected_revenue_mid": 860200,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT570",
+      "program": "NDT-Day",
+      "position_in_year": 9,
+      "start_date": "2026-10-13",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 0,
+      "proj_low": 3,
+      "proj_mid": 5,
+      "proj_high": 6,
+      "booked_revenue": null,
+      "projected_revenue_mid": 126500,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT570NC",
+      "program": "NDT-Night",
+      "position_in_year": 5,
+      "start_date": "2026-10-13",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 1,
+      "proj_low": 5,
+      "proj_mid": 7,
+      "proj_high": 10,
+      "booked_revenue": null,
+      "projected_revenue_mid": 177100,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT570",
+      "program": "UDT",
+      "position_in_year": 9,
+      "start_date": "2026-10-13",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 4,
+      "proj_low": 20,
+      "proj_mid": 27,
+      "proj_high": 33,
+      "booked_revenue": null,
+      "projected_revenue_mid": 683100,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT571",
+      "program": "NDT-Day",
+      "position_in_year": 10,
+      "start_date": "2026-11-16",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 1,
+      "proj_low": 6,
+      "proj_mid": 9,
+      "proj_high": 11,
+      "booked_revenue": null,
+      "projected_revenue_mid": 227700,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT571",
+      "program": "UDT",
+      "position_in_year": 10,
+      "start_date": "2026-11-16",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 3,
+      "proj_low": 16,
+      "proj_mid": 21,
+      "proj_high": 26,
+      "booked_revenue": null,
+      "projected_revenue_mid": 531300,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT572",
+      "program": "NDT-Day",
+      "position_in_year": 1,
+      "start_date": "2027-01-04",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 1,
+      "proj_low": 4,
+      "proj_mid": 6,
+      "proj_high": 8,
+      "booked_revenue": null,
+      "projected_revenue_mid": 151800,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT572NC",
+      "program": "NDT-Night",
+      "position_in_year": 1,
+      "start_date": "2027-01-04",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 1,
+      "proj_low": 2,
+      "proj_mid": 3,
+      "proj_high": 4,
+      "booked_revenue": null,
+      "projected_revenue_mid": 75900,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT572",
+      "program": "UDT",
+      "position_in_year": 1,
+      "start_date": "2027-01-04",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 1,
+      "proj_low": 11,
+      "proj_mid": 15,
+      "proj_high": 18,
+      "booked_revenue": null,
+      "projected_revenue_mid": 379500,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT573",
+      "program": "NDT-Day",
+      "position_in_year": 2,
+      "start_date": "2027-02-08",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 0,
+      "proj_low": 4,
+      "proj_mid": 5,
+      "proj_high": 7,
+      "booked_revenue": null,
+      "projected_revenue_mid": 126500,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT573",
+      "program": "UDT",
+      "position_in_year": 2,
+      "start_date": "2027-02-08",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 0,
+      "proj_low": 4,
+      "proj_mid": 5,
+      "proj_high": 6,
+      "booked_revenue": null,
+      "projected_revenue_mid": 126500,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT574",
+      "program": "NDT-Day",
+      "position_in_year": 3,
+      "start_date": "2027-03-15",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 0,
+      "proj_low": 2,
+      "proj_mid": 3,
+      "proj_high": 4,
+      "booked_revenue": null,
+      "projected_revenue_mid": 75900,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT574NC",
+      "program": "NDT-Night",
+      "position_in_year": 2,
+      "start_date": "2027-03-15",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 0,
+      "proj_low": 1,
+      "proj_mid": 2,
+      "proj_high": 3,
+      "booked_revenue": null,
+      "projected_revenue_mid": 50600,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT574",
+      "program": "UDT",
+      "position_in_year": 3,
+      "start_date": "2027-03-15",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 0,
+      "proj_low": 7,
+      "proj_mid": 9,
+      "proj_high": 12,
+      "booked_revenue": null,
+      "projected_revenue_mid": 227700,
+      "reconciliation": null
+    },
+    {
+      "cohort": "NDT575",
+      "program": "NDT-Day",
+      "position_in_year": 4,
+      "start_date": "2027-04-19",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 0,
+      "proj_low": 3,
+      "proj_mid": 4,
+      "proj_high": 5,
+      "booked_revenue": null,
+      "projected_revenue_mid": 101200,
+      "reconciliation": null
+    },
+    {
+      "cohort": "UDT575",
+      "program": "UDT",
+      "position_in_year": 4,
+      "start_date": "2027-04-19",
+      "lifecycle": "in_flight",
+      "actual_starts": null,
+      "total_ever_enrolled": null,
+      "currently_enrolled": 0,
+      "proj_low": 5,
+      "proj_mid": 7,
+      "proj_high": 8,
+      "booked_revenue": null,
+      "projected_revenue_mid": 177100,
+      "reconciliation": null
+    }
+  ],
+  "totals": {
+    "booked_starts": 1072,
+    "booked_revenue": 27121600,
+    "projected_low_starts": 177,
+    "projected_mid_starts": 242,
+    "projected_high_starts": 305,
+    "projected_mid_revenue": 6122600,
+    "combined_mid_revenue": 33244200
+  },
+  "reconciliation_warnings": []
+}
