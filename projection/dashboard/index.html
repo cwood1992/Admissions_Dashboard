@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cohort Fill Pipeline</title>
+  <link rel="stylesheet" href="assets/main.css">
+</head>
+<body>
+  <header>
+    <h1>Cohort Fill Pipeline</h1>
+    <div id="snapshot-meta"></div>
+    <nav id="view-tabs">
+      <button data-view="cohorts" class="tab-active">Thomas · Cohorts</button>
+      <button data-view="reps">Reps</button>
+      <button data-view="strategic">Clanton · Strategic</button>
+      <button data-view="management">Management</button>
+    </nav>
+  </header>
+  <main>
+    <section id="cohort-table-section" data-view="cohorts">
+      <h2>Cohort Projections</h2>
+      <table id="cohort-table">
+        <thead>
+          <tr>
+            <th>Cohort</th>
+            <th>Program</th>
+            <th>Start</th>
+            <th class="num">Days To Start</th>
+            <th class="num">Enrolled</th>
+            <th class="num">WBH</th>
+            <th class="num">VIP</th>
+            <th class="num">Wk Velocity</th>
+            <th>Pace</th>
+            <th class="num">Proj Low</th>
+            <th class="num">Proj Mid</th>
+            <th class="num">Proj High</th>
+            <th>Basis</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+    <section id="rep-table-section" data-view="reps" hidden>
+      <h2>Rep Pipeline Health</h2>
+      <table id="rep-table">
+        <thead>
+          <tr>
+            <th>Rep</th>
+            <th class="num">Assigned</th>
+            <th class="num">Enrolled</th>
+            <th class="num">Cancelled</th>
+            <th class="num">Cancel Rate</th>
+            <th class="num">WBH Rate</th>
+            <th class="num">Durability (60d)</th>
+            <th class="num">Quality Score</th>
+            <th class="num">vs Team Avg</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+    <section id="strategic-section" data-view="strategic" hidden>
+      <h2>Year-End Projection</h2>
+      <div id="strategic-summary"></div>
+      <h2>By Program</h2>
+      <table id="program-table">
+        <thead>
+          <tr>
+            <th>Program</th>
+            <th class="num">Cohorts</th>
+            <th class="num">Proj Low</th>
+            <th class="num">Proj Mid</th>
+            <th class="num">Proj High</th>
+            <th class="num">Revenue (mid)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p id="model-confidence" class="muted"></p>
+    </section>
+    <section id="management-section" data-view="management" hidden>
+      <h2>Headline</h2>
+      <div id="management-headline"></div>
+      <h2>Narrative</h2>
+      <p id="management-narrative"></p>
+      <h2>Red-flagged cohorts</h2>
+      <ul id="management-flags"></ul>
+    </section>
+  </main>
+  <script src="data/snapshot.js"></script>
+  <script src="data/rep_health.js"></script>
+  <script src="data/views.js"></script>
+  <script src="assets/main.js"></script>
+</body>
+</html>

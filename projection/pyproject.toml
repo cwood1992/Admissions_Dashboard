@@ -1,0 +1,22 @@
+[project]
+name = "cohort-fill-projection"
+version = "0.1.0"
+description = "Weekly cohort enrollment forecasting pipeline for TOC admissions"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+
+[tool.uv]
+package = false

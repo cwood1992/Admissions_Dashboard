@@ -12,6 +12,11 @@ __pycache__/
 .venv/
 venv/
 env/
+.pytest_cache/
+
+# Raw CCS / EnrollList exports contain student PII (FERPA). Never commit.
+# Matches projection/raw/ and any other raw/ dir in the tree.
+raw/
 
 # OS
 .DS_Store

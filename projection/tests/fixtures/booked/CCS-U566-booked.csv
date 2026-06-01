@@ -1,0 +1,13 @@
+"Selected School: The Ocean Corp"
+"Admissions Department Class Control Sheet (All Enrolled Students)"
+"As Of: 06/01/2026, 09:00:00"
+"Selected Cohort: 'UDT566'"
+"Total Records: 6"
+
+"Enroll Type","Action Status","ID","Student Name","Lead Rep","Lead Origin","Response Mode","PREV Cohort","PREV Status","CCS Cohort","CCS Status","NEXT Cohort","NEXT Status","Current Cohort","Current Status","FULL Student Name","FULL Current Status"
+"NEW","WBH","ST1","Synth Started 1","Sarah","INTERNET","Sales Force","","","UDT566","Active","","","UDT566","Active","Synth Started 1","Active Earning"
+"NEW","WBH","ST2","Synth Started 2","Sarah","INTERNET","Sales Force","","","UDT566","Active","","","UDT566","Active","Synth Started 2","Active Earning"
+"NEW","WBH","ST3","Synth Cancelled 3","Mike","INTERNET","Sales Force","","","UDT566","Cancel","","","","","Synth Cancelled 3","Cancelled Enrollment"
+"NEW","VIP","ST4","Synth Started 4","Mike","INTERNET","Sales Force","","","UDT566","Active","","","UDT566","Active","Synth Started 4","Active Earning"
+"NEW","VIP","ST5","Synth Cancelled 5","Sarah","INTERNET","Sales Force","","","UDT566","Cancel","","","","","Synth Cancelled 5","Cancelled Enrollment"
+"NEW","P-FA","ST6","Synth Started 6","Mike","INTERNET","Sales Force","","","UDT566","Active","","","UDT566","Active","Synth Started 6","Active Earning"

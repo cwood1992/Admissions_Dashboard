@@ -1,0 +1,17 @@
+"Selected School: The Ocean Corp"
+"All Enrolled Students with Previous Cohort"
+"As Of: 05/15/2026, 12:00:00"
+"Total Records: 11"
+
+"Admission	Type","ID","Student Name","# Enroll","Current Status","Current Cohort","Current Enroll Date","Previous Cohort","Previous Enroll Date","First Cohort","First Enroll Date","Admissions Rep","Action Status","Lead Origin","Response Mode","STATUS CODE DESCRIPTION"
+NEW,S001,Synthetic 01,1,Enroll,UDT566,2026-03-15,,,UDT566,2026-03-15,Sarah,WBH,INTERNET,Sales Force,Enrolled
+NEW,S002,Synthetic 02,1,Enroll,UDT566,2026-03-22,,,UDT566,2026-03-22,Sarah,VIP,INTERNET,Sales Force,Enrolled
+TRANSFER,S003,Synthetic 03,2,Enroll,UDT566,2026-05-10,UDT565,2026-02-01,UDT565,2026-02-01,Sarah,P-FA,Other,Telephone,Enrolled
+NEW,S004,Synthetic 04,1,Enroll,UDT566,2026-05-12,,,UDT566,2026-05-12,Mike,,INTERNET,Sales Force,Enrolled
+NEW,S005,Synthetic 05,1,Enroll,UDT566,2026-04-01,,,UDT566,2026-04-01,Mike,,INTERNET,Sales Force,Enrolled
+NEW,S006,Synthetic 06,1,Enroll,UDT566,2026-05-14,,,UDT566,2026-05-14,Mike,WBH 100%,INTERNET,Sales Force,Enrolled
+TRANSFER,S007,Synthetic 07,3,Enroll,UDT566,2026-02-01,UDT564,2025-11-01,UDT564,2025-11-01,Sarah,"VIP, P-Acc",Other,Telephone,Enrolled
+NEW,S008,Synthetic 08,1,Enroll,NDT566,2026-05-13,,,NDT566,2026-05-13,Randy,,INTERNET,Sales Force,Enrolled
+NEW,S009,Synthetic 09,1,Enroll,NDT566,2026-03-01,,,NDT566,2026-03-01,Randy,WBH,INTERNET,Sales Force,Enrolled
+NEW,S010,Synthetic 10,1,Enroll,UDT567,2026-05-01,,,UDT567,2026-05-01,Sarah,VIP,INTERNET,Sales Force,Enrolled
+NEW,S011,Synthetic 11,1,Enroll,UDT567,2026-04-20,,,UDT567,2026-04-20,Sarah,,INTERNET,Sales Force,Enrolled

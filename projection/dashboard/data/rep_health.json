@@ -1,0 +1,62 @@
+{
+  "snapshot_date": "2026-06-01",
+  "generated_at": "2026-06-01T20:03:41.983221+00:00",
+  "reps": [
+    {
+      "rep_name": "Anna",
+      "total_assigned": 77,
+      "currently_enrolled": 77,
+      "cancelled": 0,
+      "cancel_rate": -1.0,
+      "wbh_rate": 0.0,
+      "durability": -1.0,
+      "durability_basis_count": 0,
+      "quality_score": 0.0,
+      "vs_team_avg": 0.0,
+      "is_new_rep": false,
+      "note": "cancel_rate & durability unavailable \u2014 needs prior snapshot history"
+    },
+    {
+      "rep_name": "Randy",
+      "total_assigned": 61,
+      "currently_enrolled": 61,
+      "cancelled": 0,
+      "cancel_rate": -1.0,
+      "wbh_rate": 0.0984,
+      "durability": -1.0,
+      "durability_basis_count": 0,
+      "quality_score": 0.0984,
+      "vs_team_avg": 248.2,
+      "is_new_rep": false,
+      "note": "cancel_rate & durability unavailable \u2014 needs prior snapshot history"
+    },
+    {
+      "rep_name": "Sue",
+      "total_assigned": 55,
+      "currently_enrolled": 55,
+      "cancelled": 0,
+      "cancel_rate": -1.0,
+      "wbh_rate": 0.0364,
+      "durability": -1.0,
+      "durability_basis_count": 0,
+      "quality_score": 0.0364,
+      "vs_team_avg": 91.8,
+      "is_new_rep": false,
+      "note": "cancel_rate & durability unavailable \u2014 needs prior snapshot history"
+    },
+    {
+      "rep_name": "Thomas",
+      "total_assigned": 126,
+      "currently_enrolled": 126,
+      "cancelled": 0,
+      "cancel_rate": -1.0,
+      "wbh_rate": 0.0238,
+      "durability": -1.0,
+      "durability_basis_count": 0,
+      "quality_score": 0.0238,
+      "vs_team_avg": 60.0,
+      "is_new_rep": false,
+      "note": "cancel_rate & durability unavailable \u2014 needs prior snapshot history"
+    }
+  ]
+}
