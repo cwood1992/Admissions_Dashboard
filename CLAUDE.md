@@ -2,20 +2,66 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Running the Dashboard
+## Unified Strategic Dashboard — repository layout
 
-The dashboard fetches CSV files at runtime and requires a local server (cannot open via `file://`):
+This repo is the home of a **unified strategic dashboard** built from two engines plus a join layer. Both engines stay independent; a dark **shell** hosts them and a **ledger** joins their outputs by cohort code.
+
+```
+admissions_dashboard/            ← git root
+├─ shell/                        ← unified dark entry point (NEW)
+│  ├─ index.html                 ← top-nav: Historical | Projections | Cash (stub)
+│  └─ assets/theme.css           ← canonical dark palette — single source of truth (:root tokens)
+├─ index.html, process_ccs.py    ← HISTORICAL engine (backward-looking start-rate analysis)
+│  summary_*.csv, summary_index.json, leads.csv, CCS_Raw/
+├─ projection/                   ← FORWARD engine (cohort-fill projection pipeline, uv-managed)
+│  ├─ scripts/, tests/, baselines/, completed/cohort_actuals.csv
+│  ├─ raw/ (GITIGNORED — student PII, FERPA), snapshots/
+│  └─ dashboard/                 ← projection's own dark dashboard (reads dashboard/data/*.json)
+└─ ledger/                       ← canonical join layer (cash foundation, NEW)
+   ├─ build_ledger.py            ← joins both engines' OUTPUTS by cohort code
+   ├─ cohort_ledger.json         ← generated: per-cohort lifecycle + booked/projected revenue
+   └─ cohort_ledger.schema.json
+```
+
+- **Two engines, one repo.** `projection/` keeps its own `uv` / `pyproject.toml` island and is run with `uv`. The historical engine uses ambient `python` + pandas. They do **not** share a venv. Only `ledger/build_ledger.py` reaches across both, and it reads their *output files*, never their internals.
+- **Theme.** `shell/assets/theme.css` is the only place the dark palette is defined. Both `index.html` and `projection/dashboard/index.html` link it; do not reintroduce a second `:root` block.
+- **Shell hosts via iframes.** Each dashboard runs unmodified inside its own document so its relative `fetch()` paths keep working. Serve from the repo **root** so the iframe `../` paths resolve.
+- **The two "start" definitions are both correct and intentional** (do not "fix" this): the historical engine counts `Active+Drop+Grad` (its CCS pulls land long after start), while the projection engine counts `Active` only (its booked pulls land right at start). See `ledger/build_ledger.py` `reconciliation_warnings`.
+
+### Unified run workflow (PowerShell, from repo root)
+
+```powershell
+cd projection; uv sync; .\weekly.ps1                       # 1. forward projections (drop EnrollList.csv)
+cd ..; python process_ccs.py CCS_Raw\2026\ --year 2026     # 2. historical summary
+python ledger\build_ledger.py                              # 3. build the canonical cohort ledger
+python -m http.server 8000                                 # 4. serve from ROOT
+# open http://localhost:8000/shell/index.html
+```
+
+`ledger/build_ledger.py` runs under ambient `python` (needs pandas); it imports `program_for_cohort` / `position_for_cohort` / `REVENUE_PER_START` from `projection/scripts/`. The Cash Position tab is stubbed but not yet built — see the plan/`cohort_ledger.schema.json` for the prorated-revenue design.
+
+The projection engine has its own detailed guide at `projection/CLAUDE.md`.
+
+---
+
+## Historical engine (index.html + process_ccs.py)
+
+The rest of this file documents the historical dashboard specifically.
+
+### Running it standalone
+
+The dashboard fetches CSV files at runtime and requires a local server (cannot open via `file://`). It is normally viewed through the shell, but can be opened directly:
 
 ```bash
 # Option A — Python
 python -m http.server 8000
-# Then open http://localhost:8000/index.html
+# Then open http://localhost:8000/index.html   (or .../shell/index.html for the unified view)
 
 # Option B — VS Code Live Server
 # Right-click index.html → "Open with Live Server"
 ```
 
-Requires internet connection — Chart.js is loaded from CDN.
+Requires internet connection — Chart.js is loaded from CDN. The dark theme comes from `shell/assets/theme.css` (linked in the `<head>`) plus a dark-override block at the end of the `<style>` section; per-rep chart colors stay in the `COLORS` array.
 
 ## Processing CCS Data
 

@@ -1,4 +1,31 @@
-# TOC Admissions Dashboard
+# TOC Strategic Dashboard
+
+A unified dark dashboard built from two complementary engines plus a join layer:
+
+- **Historical Performance** (`index.html` + `process_ccs.py`) — backward-looking start-rate analysis across years. *Documented in this file.*
+- **Forward Projections** (`projection/`) — a `uv`/pandas pipeline producing weekly low/mid/high start projections. *See `projection/README.md`.*
+- **Cohort Ledger** (`ledger/`) — joins both engines' outputs by cohort code into one per-cohort record with booked + projected revenue (the cash-management foundation).
+
+A **shell** (`shell/index.html`) hosts both dashboards under one dark theme with top-nav switching (Historical | Projections | Cash). The dark palette lives once in `shell/assets/theme.css`.
+
+### Run the unified dashboard (from the repo root)
+
+```bash
+# 1. forward projections (uv-managed engine)
+cd projection && uv sync && ./weekly.ps1 && cd ..
+# 2. historical summary
+python process_ccs.py CCS_Raw/2026/ --year 2026
+# 3. build the canonical ledger
+python ledger/build_ledger.py
+# 4. serve from the ROOT (so the shell's iframe paths resolve) and open the shell
+python -m http.server 8000      # → http://localhost:8000/shell/index.html
+```
+
+> **PII / FERPA:** `projection/raw/` holds raw STARS exports with student names/IDs and is gitignored — never commit it. All downstream outputs (`summary_*.csv`, `dashboard/data/`, `cohort_ledger.json`) are aggregated counts only.
+
+---
+
+## Historical Performance dashboard
 
 Automated dashboard that reads raw STARS CCS exports and generates a self-contained HTML file with all visualizations.
 
