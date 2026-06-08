@@ -1,0 +1,23 @@
+snapshot_date,cohort,program,start_date,days_to_start,currently_enrolled,new_enrolled,transfer_enrolled,reenroll_enrolled,wbh_count,vip_count,p_fa_count,p_va_count,p_acc_count,p_adm_count,untagged_count,cold_count,new_untagged_count,transferred_in_count,weekly_velocity,total_ever_enrolled,cancelled_total,cancelled_gone,cancelled_moved_later,high_water_enrolled,proj_low,proj_mid,proj_high,projection_basis,expected_weekly_velocity,velocity_vs_historical
+2026-06-08,NDT567,NDT-Day,2026-06-29,21,82,60,22,0,4,13,15,0,0,1,55,17,38,22,30,,,,,82,8,13,17,"medium-14-30: blend(accum=18, tier_mid=7.4); WBH=4,VIP=13,Priority=16",0.7874999999999979,above
+2026-06-08,NDT568,NDT-Day,2026-08-03,56,20,14,6,0,0,0,1,0,0,0,19,17,2,6,1,,,,,20,8,10,13,"far-30+: accum_fill@56d=0.45, raw_proj=17.5, capped@2.5x_pos_avg, blended_with_pos_avg=10.5 (prior_weight=0.67)",0.5366666666666666,above
+2026-06-08,NDT568NC,NDT-Night,2026-08-03,56,3,0,3,0,0,0,0,0,0,0,3,1,2,3,0,,,,,3,5,8,10,"far-30+: accum_fill@56d=0.45, raw_proj=6.7, blended_with_pos_avg=7.6 (prior_weight=0.67)",0.6133333333333333,below
+2026-06-08,NDT569,NDT-Day,2026-09-08,92,2,1,1,0,0,1,0,0,0,0,1,1,0,1,0,,,,,2,10,14,18,"far-30+: accum_fill@92d=0.10, raw_proj=20.0, blended_with_pos_avg=14.0 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT570,NDT-Day,2026-10-13,127,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,3,5,6,"far-30+: accum_fill@127d=0.10, raw_proj=0.0, blended_with_pos_avg=4.7 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT570NC,NDT-Night,2026-10-13,127,1,0,1,0,0,0,0,0,0,0,1,1,0,1,0,,,,,1,5,7,10,"far-30+: accum_fill@127d=0.10, raw_proj=10.0, blended_with_pos_avg=7.3 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT571,NDT-Day,2026-11-16,161,1,0,1,0,0,0,0,0,0,0,1,0,1,1,0,,,,,1,6,9,11,"far-30+: accum_fill@161d=0.10, raw_proj=10.0, blended_with_pos_avg=8.7 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT572,NDT-Day,2027-01-04,210,1,0,1,0,0,0,0,0,0,0,1,1,0,1,0,,,,,1,4,6,8,"far-30+: accum_fill@210d=0.10, raw_proj=10.0, blended_with_pos_avg=6.0 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT572NC,NDT-Night,2027-01-04,210,1,0,1,0,0,0,0,0,0,0,1,0,1,1,0,,,,,1,2,3,4,"far-30+: accum_fill@210d=0.10, raw_proj=5.0, capped@2.5x_pos_avg, blended_with_pos_avg=3.0 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT573,NDT-Day,2027-02-08,245,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,4,5,7,"far-30+: accum_fill@245d=0.10, raw_proj=0.0, blended_with_pos_avg=5.3 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT574,NDT-Day,2027-03-15,280,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,2,3,4,"far-30+: accum_fill@280d=0.10, raw_proj=0.0, blended_with_pos_avg=3.3 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT574NC,NDT-Night,2027-03-15,280,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,1,2,3,"far-30+: accum_fill@280d=0.10, raw_proj=0.0, blended_with_pos_avg=2.0 (prior_weight=0.67)",0.0,unknown
+2026-06-08,NDT575,NDT-Day,2027-04-19,315,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,3,4,5,"far-30+: accum_fill@315d=0.10, raw_proj=0.0, blended_with_pos_avg=4.0 (prior_weight=0.67)",0.0,unknown
+2026-06-08,UDT567,UDT,2026-06-29,21,63,41,22,0,3,19,15,1,1,4,31,12,19,22,10,,,,,63,10,15,21,"medium-14-30: blend(accum=22, tier_mid=8.7); WBH=3,VIP=19,Priority=21",0.984375,above
+2026-06-08,UDT568,UDT,2026-08-03,56,38,16,22,0,0,4,7,2,0,0,29,24,5,22,5,,,,,38,16,21,26,"far-30+: accum_fill@56d=0.45, raw_proj=35.0, capped@2.5x_pos_avg, blended_with_pos_avg=21.0 (prior_weight=0.67)",1.0733333333333333,above
+2026-06-08,UDT569,UDT,2026-09-08,92,7,0,7,0,0,0,0,0,0,0,7,5,2,7,0,,,,,7,26,34,43,"far-30+: accum_fill@92d=0.10, raw_proj=57.5, capped@2.5x_pos_avg, blended_with_pos_avg=34.5 (prior_weight=0.67)",0.0,unknown
+2026-06-08,UDT570,UDT,2026-10-13,127,4,0,4,0,0,0,2,0,0,0,2,2,0,4,0,,,,,4,20,27,33,"far-30+: accum_fill@127d=0.10, raw_proj=40.0, blended_with_pos_avg=26.7 (prior_weight=0.67)",0.0,unknown
+2026-06-08,UDT571,UDT,2026-11-16,161,3,0,3,0,0,0,1,0,0,0,2,2,0,3,0,,,,,3,16,21,26,"far-30+: accum_fill@161d=0.10, raw_proj=30.0, blended_with_pos_avg=20.7 (prior_weight=0.67)",0.0,unknown
+2026-06-08,UDT572,UDT,2027-01-04,210,1,0,1,0,0,0,0,0,0,0,1,1,0,1,0,,,,,1,11,15,18,"far-30+: accum_fill@210d=0.10, raw_proj=10.0, blended_with_pos_avg=14.7 (prior_weight=0.67)",0.0,unknown
+2026-06-08,UDT573,UDT,2027-02-08,245,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,4,5,6,"far-30+: accum_fill@245d=0.10, raw_proj=0.0, blended_with_pos_avg=4.7 (prior_weight=0.67)",0.0,unknown
+2026-06-08,UDT574,UDT,2027-03-15,280,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,7,9,12,"far-30+: accum_fill@280d=0.10, raw_proj=0.0, blended_with_pos_avg=9.3 (prior_weight=0.67)",0.0,unknown
+2026-06-08,UDT575,UDT,2027-04-19,315,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,5,7,8,"far-30+: accum_fill@315d=0.10, raw_proj=0.0, blended_with_pos_avg=6.7 (prior_weight=0.67)",0.0,unknown

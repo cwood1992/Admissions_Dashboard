@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-01T20:51:59.200778+00:00",
-  "snapshot_date": "2026-06-01",
+  "generated_at": "2026-06-08T14:51:59.766154+00:00",
+  "snapshot_date": "2026-06-08",
   "revenue_per_start": 25300,
   "cohorts": [
     {
@@ -2158,12 +2158,12 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 60,
+      "currently_enrolled": 82,
       "proj_low": 8,
-      "proj_mid": 12,
-      "proj_high": 15,
+      "proj_mid": 13,
+      "proj_high": 17,
       "booked_revenue": null,
-      "projected_revenue_mid": 303600,
+      "projected_revenue_mid": 328900,
       "reconciliation": null
     },
     {
@@ -2174,10 +2174,10 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 57,
+      "currently_enrolled": 63,
       "proj_low": 10,
       "proj_mid": 15,
-      "proj_high": 19,
+      "proj_high": 21,
       "booked_revenue": null,
       "projected_revenue_mid": 379500,
       "reconciliation": null
@@ -2190,7 +2190,7 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 19,
+      "currently_enrolled": 20,
       "proj_low": 8,
       "proj_mid": 10,
       "proj_high": 13,
@@ -2207,7 +2207,7 @@
       "actual_starts": null,
       "total_ever_enrolled": null,
       "currently_enrolled": 3,
-      "proj_low": 6,
+      "proj_low": 5,
       "proj_mid": 8,
       "proj_high": 10,
       "booked_revenue": null,
@@ -2222,7 +2222,7 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 33,
+      "currently_enrolled": 38,
       "proj_low": 16,
       "proj_mid": 21,
       "proj_high": 26,
@@ -2254,7 +2254,7 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 6,
+      "currently_enrolled": 7,
       "proj_low": 26,
       "proj_mid": 34,
       "proj_high": 43,
@@ -2506,11 +2506,11 @@
   "totals": {
     "booked_starts": 1072,
     "booked_revenue": 27121600,
-    "projected_low_starts": 177,
-    "projected_mid_starts": 242,
-    "projected_high_starts": 305,
-    "projected_mid_revenue": 6122600,
-    "combined_mid_revenue": 33244200
+    "projected_low_starts": 176,
+    "projected_mid_starts": 243,
+    "projected_high_starts": 309,
+    "projected_mid_revenue": 6147900,
+    "combined_mid_revenue": 33269500
   },
   "reconciliation_warnings": []
 }
