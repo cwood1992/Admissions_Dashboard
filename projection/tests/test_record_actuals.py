@@ -38,7 +38,7 @@ def test_derived_row_feeds_calibration():
         ]
     ).set_index("tier")
 
-    new_ate, new_tier, result = calibrate_mod.calibrate(actuals, ate, tier)
+    new_ate, new_tier, _, result = calibrate_mod.calibrate(actuals, ate, tier)
 
     # ATE observed = 4/6 = 0.667; blended with prior mid 0.115 at lr=0.2.
     assert new_ate.loc["UDT", "mid"] == pytest.approx(0.115 * 0.8 + (4 / 6) * 0.2, abs=1e-4)
@@ -81,7 +81,7 @@ def test_blank_total_skips_ate_but_not_tier():
         ]
     ).set_index("tier")
 
-    new_ate, new_tier, _ = calibrate_mod.calibrate(actuals, ate, tier)
+    new_ate, new_tier, _, _ = calibrate_mod.calibrate(actuals, ate, tier)
     # ATE untouched (blank denominator), tier still updated.
     assert new_ate.loc["UDT", "mid"] == 0.115
     assert new_tier.loc["WBH", "conversion_rate"] != 0.90

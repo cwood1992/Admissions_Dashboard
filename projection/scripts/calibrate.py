@@ -27,6 +27,12 @@ DEFAULT_LEARNING_RATE = 0.2  # New observation gets this weight; prior keeps (1-
 ESCALATION_ERROR_THRESHOLD = 0.30
 ESCALATION_RUN_LENGTH = 3
 
+# --- Accumulation curve calibration -------------------------------------------
+# Weekly-resolution bins for building dense enrollment fill curves.
+BIN_CENTERS = [0, 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91]
+BIN_RADIUS = 3  # ±3 days from center
+MIN_COHORTS_FOR_CURVE_UPDATE = 2
+
 
 @dataclass
 class CalibrationResult:
@@ -178,6 +184,182 @@ def _check_escalation(
     return False, ""
 
 
+def _nearest_bin(days_to_start: float) -> int | None:
+    """Return the closest weekly bin center, or None if too far from any.
+
+    Skips bin 0 — day-0 fill_pct is definitionally 1.0 and never calibrated.
+    """
+    candidates = [b for b in BIN_CENTERS if b != 0]
+    if not candidates:
+        return None
+    best = min(candidates, key=lambda b: abs(b - days_to_start))
+    if abs(best - days_to_start) > BIN_RADIUS:
+        return None
+    return best
+
+
+def extract_cohort_observations(
+    cohort: str,
+    total_ever_enrolled: int,
+    snapshots_dir: Path | None = None,
+) -> list[tuple[int, float]]:
+    """Extract (bin_center, observed_fill_pct) pairs for a completed cohort.
+
+    Scans all snapshots for rows matching the cohort code. For each,
+    computes observed_fill_pct = currently_enrolled / total_ever_enrolled,
+    assigns to the nearest weekly bin (skipping bin 0), and returns all
+    observations.
+    """
+    if total_ever_enrolled <= 0:
+        return []
+
+    observations: list[tuple[int, float]] = []
+    for _snap_date, snap_path in utils.list_snapshots(snapshots_dir):
+        df = pd.read_csv(snap_path)
+        rows = df[df["cohort"] == cohort]
+        for _, row in rows.iterrows():
+            if pd.isna(row.get("days_to_start")) or pd.isna(row.get("currently_enrolled")):
+                continue
+            dts = float(row["days_to_start"])
+            bin_center = _nearest_bin(dts)
+            if bin_center is None:
+                continue
+            fill = float(row["currently_enrolled"]) / total_ever_enrolled
+            observations.append((bin_center, fill))
+    return observations
+
+
+def _interpolate_prior(curves_df: pd.DataFrame, program: str, days_to_start: int) -> float:
+    """Get the prior fill_pct for a program at a given days_to_start.
+
+    If the exact (program, days_to_start) row exists, returns its value.
+    Otherwise, piecewise-linearly interpolates from adjacent existing points
+    (same logic as AccumulationCurve.fill_pct in velocity.py).
+    """
+    sub = curves_df[curves_df["program"] == program].sort_values("days_to_start")
+    if sub.empty:
+        return 0.0
+    # Check for exact match.
+    exact = sub[sub["days_to_start"] == days_to_start]
+    if not exact.empty:
+        return float(exact.iloc[0]["expected_fill_pct"])
+    # Piecewise-linear interpolation.
+    xs = sub["days_to_start"].to_numpy()
+    ys = sub["expected_fill_pct"].to_numpy()
+    d = float(days_to_start)
+    if d <= xs[0]:
+        return float(ys[0])
+    if d >= xs[-1]:
+        return float(ys[-1])
+    for i in range(len(xs) - 1):
+        x0, x1 = float(xs[i]), float(xs[i + 1])
+        if x0 <= d <= x1:
+            y0, y1 = float(ys[i]), float(ys[i + 1])
+            if x1 == x0:
+                return y0
+            return y0 + (y1 - y0) * (d - x0) / (x1 - x0)
+    return float(ys[-1])
+
+
+def update_accumulation_curves(
+    curves_df: pd.DataFrame,
+    completed: pd.DataFrame,
+    lr: float = DEFAULT_LEARNING_RATE,
+    snapshots_dir: Path | None = None,
+) -> tuple[pd.DataFrame, list[str]]:
+    """Update accumulation curves from completed cohorts' snapshot histories.
+
+    Builds a dense weekly-resolution curve (14 bin centers at 7-day intervals)
+    by observing how enrollment ramped up for each completed cohort across
+    stored snapshots. Blends observations with the prior curve using the same
+    learning-rate approach as ATE/tier calibration.
+
+    Returns updated curves DataFrame and list of delta description strings.
+    """
+    df = curves_df.copy()
+    deltas: list[str] = []
+
+    # Collect observations: {(program, bin_center): [fill_pct, ...]}
+    obs_by_key: dict[tuple[str, int], list[float]] = {}
+    cohort_count_by_program: dict[str, set[str]] = {}
+
+    for _, row in completed.iterrows():
+        cohort = str(row["cohort"])
+        program = str(row["program"])
+        tee = row.get("total_ever_enrolled")
+        if pd.isna(tee) or int(tee) <= 0:
+            continue
+
+        points = extract_cohort_observations(cohort, int(tee), snapshots_dir)
+        if not points:
+            continue
+
+        for bin_center, fill in points:
+            key = (program, bin_center)
+            obs_by_key.setdefault(key, []).append(fill)
+            cohort_count_by_program.setdefault(program, set()).add(cohort)
+
+    # Blend observations into curves, per program.
+    for (program, bin_center), fills in obs_by_key.items():
+        n_cohorts = len(cohort_count_by_program.get(program, set()))
+        if n_cohorts < MIN_COHORTS_FOR_CURVE_UPDATE:
+            continue
+
+        observed_mean = sum(fills) / len(fills)
+        prior = _interpolate_prior(df, program, bin_center)
+        new_val = _blend(prior, observed_mean, lr)
+
+        # Check if this bin center already exists for this program.
+        mask = (df["program"] == program) & (df["days_to_start"] == bin_center)
+        if mask.any():
+            df.loc[mask, "expected_fill_pct"] = round(new_val, 4)
+            df.loc[mask, "confidence"] = f"calibrated (N={n_cohorts})"
+            df.loc[mask, "source"] = f"calibrated-{date.today().isoformat()}"
+        else:
+            # New bin center — add a row.
+            new_row = pd.DataFrame(
+                [
+                    {
+                        "program": program,
+                        "days_to_start": bin_center,
+                        "expected_fill_pct": round(new_val, 4),
+                        "confidence": f"calibrated (N={n_cohorts})",
+                        "source": f"calibrated-{date.today().isoformat()}",
+                    }
+                ]
+            )
+            df = pd.concat([df, new_row], ignore_index=True)
+
+        deltas.append(
+            f"{program} fill@{bin_center}d: {prior:.4f} -> {new_val:.4f} "
+            f"(observed mean {observed_mean:.4f} from {len(fills)} obs, "
+            f"N={n_cohorts} cohorts, lr={lr})"
+        )
+
+    # Enforce monotonicity: fill_pct must be non-increasing as days_to_start
+    # increases (more days out = less enrollment has arrived).
+    for program in df["program"].unique():
+        sub = df[df["program"] == program].sort_values("days_to_start")
+        prev_fill = 1.0  # day 0 is always 1.0
+        for idx in sub.index:
+            val = float(df.loc[idx, "expected_fill_pct"])
+            if int(df.loc[idx, "days_to_start"]) == 0:
+                prev_fill = val
+                continue
+            if val > prev_fill:
+                dts = int(df.loc[idx, "days_to_start"])
+                deltas.append(
+                    f"{program} fill@{dts}d: clamped {val:.4f} -> {prev_fill:.4f} "
+                    f"(monotonicity enforcement)"
+                )
+                df.loc[idx, "expected_fill_pct"] = round(prev_fill, 4)
+            prev_fill = float(df.loc[idx, "expected_fill_pct"])
+
+    # Sort so CSV stays clean: program ascending, days_to_start ascending.
+    df = df.sort_values(["program", "days_to_start"]).reset_index(drop=True)
+    return df, deltas
+
+
 def _format_log_entry(result: CalibrationResult, run_date: date) -> str:
     lines = [f"## {run_date.isoformat()} calibration run", ""]
     lines.append(f"Cohorts processed: {', '.join(result.cohorts_processed) or 'none'}")
@@ -203,21 +385,31 @@ def calibrate(
     ate_df: pd.DataFrame,
     tier_df: pd.DataFrame,
     lr: float = DEFAULT_LEARNING_RATE,
-) -> tuple[pd.DataFrame, pd.DataFrame, CalibrationResult]:
+    curves_df: pd.DataFrame | None = None,
+    snapshots_dir: Path | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame | None, CalibrationResult]:
     pending = actuals[actuals["calibrated_at"].isna() | (actuals["calibrated_at"] == "")]
     new_ate, ate_deltas = update_ate_rates(ate_df, pending, lr)
     new_tier, tier_deltas = update_tier_rates(tier_df, pending, lr)
+
+    new_curves = None
+    curve_deltas: list[str] = []
+    if curves_df is not None:
+        new_curves, curve_deltas = update_accumulation_curves(
+            curves_df, pending, lr, snapshots_dir
+        )
+
     accuracy = _accuracy_lines(pending)
     escalated, reason = _check_escalation(actuals)
 
     result = CalibrationResult(
         cohorts_processed=list(pending["cohort"]),
-        baseline_deltas=ate_deltas + tier_deltas,
+        baseline_deltas=ate_deltas + tier_deltas + curve_deltas,
         accuracy_lines=accuracy,
         escalation_flag=escalated,
         escalation_reason=reason,
     )
-    return new_ate, new_tier, result
+    return new_ate, new_tier, new_curves, result
 
 
 def write_calibration_log(
@@ -250,7 +442,10 @@ def main() -> None:
     ate_df = pd.read_csv(utils.BASELINES_DIR / "ate_conversion_rates.csv").set_index("program")
     tier_df = pd.read_csv(utils.BASELINES_DIR / "confidence_tier_rates.csv").set_index("tier")
 
-    new_ate, new_tier, result = calibrate(actuals, ate_df, tier_df, args.learning_rate)
+    curves_df = pd.read_csv(utils.BASELINES_DIR / "accumulation_curves.csv")
+    new_ate, new_tier, new_curves, result = calibrate(
+        actuals, ate_df, tier_df, args.learning_rate, curves_df
+    )
     log_path = utils.PROJECT_ROOT / "calibration_log.md"
 
     if args.dry_run:
@@ -259,6 +454,8 @@ def main() -> None:
 
     new_ate.to_csv(utils.BASELINES_DIR / "ate_conversion_rates.csv")
     new_tier.to_csv(utils.BASELINES_DIR / "confidence_tier_rates.csv")
+    if new_curves is not None:
+        new_curves.to_csv(utils.BASELINES_DIR / "accumulation_curves.csv", index=False)
     # Coerce to object dtype so a date string can be written even when the
     # column was inferred as float64 (all-NaN from empty cells).
     actuals["calibrated_at"] = actuals["calibrated_at"].astype("object")

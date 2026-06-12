@@ -90,17 +90,7 @@ def derive_from_booked_ccs(cohort: str, ccs_path: Path) -> dict:
 
 
 def _list_snapshots() -> list[tuple[date, Path]]:
-    out = []
-    if not utils.SNAPSHOTS_DIR.exists():
-        return out
-    for p in utils.SNAPSHOTS_DIR.glob("*_snapshot.csv"):
-        try:
-            d = utils.parse_snapshot_date(p.name.split("_")[0])
-        except ValueError:
-            continue
-        out.append((d, p))
-    out.sort()
-    return out
+    return utils.list_snapshots()
 
 
 def _find_snapshot_on_or_before(target: date) -> tuple[date, Path] | None:
@@ -319,9 +309,14 @@ def main() -> None:
         actuals = pd.read_csv(path)
         ate_df = pd.read_csv(utils.BASELINES_DIR / "ate_conversion_rates.csv").set_index("program")
         tier_df = pd.read_csv(utils.BASELINES_DIR / "confidence_tier_rates.csv").set_index("tier")
-        new_ate, new_tier, result = calibrate_mod.calibrate(actuals, ate_df, tier_df)
+        curves_df = pd.read_csv(utils.BASELINES_DIR / "accumulation_curves.csv")
+        new_ate, new_tier, new_curves, result = calibrate_mod.calibrate(
+            actuals, ate_df, tier_df, curves_df=curves_df
+        )
         new_ate.to_csv(utils.BASELINES_DIR / "ate_conversion_rates.csv")
         new_tier.to_csv(utils.BASELINES_DIR / "confidence_tier_rates.csv")
+        if new_curves is not None:
+            new_curves.to_csv(utils.BASELINES_DIR / "accumulation_curves.csv", index=False)
         actuals["calibrated_at"] = actuals["calibrated_at"].astype("object")
         pending = actuals["calibrated_at"].isna() | (actuals["calibrated_at"] == "")
         actuals.loc[pending, "calibrated_at"] = date.today().isoformat()

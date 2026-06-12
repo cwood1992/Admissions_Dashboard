@@ -184,6 +184,22 @@ def parse_snapshot_date(value: str | date) -> date:
     return datetime.strptime(value, SNAPSHOT_DATE_FORMAT).date()
 
 
+def list_snapshots(snapshots_dir: Path | None = None) -> list[tuple[date, Path]]:
+    """Return (date, path) pairs for all snapshot CSVs, sorted ascending by date."""
+    d = snapshots_dir or SNAPSHOTS_DIR
+    out: list[tuple[date, Path]] = []
+    if not d.exists():
+        return out
+    for p in d.glob("*_snapshot.csv"):
+        try:
+            sd = parse_snapshot_date(p.name.split("_")[0])
+        except ValueError:
+            continue
+        out.append((sd, p))
+    out.sort()
+    return out
+
+
 def snapshot_dir_for(snapshot_date: str | date) -> Path:
     d = parse_snapshot_date(snapshot_date)
     return RAW_DIR / d.strftime(SNAPSHOT_DATE_FORMAT)
