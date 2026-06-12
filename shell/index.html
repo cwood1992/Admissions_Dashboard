@@ -81,9 +81,7 @@
     <nav id="view-nav">
       <button data-view="historical" class="active">Historical Performance</button>
       <button data-view="projections">Forward Projections</button>
-      <button data-view="cash" disabled title="Coming soon — reads the canonical cohort ledger">
-        Cash Position<span class="soon">soon</span>
-      </button>
+      <button data-view="cash">Cash Position</button>
     </nav>
   </header>
 
@@ -94,12 +92,15 @@
             title="Historical Performance dashboard"></iframe>
     <iframe id="view-projections" src="../projection/dashboard/index.html"
             title="Forward Projections dashboard" hidden></iframe>
+    <iframe id="view-cash" src="../cash/index.html"
+            title="Cash Position dashboard" hidden></iframe>
   </main>
 
   <script>
     const frames = {
       historical:  document.getElementById('view-historical'),
       projections: document.getElementById('view-projections'),
+      cash:        document.getElementById('view-cash'),
     };
     const buttons = document.querySelectorAll('#view-nav button[data-view]');
 

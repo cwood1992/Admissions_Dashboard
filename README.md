@@ -5,6 +5,7 @@ A unified dark dashboard built from two complementary engines plus a join layer:
 - **Historical Performance** (`index.html` + `process_ccs.py`) — backward-looking start-rate analysis across years. *Documented in this file.*
 - **Forward Projections** (`projection/`) — a `uv`/pandas pipeline producing weekly low/mid/high start projections. *See `projection/README.md`.*
 - **Cohort Ledger** (`ledger/`) — joins both engines' outputs by cohort code into one per-cohort record with booked + projected revenue (the cash-management foundation).
+- **Cash Position** (`cash/` + `ledger/build_cashflow.py`) — cash-flow projection over time: actual expected funds (FA's `NNN Class.xlsx` workbooks) on the official disbursement schedule, plus modeled inflows for future cohorts from the ledger's start projections.
 
 A **shell** (`shell/index.html`) hosts both dashboards under one dark theme with top-nav switching (Historical | Projections | Cash). The dark palette lives once in `shell/assets/theme.css`.
 
@@ -17,11 +18,15 @@ cd projection && uv sync && ./weekly.ps1 && cd ..
 python process_ccs.py CCS_Raw/2026/ --year 2026
 # 3. build the canonical ledger
 python ledger/build_ledger.py
-# 4. serve from the ROOT (so the shell's iframe paths resolve) and open the shell
+# 4. build the cash-flow projection (reads FA xlsx directly from OneDrive; see ledger/build_cashflow.py CONFIG)
+#    - nothing is copied into the repo; new "NNN Class.xlsx" files appearing in the FA Expected Funds
+#      folder are picked up automatically and replace the model projection for that class
+python ledger/build_cashflow.py
+# 5. serve from the ROOT (so the shell's iframe paths resolve) and open the shell
 python -m http.server 8000      # → http://localhost:8000/shell/index.html
 ```
 
-> **PII / FERPA:** `projection/raw/` holds raw STARS exports with student names/IDs and is gitignored — never commit it. All downstream outputs (`summary_*.csv`, `dashboard/data/`, `cohort_ledger.json`) are aggregated counts only.
+> **PII / FERPA:** `projection/raw/` holds raw STARS exports with student names/IDs and is gitignored — never commit it. The FA expected-funds workbooks read by `build_cashflow.py` contain names and SSNs and stay in OneDrive — only per-class aggregates are written to `cash/data/`. All downstream outputs (`summary_*.csv`, `dashboard/data/`, `cohort_ledger.json`, `cash/data/cashflow.json`) are aggregated counts/sums only.
 
 ---
 

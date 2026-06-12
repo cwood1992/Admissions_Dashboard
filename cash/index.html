@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cash Position — TOC Strategic Dashboard</title>
+  <link rel="stylesheet" href="../shell/assets/theme.css">
+  <link rel="stylesheet" href="assets/cash.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="page-head">
+      <div>
+        <h1>Cash Flow Projection</h1>
+        <div class="meta" id="meta"></div>
+      </div>
+      <div class="controls">
+        <div class="control-group" id="scenario-group" title="Applies to model-projected cohorts only">
+          <span class="control-label">Projection scenario</span>
+          <button data-scenario="low">Low</button>
+          <button data-scenario="mid" class="active">Mid</button>
+          <button data-scenario="high">High</button>
+        </div>
+        <div class="control-group" id="kind-group">
+          <span class="control-label">Show</span>
+          <button data-kind="expected" class="active">Expected (filed)</button>
+          <button data-kind="projected" class="active">Projected (model)</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="kpis" id="kpis"></section>
+
+    <section class="panel">
+      <h2>Monthly cash inflows by funding source</h2>
+      <p class="hint">Solid bars are expected funds from filed FA workbooks; faded bars are
+        model-projected cohorts at the selected scenario. The line is the cumulative total.</p>
+      <div class="chart-wrap"><canvas id="monthly-chart"></canvas></div>
+    </section>
+
+    <div class="two-col">
+      <section class="panel">
+        <h2>Upcoming disbursements</h2>
+        <table id="events-table">
+          <thead><tr><th>Date</th><th>Class</th><th>Tranche</th><th>Type</th>
+            <th class="num">Net amount</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>Per-class summary</h2>
+        <table id="class-table">
+          <thead><tr><th>Class</th><th>Start</th><th>Basis</th><th>Students</th>
+            <th>Cash payers</th><th class="num">Total net</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+
+    <section class="panel">
+      <details>
+        <summary>Model assumptions &amp; data sources</summary>
+        <ul id="assumptions"></ul>
+        <div class="sources" id="sources"></div>
+      </details>
+    </section>
+  </div>
+
+  <script src="data/cashflow.js"></script>
+  <script src="assets/cash.js"></script>
+</body>
+</html>

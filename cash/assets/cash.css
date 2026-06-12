@@ -1,0 +1,77 @@
+/* Cash Position dashboard — palette comes from ../shell/assets/theme.css */
+
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.page { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1.5rem 3rem; }
+
+.page-head {
+  display: flex; flex-wrap: wrap; gap: 1rem;
+  align-items: flex-end; justify-content: space-between;
+  margin-bottom: 1rem;
+}
+h1 { font-size: 1.35rem; margin: 0 0 0.25rem; }
+h2 { font-size: 1rem; margin: 0 0 0.5rem; }
+.meta { color: var(--muted); font-size: 0.8rem; }
+
+.controls { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.control-group { display: flex; align-items: center; gap: 0.35rem; }
+.control-label {
+  color: var(--muted); font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.05em; margin-right: 0.2rem;
+}
+.control-group button {
+  background: var(--panel); border: 1px solid var(--border); color: var(--muted);
+  padding: 0.32rem 0.8rem; border-radius: 6px; font: inherit; cursor: pointer;
+}
+.control-group button.active {
+  color: var(--text); border-color: var(--accent); background: var(--bg);
+}
+
+.kpis {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem; margin-bottom: 1rem;
+}
+.kpi {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.7rem 0.9rem; box-shadow: var(--shadow);
+}
+.kpi .label {
+  color: var(--muted); font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.kpi .value { font-size: 1.3rem; font-weight: 600; margin-top: 0.15rem; }
+.kpi .sub { color: var(--muted); font-size: 0.75rem; }
+
+.panel {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.1rem; box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+.hint { color: var(--muted); font-size: 0.78rem; margin: 0 0 0.6rem; }
+.chart-wrap { position: relative; height: 380px; }
+
+.two-col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+@media (max-width: 980px) { .two-col { grid-template-columns: 1fr; } }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+th {
+  text-align: left; color: var(--muted); font-weight: 500;
+  background: var(--panel-2); padding: 0.4rem 0.55rem;
+  border-bottom: 1px solid var(--border);
+}
+td { padding: 0.38rem 0.55rem; border-bottom: 1px solid var(--border); }
+tbody tr:nth-child(even) { background: var(--row-alt); }
+th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.tag {
+  display: inline-block; padding: 0.05rem 0.45rem; border-radius: 999px;
+  font-size: 0.7rem; border: 1px solid var(--border);
+}
+.tag.expected { color: var(--good); border-color: var(--good); }
+.tag.projected { color: var(--warn); border-color: var(--warn); }
+.past { opacity: 0.45; }
+
+details summary { cursor: pointer; color: var(--accent); }
+#assumptions { color: var(--muted); font-size: 0.83rem; line-height: 1.6; }
+.sources { color: var(--muted); font-size: 0.78rem; margin-top: 0.5rem; }
