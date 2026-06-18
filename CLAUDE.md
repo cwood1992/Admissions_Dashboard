@@ -59,6 +59,10 @@ Non-obvious constraints:
 
 The projection engine has its own detailed guide at `projection/CLAUDE.md`.
 
+### Access gates (shell/assets/auth.js)
+
+Every entry page (`shell/index.html`, `index.html`, `projection/dashboard/index.html`, `cash/index.html`) includes a shared client-side gate. It reads an email allowlist from `shell/assets/access-config.js` (`window.ACCESS_USERS` — each entry is `{ email, passwordHash, views }`) and filters which engines/tabs a logged-in user sees. Pages identify themselves with `<body data-page="shell|projection|cash|historical">`; same-origin `localStorage` shares the session across the shell and its iframes (iframes suppress their own login overlay/chip — the shell owns the login UI). Passwords are salted SHA-256 (`email.toLowerCase().trim() + "\n" + password`); generate hashes with `tools/hash-password.html`. **This is lane-keeping, not real security** — the static data files stay fetchable and GitHub Pages is world-public; real auth (edge proxy / backend) is a dedicated-service-phase follow-on. Full docs: `projection/README.md` ("Access gates").
+
 ---
 
 ## Historical engine (index.html + process_ccs.py)

@@ -336,8 +336,12 @@ table.perf-table { color: var(--text); }
 .rep-chip:hover:not(.active) { border-color: var(--accent); background: rgba(106,169,255,0.12); color: var(--accent); }
 .rep-chip.active { color: var(--bg); border-color: transparent; background-color: var(--accent); }
     </style>
+    <!-- Access gate (lane-keeping). Order matters: config before auth.js. -->
+    <script src="shell/assets/access-config.js"></script>
+    <link rel="stylesheet" href="shell/assets/auth.css">
+    <script src="shell/assets/auth.js"></script>
 </head>
-<body>
+<body data-page="historical">
 <div class="container">
     <div class="header">
         <h1>Ocean Corporation</h1>

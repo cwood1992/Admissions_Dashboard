@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TOC Strategic Dashboard</title>
   <link rel="stylesheet" href="assets/theme.css">
+  <!-- Access gate (lane-keeping). Order matters: config before auth.js. -->
+  <script src="assets/access-config.js"></script>
+  <link rel="stylesheet" href="assets/auth.css">
+  <script src="assets/auth.js"></script>
   <style>
     html, body { height: 100%; margin: 0; }
     body {
@@ -75,7 +79,7 @@
     iframe[hidden] { display: none; }
   </style>
 </head>
-<body>
+<body data-page="shell">
   <header>
     <div class="brand">TOC <span class="accent">Strategic</span> Dashboard</div>
     <nav id="view-nav">

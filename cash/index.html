@@ -7,8 +7,12 @@
   <link rel="stylesheet" href="../shell/assets/theme.css">
   <link rel="stylesheet" href="assets/cash.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <!-- Access gate (lane-keeping). Order matters: config before auth.js. -->
+  <script src="../shell/assets/access-config.js"></script>
+  <link rel="stylesheet" href="../shell/assets/auth.css">
+  <script src="../shell/assets/auth.js"></script>
 </head>
-<body>
+<body data-page="cash">
   <div class="page">
     <header class="page-head">
       <div>

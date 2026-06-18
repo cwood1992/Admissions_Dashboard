@@ -110,6 +110,44 @@ The suite includes:
 - **Never single-point projections.** Every cohort row reports low/mid/high; the ordering is enforced in code.
 - **Data-starved framing.** Until calibration has run on several completed cohorts, `projection_basis` strings carry `[tier rates are placeholders, data-starved]` and accumulation curves stay tagged as approximate.
 
+## Access gates
+
+The dashboards (this one, plus the unified shell, historical, and cash engines) are
+gated by a **client-side email allowlist** so not just anyone can open them and each
+person sees only their assigned views. Login is email + password; on success the view
+filter for that person is applied across the shell's top-nav engines and this engine's
+four tabs.
+
+**The allowlist lives in one file:** [`shell/assets/access-config.js`](../shell/assets/access-config.js)
+(`window.ACCESS_USERS`). Each entry is `{ email, passwordHash, views }`. Valid view keys:
+`historical`, `proj:cohorts`, `proj:reps`, `proj:strategic`, `proj:management`, `cash`.
+
+**To add or change a user:**
+
+1. Open [`tools/hash-password.html`](../tools/hash-password.html) directly in a browser
+   (it runs offline — nothing is sent anywhere).
+2. Type the person's email + the password you'll give them; copy the resulting hash.
+3. Add/edit their entry in `access-config.js` with that `passwordHash` and the `views`
+   they should see. To revoke access, delete the entry.
+
+The shipped entries are **placeholders** (`admin@example.com` … password `changeme`).
+Replace the emails and regenerate the hashes before sharing the dashboard.
+
+### What this gate is — and isn't
+
+This is **lane-keeping for honest users**, not real security:
+
+- The site is static files, so anyone who view-sources or fetches
+  `dashboard/data/*.js` directly can still read the aggregated numbers. Passwords are
+  hashed (salted with the email) so they aren't plaintext — that raises the effort bar,
+  it does not make the data secret.
+- **GitHub Pages on a personal account is world-public even for a private repo.** The
+  site URL and its data files are reachable by anyone who finds the address.
+- **Real protection is a follow-on at the dedicated-service phase:** put the site behind
+  an edge-auth layer (Cloudflare Access / Netlify Identity) or a small backend that
+  authenticates and withholds the data per user. The `access-config.js` allowlist and the
+  view-key vocabulary carry forward unchanged — only the identity source is swapped.
+
 ## Phasing
 
 Per the spec: Phase 1 (this codebase) is manual orchestration on Windows. Later phases add Cowork scheduled task automation, then deploy the dashboard to GitHub Pages. Don't pre-optimize for those — they'll be follow-on work.

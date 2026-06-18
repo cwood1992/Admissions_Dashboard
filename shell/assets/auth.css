@@ -1,0 +1,113 @@
+/* auth.css — login overlay + session chip. Uses the canonical theme.css tokens. */
+
+#auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg, #0f1115);
+  color: var(--text, #e6e8ec);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+#auth-form,
+.auth-noaccess {
+  width: min(360px, 90vw);
+  background: var(--panel, #161a22);
+  border: 1px solid var(--border, #2a3142);
+  border-radius: 10px;
+  padding: 1.6rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.auth-brand {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.2rem;
+}
+.auth-brand span { color: var(--accent, #6aa9ff); }
+
+#auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--muted, #8b93a7);
+}
+
+#auth-form input {
+  background: var(--bg, #0f1115);
+  border: 1px solid var(--border, #2a3142);
+  border-radius: 6px;
+  color: var(--text, #e6e8ec);
+  font: inherit;
+  padding: 0.5rem 0.6rem;
+}
+#auth-form input:focus {
+  outline: none;
+  border-color: var(--accent, #6aa9ff);
+}
+
+#auth-form button,
+.auth-noaccess button {
+  margin-top: 0.3rem;
+  background: var(--accent, #6aa9ff);
+  border: 0;
+  border-radius: 6px;
+  color: #0a0d12;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+}
+#auth-form button:hover,
+.auth-noaccess button:hover { filter: brightness(1.08); }
+
+.auth-noaccess button {
+  background: transparent;
+  color: var(--text, #e6e8ec);
+  border: 1px solid var(--border, #2a3142);
+}
+
+#auth-error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--bad, #ff7676);
+}
+
+.auth-noaccess p {
+  margin: 0;
+  color: var(--muted, #8b93a7);
+}
+
+#auth-chip {
+  position: fixed;
+  top: 8px;
+  right: 12px;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--panel, #161a22);
+  border: 1px solid var(--border, #2a3142);
+  border-radius: 999px;
+  padding: 0.25rem 0.3rem 0.25rem 0.75rem;
+  font: 12px/1 system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--muted, #8b93a7);
+}
+#auth-chip strong { color: var(--text, #e6e8ec); font-weight: 600; }
+#auth-chip button {
+  background: transparent;
+  border: 1px solid var(--border, #2a3142);
+  border-radius: 999px;
+  color: var(--muted, #8b93a7);
+  font: inherit;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+}
+#auth-chip button:hover { color: var(--text, #e6e8ec); border-color: var(--accent, #6aa9ff); }
