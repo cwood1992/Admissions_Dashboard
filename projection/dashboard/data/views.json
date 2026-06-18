@@ -1,25 +1,25 @@
 {
-  "snapshot_date": "2026-06-12",
-  "generated_at": "2026-06-12T21:02:17.470906+00:00",
+  "snapshot_date": "2026-06-18",
+  "generated_at": "2026-06-18T22:33:19.864105+00:00",
   "strategic": {
-    "year_end_proj_low": 185,
+    "year_end_proj_low": 187,
     "year_end_proj_mid": 253,
-    "year_end_proj_high": 318,
+    "year_end_proj_high": 319,
     "revenue_per_start": 25300,
-    "year_end_revenue_low": 4680500,
+    "year_end_revenue_low": 4731100,
     "year_end_revenue_mid": 6400900,
-    "year_end_revenue_high": 8045400,
+    "year_end_revenue_high": 8070700,
     "by_program": {
       "NDT-Day": {
-        "proj_low": 52,
-        "proj_mid": 73,
-        "proj_high": 93,
+        "proj_low": 53,
+        "proj_mid": 72,
+        "proj_high": 92,
         "cohort_count": 9
       },
       "NDT-Night": {
-        "proj_low": 14,
-        "proj_mid": 21,
-        "proj_high": 28,
+        "proj_low": 15,
+        "proj_mid": 22,
+        "proj_high": 30,
         "cohort_count": 4
       },
       "UDT": {
@@ -33,10 +33,10 @@
   },
   "management": {
     "headline_starts_mid": 253,
-    "headline_starts_low": 185,
-    "headline_starts_high": 318,
+    "headline_starts_low": 187,
+    "headline_starts_high": 319,
     "headline_revenue_mid": 6400900,
-    "narrative": "As of 2026-06-12, the mid-case year-end projection is 253 starts (range 185\u2013318), implying $6,400,900 in mid-case revenue. Model has calibrated confidence tier rates. Red-flagged cohorts: none.",
+    "narrative": "As of 2026-06-18, the mid-case year-end projection is 253 starts (range 187\u2013319), implying $6,400,900 in mid-case revenue. Model has calibrated confidence tier rates. Red-flagged cohorts: none.",
     "red_flagged_cohorts": []
   }
 }
