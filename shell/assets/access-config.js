@@ -37,7 +37,17 @@ window.ACCESS_USERS = [
   // email, so login will fail until it is replaced.
   {
     email: "thomas.thomas@oceancorp.com",
-    passwordHash: "24a7c6fa835ce4474870deeb98f4821e3f88e8adf63614951451c2423c2e294f",
-    views: ["proj:cohorts"],
+    passwordHash: "f91aaf5e9b84a873099572ac8db259d56de4ffa5b4c9fd671dcd1dfe562eca17",
+    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management"],
+  },
+    {
+    email: "afarahmandi@generational.com",
+    passwordHash: "386d01a4e2c64a7f1230a03de1efae6148952cffa448d3335724b2c4ce9716e2",
+    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "cash"],
+  },
+      {
+    email: "aluft@generational.com",
+    passwordHash: "b963012d65d5be8509181d37f1b3765dae1ee43d9259a06ebf2d30614d5faae2",
+    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "cash"],
   },
 ];
