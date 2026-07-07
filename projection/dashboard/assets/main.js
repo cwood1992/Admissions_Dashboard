@@ -72,38 +72,86 @@
   // Render strategic + management views.
   const viewsData = window.VIEWS;
   if (viewsData) {
-    const s = viewsData.strategic;
-    document.getElementById("strategic-summary").innerHTML = `
-      <table style="max-width:520px">
-        <tbody>
-          <tr><th>Year-end starts (mid)</th><td class="num"><strong>${s.year_end_proj_mid}</strong></td></tr>
-          <tr><th>Range (low–high)</th><td class="num">${s.year_end_proj_low} – ${s.year_end_proj_high}</td></tr>
-          <tr><th>Revenue (mid)</th><td class="num">$${s.year_end_revenue_mid.toLocaleString()}</td></tr>
-          <tr><th>Revenue range</th><td class="num">$${s.year_end_revenue_low.toLocaleString()} – $${s.year_end_revenue_high.toLocaleString()}</td></tr>
-        </tbody>
-      </table>
-    `;
-    const progTbody = document.querySelector("#program-table tbody");
-    for (const [program, p] of Object.entries(s.by_program)) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="cohort">${program}</td>
-        <td class="num">${p.cohort_count}</td>
-        <td class="num">${p.proj_low}</td>
-        <td class="num"><strong>${p.proj_mid}</strong></td>
-        <td class="num">${p.proj_high}</td>
-        <td class="num">$${(p.proj_mid * s.revenue_per_start).toLocaleString()}</td>
+    // Strategic tab: financial-year roll-up with a current/next-year toggle.
+    const fyViews = { current: viewsData.strategic, next: viewsData.strategic_next };
+
+    function renderStrategic(view) {
+      if (!view) return;
+      document.getElementById("strategic-heading").textContent = `Financial Year ${view.label}`;
+      const t = view.total;
+      const projectedMid = t.proj_mid - t.actual_starts;
+      document.getElementById("strategic-summary").innerHTML = `
+        <table style="max-width:560px">
+          <tbody>
+            <tr><th>FY total starts (mid)</th><td class="num"><strong>${t.proj_mid}</strong></td></tr>
+            <tr><th>Range (low–high)</th><td class="num">${t.proj_low} – ${t.proj_high}</td></tr>
+            <tr><th>Booked (actual)</th><td class="num">${t.actual_starts}</td></tr>
+            <tr><th>Projected (remaining, mid)</th><td class="num">${projectedMid}</td></tr>
+            <tr><th>Revenue (mid)</th><td class="num">$${view.year_end_revenue_mid.toLocaleString()}</td></tr>
+            <tr><th>Revenue range</th><td class="num">$${view.year_end_revenue_low.toLocaleString()} – $${view.year_end_revenue_high.toLocaleString()}</td></tr>
+          </tbody>
+        </table>
       `;
-      progTbody.appendChild(tr);
+      const progTbody = document.querySelector("#program-table tbody");
+      progTbody.innerHTML = "";
+      for (const [program, p] of Object.entries(view.by_program)) {
+        const projectedProg = p.proj_mid - p.actual_starts;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="cohort">${program}</td>
+          <td class="num">${p.cohort_count}</td>
+          <td class="num">${p.actual_starts}</td>
+          <td class="num">${projectedProg}</td>
+          <td class="num"><strong>${p.proj_mid}</strong></td>
+          <td class="num">${p.proj_low} – ${p.proj_high}</td>
+          <td class="num">$${(p.proj_mid * view.revenue_per_start).toLocaleString()}</td>
+        `;
+        progTbody.appendChild(tr);
+      }
+      const cohTbody = document.querySelector("#fy-cohort-table tbody");
+      cohTbody.innerHTML = "";
+      for (const c of view.cohorts) {
+        const isActual = c.status === "actual";
+        const startsCell = isActual ? `${c.actual_starts}` : `${c.starts_mid}`;
+        const rangeCell = isActual ? "—" : `${c.starts_low} – ${c.starts_high}`;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="cohort">${c.cohort}</td>
+          <td>${c.program}</td>
+          <td>${c.start_date}</td>
+          <td>${c.status}</td>
+          <td class="num">${startsCell}</td>
+          <td class="num">${rangeCell}</td>
+        `;
+        cohTbody.appendChild(tr);
+      }
+      document.getElementById("model-confidence").textContent = view.model_confidence_note;
     }
-    document.getElementById("model-confidence").textContent = s.model_confidence_note;
+
+    // Label the toggle buttons from the actual FY labels and wire switching.
+    const toggle = document.getElementById("fy-toggle");
+    if (toggle) {
+      const curBtn = toggle.querySelector('button[data-fy="current"]');
+      const nextBtn = toggle.querySelector('button[data-fy="next"]');
+      if (curBtn && fyViews.current) curBtn.textContent = fyViews.current.label;
+      if (nextBtn && fyViews.next) nextBtn.textContent = fyViews.next.label;
+      toggle.querySelectorAll("button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          toggle.querySelectorAll("button").forEach((b) => b.classList.remove("fy-active"));
+          btn.classList.add("fy-active");
+          renderStrategic(fyViews[btn.dataset.fy]);
+        });
+      });
+    }
+    renderStrategic(fyViews.current);
 
     const m = viewsData.management;
     document.getElementById("management-headline").innerHTML = `
       <table style="max-width:520px">
         <tbody>
-          <tr><th>Projected starts (mid)</th><td class="num"><strong>${m.headline_starts_mid}</strong></td></tr>
+          <tr><th>FY${m.fiscal_year} starts (mid)</th><td class="num"><strong>${m.headline_starts_mid}</strong></td></tr>
           <tr><th>Range</th><td class="num">${m.headline_starts_low} – ${m.headline_starts_high}</td></tr>
+          <tr><th>Booked to date</th><td class="num">${m.headline_actual_starts}</td></tr>
           <tr><th>Revenue (mid)</th><td class="num">$${m.headline_revenue_mid.toLocaleString()}</td></tr>
         </tbody>
       </table>

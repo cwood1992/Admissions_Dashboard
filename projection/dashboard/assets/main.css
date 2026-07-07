@@ -117,3 +117,22 @@ td.cohort { font-weight: 600; }
   color: var(--text);
   border-color: var(--accent);
 }
+#fy-toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+#fy-toggle button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font: inherit;
+  cursor: pointer;
+}
+#fy-toggle button.fy-active {
+  background: var(--panel);
+  color: var(--text);
+  border-color: var(--accent);
+}

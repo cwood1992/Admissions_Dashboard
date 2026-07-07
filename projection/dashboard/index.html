@@ -66,7 +66,12 @@
       </table>
     </section>
     <section id="strategic-section" data-view="strategic" hidden>
-      <h2>Year-End Projection</h2>
+      <nav id="fy-toggle">
+        <button data-fy="current" class="fy-active">2026</button>
+        <button data-fy="next">2027</button>
+      </nav>
+      <h2 id="strategic-heading">Financial Year</h2>
+      <p class="muted">Booked actual starts for cohorts already started, blended with projections for those still ahead.</p>
       <div id="strategic-summary"></div>
       <h2>By Program</h2>
       <table id="program-table">
@@ -74,10 +79,25 @@
           <tr>
             <th>Program</th>
             <th class="num">Cohorts</th>
-            <th class="num">Proj Low</th>
-            <th class="num">Proj Mid</th>
-            <th class="num">Proj High</th>
+            <th class="num">Booked</th>
+            <th class="num">Projected (mid)</th>
+            <th class="num">FY Total (mid)</th>
+            <th class="num">Range</th>
             <th class="num">Revenue (mid)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <h2>Cohorts</h2>
+      <table id="fy-cohort-table">
+        <thead>
+          <tr>
+            <th>Cohort</th>
+            <th>Program</th>
+            <th>Start</th>
+            <th>Status</th>
+            <th class="num">Starts (mid)</th>
+            <th class="num">Range</th>
           </tr>
         </thead>
         <tbody></tbody>

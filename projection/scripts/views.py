@@ -15,7 +15,10 @@ from dataclasses import asdict, dataclass
 
 import pandas as pd
 
+from scripts import utils
+
 REVENUE_PER_START = 25_300  # Per spec, blended UDT/NDT-Day/NDT-Night.
+PROGRAM_ORDER = ["UDT", "NDT-Day", "NDT-Night"]
 
 RED_FLAG_MID_VS_POS_AVG_BELOW = 0.50  # proj_mid < 50% of position_avg
 RED_FLAG_NEAR_DAYS = 30
@@ -75,30 +78,124 @@ def compute_red_flags(
     return flags
 
 
-def build_strategic_view(
+def build_financial_year_view(
     cohort_df: pd.DataFrame,
+    actuals_df: pd.DataFrame | None,
+    start_dates: dict,
+    fiscal_year: int,
+    snapshot_date: str | object,
     model_confidence_note: str,
 ) -> dict:
-    year_low = int(cohort_df["proj_low"].sum())
-    year_mid = int(cohort_df["proj_mid"].sum())
-    year_high = int(cohort_df["proj_high"].sum())
-    return {
-        "year_end_proj_low": year_low,
-        "year_end_proj_mid": year_mid,
-        "year_end_proj_high": year_high,
-        "revenue_per_start": REVENUE_PER_START,
-        "year_end_revenue_low": year_low * REVENUE_PER_START,
-        "year_end_revenue_mid": year_mid * REVENUE_PER_START,
-        "year_end_revenue_high": year_high * REVENUE_PER_START,
-        "by_program": {
-            program: {
-                "proj_low": int(group["proj_low"].sum()),
-                "proj_mid": int(group["proj_mid"].sum()),
-                "proj_high": int(group["proj_high"].sum()),
-                "cohort_count": int(len(group)),
+    """Roll up one financial year (calendar year of each cohort's start date).
+
+    Blends *booked actual starts* for cohorts that have already started with
+    *projected starts* for cohorts still ahead. A cohort's fiscal year is the
+    calendar year of its start_date, so FY2026 = cohorts 562-571 (10 UDT / 10
+    NDT-Day / 5 NDT-Night). Started cohorts contribute a fixed point value
+    (low = mid = high = actual_starts); future cohorts contribute their
+    projection range. low <= mid <= high is preserved because each addend does.
+    """
+    snap = utils.parse_snapshot_date(snapshot_date)
+
+    actual_by_code: dict[str, int] = {}
+    if actuals_df is not None and len(actuals_df):
+        for _, r in actuals_df.iterrows():
+            try:
+                actual_by_code[str(r["cohort"])] = int(r["actual_starts"])
+            except (ValueError, TypeError):
+                continue
+
+    proj_by_code: dict[str, tuple[int, int, int]] = {}
+    for _, r in cohort_df.iterrows():
+        proj_by_code[str(r["cohort"])] = (
+            int(r["proj_low"]),
+            int(r["proj_mid"]),
+            int(r["proj_high"]),
+        )
+
+    def _empty_program() -> dict:
+        return {
+            "cohort_count": 0,
+            "started_count": 0,
+            "actual_starts": 0,
+            "proj_low": 0,
+            "proj_mid": 0,
+            "proj_high": 0,
+        }
+
+    per_program: dict[str, dict] = {p: _empty_program() for p in PROGRAM_ORDER}
+    cohorts: list[dict] = []
+
+    for code, sd in sorted(start_dates.items(), key=lambda kv: (kv[1], kv[0])):
+        if sd.year != fiscal_year:
+            continue
+        program = utils.program_for_cohort(code)
+        per_program.setdefault(program, _empty_program())
+        started = sd < snap
+
+        if started and code in actual_by_code:
+            actual = actual_by_code[code]
+            low = mid = high = actual
+            status = "actual"
+        elif started:
+            # Past its start date but not yet booked — fall back to the last
+            # projection if we still have one, else 0. Flag it as pending so the
+            # dashboard can distinguish it from confirmed actuals.
+            low, mid, high = proj_by_code.get(code, (0, 0, 0))
+            actual = None
+            status = "pending"
+        elif code in proj_by_code:
+            low, mid, high = proj_by_code[code]
+            actual = None
+            status = "projected"
+        else:
+            # Future cohort with no snapshot row yet (not enrolling) — no data.
+            continue
+
+        pp = per_program[program]
+        pp["cohort_count"] += 1
+        if started:
+            pp["started_count"] += 1
+            if status == "actual":
+                pp["actual_starts"] += actual
+        pp["proj_low"] += low
+        pp["proj_mid"] += mid
+        pp["proj_high"] += high
+
+        cohorts.append(
+            {
+                "cohort": code,
+                "program": program,
+                "start_date": sd.isoformat(),
+                "status": status,
+                "actual_starts": actual,
+                "starts_low": low,
+                "starts_mid": mid,
+                "starts_high": high,
             }
-            for program, group in cohort_df.groupby("program")
+        )
+
+    by_program = {p: v for p, v in per_program.items() if v["cohort_count"] > 0}
+    total_low = sum(v["proj_low"] for v in by_program.values())
+    total_mid = sum(v["proj_mid"] for v in by_program.values())
+    total_high = sum(v["proj_high"] for v in by_program.values())
+    total_actual = sum(v["actual_starts"] for v in by_program.values())
+
+    return {
+        "fiscal_year": fiscal_year,
+        "label": str(fiscal_year),
+        "total": {
+            "actual_starts": total_actual,
+            "proj_low": total_low,
+            "proj_mid": total_mid,
+            "proj_high": total_high,
         },
+        "revenue_per_start": REVENUE_PER_START,
+        "year_end_revenue_low": total_low * REVENUE_PER_START,
+        "year_end_revenue_mid": total_mid * REVENUE_PER_START,
+        "year_end_revenue_high": total_high * REVENUE_PER_START,
+        "by_program": by_program,
+        "cohorts": cohorts,
         "model_confidence_note": model_confidence_note,
     }
 
@@ -112,18 +209,25 @@ def build_management_view(
     flag_text = (
         " · ".join(f"{f.cohort}: {f.reason}" for f in red_flags) if red_flags else "none"
     )
+    fy = strategic["fiscal_year"]
+    total = strategic["total"]
+    booked = total["actual_starts"]
+    projected_mid = total["proj_mid"] - booked
     narrative = (
-        f"As of {snapshot_date}, the mid-case year-end projection is "
-        f"{strategic['year_end_proj_mid']} starts (range "
-        f"{strategic['year_end_proj_low']}–{strategic['year_end_proj_high']}), "
-        f"implying ${strategic['year_end_revenue_mid']:,} in mid-case revenue. "
+        f"As of {snapshot_date}, the {fy} financial-year projection is "
+        f"{total['proj_mid']} starts (range "
+        f"{total['proj_low']}–{total['proj_high']}) — {booked} booked plus "
+        f"{projected_mid} projected — implying "
+        f"${strategic['year_end_revenue_mid']:,} in mid-case revenue. "
         f"{strategic['model_confidence_note']} "
         f"Red-flagged cohorts: {flag_text}."
     )
     return {
-        "headline_starts_mid": strategic["year_end_proj_mid"],
-        "headline_starts_low": strategic["year_end_proj_low"],
-        "headline_starts_high": strategic["year_end_proj_high"],
+        "fiscal_year": fy,
+        "headline_starts_mid": total["proj_mid"],
+        "headline_starts_low": total["proj_low"],
+        "headline_starts_high": total["proj_high"],
+        "headline_actual_starts": booked,
         "headline_revenue_mid": strategic["year_end_revenue_mid"],
         "narrative": narrative,
         "red_flagged_cohorts": [asdict(f) for f in red_flags],
@@ -140,10 +244,13 @@ def render_management_markdown(management: dict, snapshot_date: str) -> str:
         if flags
         else "_None._"
     )
+    fy = management.get("fiscal_year", "")
+    booked = management.get("headline_actual_starts", 0)
     return (
         f"# Cohort Pipeline Headline — {snapshot_date}\n\n"
-        f"**Projected year-end starts (mid case):** {management['headline_starts_mid']} "
+        f"**FY{fy} starts (mid case):** {management['headline_starts_mid']} "
         f"(range {management['headline_starts_low']}–{management['headline_starts_high']})\n\n"
+        f"**Booked to date:** {booked} starts\n\n"
         f"**Mid-case revenue:** ${management['headline_revenue_mid']:,}\n\n"
         f"## Narrative\n\n{management['narrative']}\n\n"
         f"## Red-flagged cohorts\n\n{flag_lines}\n"

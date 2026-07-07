@@ -132,7 +132,19 @@ def run(
         if tiers.is_placeholder
         else "Model has calibrated confidence tier rates."
     )
-    strategic = views.build_strategic_view(enriched, confidence_note)
+    # Financial-year roll-ups: current FY blends booked actuals (already-started
+    # cohorts) with projections; next FY is projection-only. FY = calendar year of
+    # each cohort's start date.
+    snap_date = utils.parse_snapshot_date(str(snapshot_date))
+    actuals_df = pd.read_csv(utils.COMPLETED_DIR / "cohort_actuals.csv")
+    start_dates = ingest.load_program_start_dates()
+    current_fy = snap_date.year
+    strategic = views.build_financial_year_view(
+        enriched, actuals_df, start_dates, current_fy, str(snapshot_date), confidence_note
+    )
+    strategic_next = views.build_financial_year_view(
+        enriched, actuals_df, start_dates, current_fy + 1, str(snapshot_date), confidence_note
+    )
     red_flags = views.compute_red_flags(enriched, pos)
     management = views.build_management_view(enriched, strategic, red_flags, str(snapshot_date))
 
@@ -140,6 +152,7 @@ def run(
         "snapshot_date": str(snapshot_date),
         "generated_at": pd.Timestamp.now(tz="UTC").isoformat(),
         "strategic": strategic,
+        "strategic_next": strategic_next,
         "management": management,
     }
     views_path = utils.DASHBOARD_DATA_DIR / "views.json"
