@@ -18,6 +18,7 @@
       <button data-view="cohorts" class="tab-active">Thomas · Cohorts</button>
       <button data-view="reps">Reps</button>
       <button data-view="strategic">Clanton · Strategic</button>
+      <button data-view="recognition">Clanton · Recognition</button>
       <button data-view="management">Management</button>
     </nav>
   </header>
@@ -103,6 +104,37 @@
         <tbody></tbody>
       </table>
       <p id="model-confidence" class="muted"></p>
+    </section>
+    <section id="recognition-section" data-view="recognition" hidden>
+      <h2>Revenue Recognition</h2>
+      <p class="muted">Tuition is earned pro rata over 150 attendance days, so a cohort's revenue is recognized in the calendar year(s) it is actually earned — not the year it started.</p>
+      <h2>Earned by Calendar Year</h2>
+      <table id="recognition-year-table">
+        <thead>
+          <tr>
+            <th>Calendar Year</th>
+            <th class="num">Earned (mid)</th>
+            <th class="num">Range</th>
+            <th class="num">Booked</th>
+            <th class="num">Projected</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <h2>By Cohort</h2>
+      <table id="recognition-cohort-table">
+        <thead>
+          <tr id="recognition-cohort-head">
+            <th>Cohort</th>
+            <th>Program</th>
+            <th>Start</th>
+            <th>Status</th>
+            <th class="num">Revenue (mid)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p id="recognition-confidence" class="muted"></p>
     </section>
     <section id="management-section" data-view="management" hidden>
       <h2>Headline</h2>

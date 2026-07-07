@@ -18,6 +18,7 @@
  *                   proj:reps        Projection ▸ Reps
  *                   proj:strategic   Projection ▸ Clanton · Strategic
  *                   proj:management  Projection ▸ Management
+ *                   proj:recognition Projection ▸ Clanton · Recognition
  *                   cash             Cash Position engine
  *
  * To add someone: add an entry, generate their hash, save. To revoke: delete the
@@ -29,7 +30,7 @@ window.ACCESS_USERS = [
   {
     email: "clanton@oceancorp.com",
     passwordHash: "3fee3c45258381a2275e7672518e4955757ba14c4581d27256ecd89577ec3bef",
-    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "cash"],
+    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "proj:recognition", "cash"],
   },
   // Thomas — operational cohort tracking only.
   // NOTE: regenerate this hash for thomas.thomas@oceancorp.com via
@@ -38,16 +39,16 @@ window.ACCESS_USERS = [
   {
     email: "thomas.thomas@oceancorp.com",
     passwordHash: "f91aaf5e9b84a873099572ac8db259d56de4ffa5b4c9fd671dcd1dfe562eca17",
-    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management"],
+    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "proj:recognition"],
   },
     {
     email: "afarahmandi@generational.com",
     passwordHash: "386d01a4e2c64a7f1230a03de1efae6148952cffa448d3335724b2c4ce9716e2",
-    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "cash"],
+    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "proj:recognition", "cash"],
   },
       {
     email: "aluft@generational.com",
     passwordHash: "b963012d65d5be8509181d37f1b3765dae1ee43d9259a06ebf2d30614d5faae2",
-    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "cash"],
+    views: ["historical", "proj:cohorts", "proj:reps", "proj:strategic", "proj:management", "proj:recognition", "cash"],
   },
 ];

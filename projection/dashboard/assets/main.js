@@ -145,6 +145,53 @@
     }
     renderStrategic(fyViews.current);
 
+    // Recognition tab: tuition earned pro rata across calendar years.
+    const rec = viewsData.recognition;
+    if (rec) {
+      const years = rec.years;
+      const yTbody = document.querySelector("#recognition-year-table tbody");
+      yTbody.innerHTML = "";
+      for (const y of years) {
+        const b = rec.by_year[y];
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="cohort">${y}</td>
+          <td class="num"><strong>$${b.earned_mid.toLocaleString()}</strong></td>
+          <td class="num">$${b.earned_low.toLocaleString()} – $${b.earned_high.toLocaleString()}</td>
+          <td class="num">$${b.earned_actual.toLocaleString()}</td>
+          <td class="num">$${b.earned_projected.toLocaleString()}</td>
+        `;
+        yTbody.appendChild(tr);
+      }
+      // Per-cohort table gets one earned-revenue column per calendar year.
+      const head = document.getElementById("recognition-cohort-head");
+      for (const y of years) {
+        const th = document.createElement("th");
+        th.className = "num";
+        th.textContent = y;
+        head.appendChild(th);
+      }
+      const cTbody = document.querySelector("#recognition-cohort-table tbody");
+      cTbody.innerHTML = "";
+      for (const c of rec.cohorts) {
+        let cells = `
+          <td class="cohort">${c.cohort}</td>
+          <td>${c.program}</td>
+          <td>${c.start_date}</td>
+          <td>${c.status}</td>
+          <td class="num">$${c.revenue_mid.toLocaleString()}</td>
+        `;
+        for (const y of years) {
+          const v = c.by_year[y] || 0;
+          cells += `<td class="num">${v ? "$" + v.toLocaleString() : "—"}</td>`;
+        }
+        const tr = document.createElement("tr");
+        tr.innerHTML = cells;
+        cTbody.appendChild(tr);
+      }
+      document.getElementById("recognition-confidence").textContent = rec.model_confidence_note;
+    }
+
     const m = viewsData.management;
     document.getElementById("management-headline").innerHTML = `
       <table style="max-width:520px">

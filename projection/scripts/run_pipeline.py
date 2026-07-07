@@ -145,6 +145,9 @@ def run(
     strategic_next = views.build_financial_year_view(
         enriched, actuals_df, start_dates, current_fy + 1, str(snapshot_date), confidence_note
     )
+    recognition_view = views.build_revenue_recognition_view(
+        enriched, actuals_df, start_dates, str(snapshot_date), confidence_note
+    )
     red_flags = views.compute_red_flags(enriched, pos)
     management = views.build_management_view(enriched, strategic, red_flags, str(snapshot_date))
 
@@ -153,6 +156,7 @@ def run(
         "generated_at": pd.Timestamp.now(tz="UTC").isoformat(),
         "strategic": strategic,
         "strategic_next": strategic_next,
+        "recognition": recognition_view,
         "management": management,
     }
     views_path = utils.DASHBOARD_DATA_DIR / "views.json"

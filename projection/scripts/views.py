@@ -15,7 +15,7 @@ from dataclasses import asdict, dataclass
 
 import pandas as pd
 
-from scripts import utils
+from scripts import recognition, utils
 
 REVENUE_PER_START = 25_300  # Per spec, blended UDT/NDT-Day/NDT-Night.
 PROGRAM_ORDER = ["UDT", "NDT-Day", "NDT-Night"]
@@ -196,6 +196,106 @@ def build_financial_year_view(
         "year_end_revenue_high": total_high * REVENUE_PER_START,
         "by_program": by_program,
         "cohorts": cohorts,
+        "model_confidence_note": model_confidence_note,
+    }
+
+
+def build_revenue_recognition_view(
+    cohort_df: pd.DataFrame,
+    actuals_df: pd.DataFrame | None,
+    start_dates: dict,
+    snapshot_date: str | object,
+    model_confidence_note: str,
+) -> dict:
+    """Recognize each cohort's revenue in the calendar year(s) it is earned.
+
+    Tuition is earned pro rata over 150 attendance days (see ``recognition``), so
+    a cohort that starts late in a year books part of its revenue the next year.
+    Starts come from booked actuals for already-started cohorts, projections for
+    the rest; revenue = starts x REVENUE_PER_START is spread across calendar
+    years by attendance day. Scope = cohorts with a known start date.
+    """
+    snap = utils.parse_snapshot_date(snapshot_date)
+
+    actual_by_code: dict[str, int] = {}
+    if actuals_df is not None and len(actuals_df):
+        for _, r in actuals_df.iterrows():
+            try:
+                actual_by_code[str(r["cohort"])] = int(r["actual_starts"])
+            except (ValueError, TypeError):
+                continue
+
+    proj_by_code: dict[str, tuple[int, int, int]] = {}
+    for _, r in cohort_df.iterrows():
+        proj_by_code[str(r["cohort"])] = (
+            int(r["proj_low"]),
+            int(r["proj_mid"]),
+            int(r["proj_high"]),
+        )
+
+    def _bucket() -> dict:
+        return {
+            "earned_low": 0.0,
+            "earned_mid": 0.0,
+            "earned_high": 0.0,
+            "earned_actual": 0.0,
+            "earned_projected": 0.0,
+        }
+
+    by_year: dict[int, dict] = {}
+    cohorts: list[dict] = []
+
+    for code, sd in sorted(start_dates.items(), key=lambda kv: (kv[1], kv[0])):
+        program = utils.program_for_cohort(code)
+        started = sd < snap
+
+        if started and code in actual_by_code:
+            low = mid = high = actual_by_code[code]
+            status = "actual"
+        elif started:
+            low, mid, high = proj_by_code.get(code, (0, 0, 0))
+            status = "pending"
+        elif code in proj_by_code:
+            low, mid, high = proj_by_code[code]
+            status = "projected"
+        else:
+            continue
+
+        spread_low = recognition.recognize(sd, low * REVENUE_PER_START)
+        spread_mid = recognition.recognize(sd, mid * REVENUE_PER_START)
+        spread_high = recognition.recognize(sd, high * REVENUE_PER_START)
+        is_actual = status == "actual"
+
+        for yr, amt in spread_mid.items():
+            b = by_year.setdefault(yr, _bucket())
+            b["earned_mid"] += amt
+            b["earned_actual" if is_actual else "earned_projected"] += amt
+        for yr, amt in spread_low.items():
+            by_year.setdefault(yr, _bucket())["earned_low"] += amt
+        for yr, amt in spread_high.items():
+            by_year.setdefault(yr, _bucket())["earned_high"] += amt
+
+        cohorts.append(
+            {
+                "cohort": code,
+                "program": program,
+                "start_date": sd.isoformat(),
+                "status": status,
+                "starts_mid": mid,
+                "revenue_mid": mid * REVENUE_PER_START,
+                "by_year": {str(y): round(a) for y, a in spread_mid.items()},
+            }
+        )
+
+    years = sorted(by_year)
+    by_year_out = {
+        str(y): {k: round(v) for k, v in by_year[y].items()} for y in years
+    }
+    return {
+        "years": [str(y) for y in years],
+        "by_year": by_year_out,
+        "cohorts": cohorts,
+        "revenue_per_start": REVENUE_PER_START,
         "model_confidence_note": model_confidence_note,
     }
 

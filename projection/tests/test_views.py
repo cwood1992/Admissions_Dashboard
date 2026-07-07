@@ -6,6 +6,7 @@ from scripts.views import (
     REVENUE_PER_START,
     build_financial_year_view,
     build_management_view,
+    build_revenue_recognition_view,
     compute_red_flags,
     render_management_markdown,
 )
@@ -102,6 +103,28 @@ def test_fy_next_year_is_projection_only():
     assert out["total"]["actual_starts"] == 0
     assert out["total"]["proj_mid"] == 7
     assert [c["cohort"] for c in out["cohorts"]] == ["UDT572"]
+
+
+def test_recognition_view_totals_and_split():
+    cohort_df, actuals_df, start_dates = _fy_inputs()
+    view = build_revenue_recognition_view(
+        cohort_df, actuals_df, start_dates, "2026-07-07", "note"
+    )
+    # Included cohorts: UDT566 (booked actual 10), UDT568 (mid 10), NDT568 (mid 16).
+    # UDT572 is future but absent from cohort_df -> no projection -> excluded.
+    expected_total = (10 + 10 + 16) * REVENUE_PER_START
+    year_sum = sum(view["by_year"][y]["earned_mid"] for y in view["years"])
+    assert abs(year_sum - expected_total) <= 3  # whole-dollar rounding per year
+    assert all(c["cohort"] != "UDT572" for c in view["cohorts"])
+
+    for y in view["years"]:
+        b = view["by_year"][y]
+        assert b["earned_low"] <= b["earned_mid"] <= b["earned_high"]
+        assert abs(b["earned_actual"] + b["earned_projected"] - b["earned_mid"]) <= 2
+
+    # Booked = the one started cohort (UDT566), recognized across its year(s).
+    booked_total = sum(view["by_year"][y]["earned_actual"] for y in view["years"])
+    assert abs(booked_total - 10 * REVENUE_PER_START) <= 3
 
 
 def test_red_flag_far_below_position_average():

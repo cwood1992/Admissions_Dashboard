@@ -120,7 +120,8 @@ four tabs.
 
 **The allowlist lives in one file:** [`shell/assets/access-config.js`](../shell/assets/access-config.js)
 (`window.ACCESS_USERS`). Each entry is `{ email, passwordHash, views }`. Valid view keys:
-`historical`, `proj:cohorts`, `proj:reps`, `proj:strategic`, `proj:management`, `cash`.
+`historical`, `proj:cohorts`, `proj:reps`, `proj:strategic`, `proj:management`,
+`proj:recognition`, `cash`.
 
 **To add or change a user:**
 

@@ -1,6 +1,6 @@
 window.SNAPSHOT_DATA = {
   "snapshot_date": "2026-07-07",
-  "generated_at": "2026-07-07T17:43:30.749574+00:00",
+  "generated_at": "2026-07-07T21:10:23.400541+00:00",
   "cohorts": [
     {
       "snapshot_date": "2026-07-07",
