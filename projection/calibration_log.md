@@ -42,3 +42,17 @@ the authoritative values.)
 - Priority conversion: 0.3000 -> 0.2764 (observed 0.1818 from UDT566, lr=0.2)
 - Priority conversion: 0.2764 -> 0.2211 (observed 0.0000 from NDT566, lr=0.2)
 
+## 2026-07-07 calibration run
+
+Cohorts processed: UDT567, NDT567
+
+### Baseline deltas
+- NDT-Day ate rate: mid 0.0790 -> 0.0812 (observed 0.0900 from NDT567, lr=0.2)
+- UDT ate rate: mid 0.1278 -> 0.1164 (observed 0.0708 from UDT567, lr=0.2)
+- WBH conversion: 0.7637 -> 0.6110 (observed 0.0000 from UDT567, lr=0.2)
+- WBH conversion: 0.6110 -> 0.4888 (observed 0.0000 from NDT567, lr=0.2)
+- VIP conversion: 0.3360 -> 0.2688 (observed 0.0000 from UDT567, lr=0.2)
+- VIP conversion: 0.2688 -> 0.2150 (observed 0.0000 from NDT567, lr=0.2)
+- Priority conversion: 0.2211 -> 0.1769 (observed 0.0000 from UDT567, lr=0.2)
+- Priority conversion: 0.1769 -> 0.1415 (observed 0.0000 from NDT567, lr=0.2)
+
