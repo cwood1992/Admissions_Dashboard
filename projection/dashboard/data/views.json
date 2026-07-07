@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-07-07",
-  "generated_at": "2026-07-07T21:10:23.490107+00:00",
+  "generated_at": "2026-07-07T22:55:06.940847+00:00",
   "strategic": {
     "fiscal_year": 2026,
     "label": "2026",
@@ -439,15 +439,23 @@
   },
   "recognition": {
     "years": [
+      "2025",
       "2026",
       "2027"
     ],
     "by_year": {
+      "2025": {
+        "earned_low": 2234327,
+        "earned_mid": 2234327,
+        "earned_high": 2234327,
+        "earned_actual": 2234327,
+        "earned_projected": 0
+      },
       "2026": {
-        "earned_low": 4358009,
-        "earned_mid": 4833987,
-        "earned_high": 5305410,
-        "earned_actual": 3195896,
+        "earned_low": 6399382,
+        "earned_mid": 6875359,
+        "earned_high": 7346783,
+        "earned_actual": 5237269,
         "earned_projected": 1638091
       },
       "2027": {
@@ -459,6 +467,150 @@
       }
     },
     "cohorts": [
+      {
+        "cohort": "NDT557",
+        "program": "NDT-Day",
+        "start_date": "2025-06-30",
+        "status": "actual",
+        "starts_mid": 20,
+        "revenue_mid": 506000,
+        "by_year": {
+          "2025": 411547,
+          "2026": 94453
+        }
+      },
+      {
+        "cohort": "UDT557",
+        "program": "UDT",
+        "start_date": "2025-06-30",
+        "status": "actual",
+        "starts_mid": 15,
+        "revenue_mid": 379500,
+        "by_year": {
+          "2025": 308660,
+          "2026": 70840
+        }
+      },
+      {
+        "cohort": "NDT558",
+        "program": "NDT-Day",
+        "start_date": "2025-08-04",
+        "status": "actual",
+        "starts_mid": 8,
+        "revenue_mid": 202400,
+        "by_year": {
+          "2025": 132235,
+          "2026": 70165
+        }
+      },
+      {
+        "cohort": "NDT558NC",
+        "program": "NDT-Night",
+        "start_date": "2025-08-04",
+        "status": "actual",
+        "starts_mid": 9,
+        "revenue_mid": 227700,
+        "by_year": {
+          "2025": 148764,
+          "2026": 78936
+        }
+      },
+      {
+        "cohort": "UDT558",
+        "program": "UDT",
+        "start_date": "2025-08-04",
+        "status": "actual",
+        "starts_mid": 30,
+        "revenue_mid": 759000,
+        "by_year": {
+          "2025": 495880,
+          "2026": 263120
+        }
+      },
+      {
+        "cohort": "NDT559",
+        "program": "NDT-Day",
+        "start_date": "2025-09-08",
+        "status": "actual",
+        "starts_mid": 17,
+        "revenue_mid": 430100,
+        "by_year": {
+          "2025": 212183,
+          "2026": 217917
+        }
+      },
+      {
+        "cohort": "UDT559",
+        "program": "UDT",
+        "start_date": "2025-09-08",
+        "status": "actual",
+        "starts_mid": 14,
+        "revenue_mid": 354200,
+        "by_year": {
+          "2025": 174739,
+          "2026": 179461
+        }
+      },
+      {
+        "cohort": "NDT560",
+        "program": "NDT-Day",
+        "start_date": "2025-10-14",
+        "status": "actual",
+        "starts_mid": 7,
+        "revenue_mid": 177100,
+        "by_year": {
+          "2025": 57853,
+          "2026": 119247
+        }
+      },
+      {
+        "cohort": "NDT560NC",
+        "program": "NDT-Night",
+        "start_date": "2025-10-14",
+        "status": "actual",
+        "starts_mid": 5,
+        "revenue_mid": 126500,
+        "by_year": {
+          "2025": 41323,
+          "2026": 85177
+        }
+      },
+      {
+        "cohort": "UDT560",
+        "program": "UDT",
+        "start_date": "2025-10-14",
+        "status": "actual",
+        "starts_mid": 15,
+        "revenue_mid": 379500,
+        "by_year": {
+          "2025": 123970,
+          "2026": 255530
+        }
+      },
+      {
+        "cohort": "NDT561",
+        "program": "NDT-Day",
+        "start_date": "2025-11-17",
+        "status": "actual",
+        "starts_mid": 9,
+        "revenue_mid": 227700,
+        "by_year": {
+          "2025": 39468,
+          "2026": 188232
+        }
+      },
+      {
+        "cohort": "UDT561",
+        "program": "UDT",
+        "start_date": "2025-11-17",
+        "status": "actual",
+        "starts_mid": 20,
+        "revenue_mid": 506000,
+        "by_year": {
+          "2025": 87707,
+          "2026": 418293
+        }
+      },
       {
         "cohort": "NDT562",
         "program": "NDT-Day",
