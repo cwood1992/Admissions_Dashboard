@@ -42,6 +42,16 @@ the authoritative values.)
 - Priority conversion: 0.3000 -> 0.2764 (observed 0.1818 from UDT566, lr=0.2)
 - Priority conversion: 0.2764 -> 0.2211 (observed 0.0000 from NDT566, lr=0.2)
 
+## 2026-07-07 — superseded
+
+The first 2026-07-07 run auto-derived 567 tier conversions from the booked CCS
+and recorded them as 0/N (WBH 0.7637->0.4888, VIP 0.336->0.215, Priority
+0.2211->0.1415). This was wrong: a student's **Action Status is cleared once
+they show/start**, so in a booked CCS the WBH/VIP/Priority flags survive only on
+the no-shows — the flag-and-started cross-tab is structurally ~0. Baselines were
+reset to their pre-567 values and 567 was re-recorded from the at-start
+(2026-06-26) snapshot with WBH corrected by hand; see the run below.
+
 ## 2026-07-07 calibration run
 
 Cohorts processed: UDT567, NDT567
@@ -49,10 +59,6 @@ Cohorts processed: UDT567, NDT567
 ### Baseline deltas
 - NDT-Day ate rate: mid 0.0790 -> 0.0812 (observed 0.0900 from NDT567, lr=0.2)
 - UDT ate rate: mid 0.1278 -> 0.1164 (observed 0.0708 from UDT567, lr=0.2)
-- WBH conversion: 0.7637 -> 0.6110 (observed 0.0000 from UDT567, lr=0.2)
-- WBH conversion: 0.6110 -> 0.4888 (observed 0.0000 from NDT567, lr=0.2)
-- VIP conversion: 0.3360 -> 0.2688 (observed 0.0000 from UDT567, lr=0.2)
-- VIP conversion: 0.2688 -> 0.2150 (observed 0.0000 from NDT567, lr=0.2)
-- Priority conversion: 0.2211 -> 0.1769 (observed 0.0000 from UDT567, lr=0.2)
-- Priority conversion: 0.1769 -> 0.1415 (observed 0.0000 from NDT567, lr=0.2)
+- WBH conversion: 0.7637 -> 0.7665 (observed 0.7778 from UDT567, lr=0.2)
+- WBH conversion: 0.7665 -> 0.8132 (observed 1.0000 from NDT567, lr=0.2)
 

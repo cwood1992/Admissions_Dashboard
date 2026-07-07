@@ -1,6 +1,6 @@
 window.SNAPSHOT_DATA = {
   "snapshot_date": "2026-07-07",
-  "generated_at": "2026-07-07T16:50:15.450013+00:00",
+  "generated_at": "2026-07-07T17:14:44.113004+00:00",
   "cohorts": [
     {
       "snapshot_date": "2026-07-07",
@@ -30,8 +30,8 @@ window.SNAPSHOT_DATA = {
       "high_water_enrolled": 66,
       "proj_low": 4,
       "proj_mid": 6,
-      "proj_high": 7,
-      "projection_basis": "medium-14-30: blend(accum=10, tier_mid=1.1); WBH=0,VIP=5,Priority=4",
+      "proj_high": 8,
+      "projection_basis": "medium-14-30: blend(accum=10, tier_mid=1.7); WBH=0,VIP=5,Priority=4",
       "expected_weekly_velocity": 0.5235416666666657,
       "velocity_vs_historical": "above"
     },
@@ -64,7 +64,7 @@ window.SNAPSHOT_DATA = {
       "proj_low": 4,
       "proj_mid": 6,
       "proj_high": 8,
-      "projection_basis": "medium-14-30: blend(accum=10, tier_mid=1.7); WBH=0,VIP=8,Priority=3",
+      "projection_basis": "medium-14-30: blend(accum=10, tier_mid=2.7); WBH=0,VIP=8,Priority=3",
       "expected_weekly_velocity": 0.5983333333333327,
       "velocity_vs_historical": "below"
     },
@@ -424,10 +424,10 @@ window.SNAPSHOT_DATA = {
       "cancelled_gone": NaN,
       "cancelled_moved_later": NaN,
       "high_water_enrolled": 89,
-      "proj_low": 9,
-      "proj_mid": 15,
-      "proj_high": 18,
-      "projection_basis": "medium-14-30: blend(accum=21, tier_mid=8.6); WBH=8,VIP=22,Priority=9",
+      "proj_low": 11,
+      "proj_mid": 17,
+      "proj_high": 21,
+      "projection_basis": "medium-14-30: blend(accum=21, tier_mid=13.9); WBH=8,VIP=22,Priority=9",
       "expected_weekly_velocity": 1.0470833333333314,
       "velocity_vs_historical": "on-track"
     },
