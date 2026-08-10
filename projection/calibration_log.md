@@ -62,3 +62,21 @@ Cohorts processed: UDT567, NDT567
 - WBH conversion: 0.7637 -> 0.7665 (observed 0.7778 from UDT567, lr=0.2)
 - WBH conversion: 0.7665 -> 0.8132 (observed 1.0000 from NDT567, lr=0.2)
 
+## 2026-08-10 calibration run
+
+Cohorts processed: UDT568, NDT568, NDT568NC
+
+### Baseline deltas
+- NDT-Day ate rate: mid 0.0812 -> 0.0692 (observed 0.0214 from NDT568, lr=0.2)
+- NDT-Night ate rate: mid 0.2320 -> 0.2745 (observed 0.4444 from NDT568NC, lr=0.2)
+- UDT ate rate: mid 0.1164 -> 0.1193 (observed 0.1307 from UDT568, lr=0.2)
+- WBH conversion: 0.8132 -> 0.8245 (observed 0.8696 from UDT568, lr=0.2)
+- WBH conversion: 0.8245 -> 0.8196 (observed 0.8000 from NDT568, lr=0.2)
+- WBH conversion: 0.8196 -> 0.8557 (observed 1.0000 from NDT568NC, lr=0.2)
+- VIP conversion: 0.3360 -> 0.2688 (observed 0.0000 from UDT568, lr=0.2)
+- VIP conversion: 0.2688 -> 0.2150 (observed 0.0000 from NDT568, lr=0.2)
+- VIP conversion: 0.2150 -> 0.2220 (observed 0.2500 from NDT568NC, lr=0.2)
+- Priority conversion: 0.2211 -> 0.2269 (observed 0.2500 from UDT568, lr=0.2)
+- Priority conversion: 0.2269 -> 0.2482 (observed 0.3333 from NDT568, lr=0.2)
+- Priority conversion: 0.2482 -> 0.3985 (observed 1.0000 from NDT568NC, lr=0.2)
+
