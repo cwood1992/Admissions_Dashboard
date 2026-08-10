@@ -23,6 +23,14 @@ PROGRAM_ORDER = ["UDT", "NDT-Day", "NDT-Night"]
 RED_FLAG_MID_VS_POS_AVG_BELOW = 0.50  # proj_mid < 50% of position_avg
 RED_FLAG_NEAR_DAYS = 30
 ZERO_WBH_NEAR_DAYS = 21
+# Start-percentage rules (added after NDT568: 234 enrolled -> 5 starts with no
+# flag). Both compare an implied start rate against the program's ATE low bound
+# from baselines/ate_conversion_rates.csv, so they tighten as calibration moves.
+START_RATE_NEAR_DAYS = 30  # implied projected start rate: proj_mid / high water
+WBH_FLOOR_NEAR_DAYS = 14   # WBH-implied floor: wbh x show rate / high water.
+#   14d, not 21d: backtest shows WBH tagging often hasn't ramped at 21d (567
+#   fired then recovered), while at 14d the rule was clean on Jun-Aug 2026 data.
+START_RATE_MIN_POOL = 30   # skip small pools (rate math on n<30 is noise)
 
 
 @dataclass(frozen=True)
@@ -37,6 +45,8 @@ class RedFlag:
 def compute_red_flags(
     cohort_df: pd.DataFrame,
     position_averages: dict[str, int],
+    ate_lows: dict[str, float] | None = None,
+    wbh_show_rate: float | None = None,
 ) -> list[RedFlag]:
     flags: list[RedFlag] = []
     for _, row in cohort_df.iterrows():
@@ -45,6 +55,9 @@ def compute_red_flags(
         program = str(row["program"])
         proj_mid = int(row["proj_mid"])
         pos_avg = position_averages.get(cohort)
+        ate_low = (ate_lows or {}).get(program)
+        pool = row.get("high_water_enrolled")
+        pool = int(pool) if pool is not None and pd.notna(pool) else None
 
         if days <= RED_FLAG_NEAR_DAYS and pos_avg:
             if proj_mid < pos_avg * RED_FLAG_MID_VS_POS_AVG_BELOW:
@@ -74,6 +87,47 @@ def compute_red_flags(
                     ),
                 )
             )
+
+        # Start-percentage rules need a program ATE low and a big-enough pool.
+        if ate_low is None or pool is None or pool < START_RATE_MIN_POOL:
+            continue
+
+        if days <= START_RATE_NEAR_DAYS:
+            implied = proj_mid / pool
+            if implied < ate_low:
+                flags.append(
+                    RedFlag(
+                        cohort=cohort,
+                        program=program,
+                        days_to_start=days,
+                        proj_mid=proj_mid,
+                        reason=(
+                            f"projected start rate {implied:.1%} "
+                            f"(mid {proj_mid} of {pool} ever enrolled) is below "
+                            f"the {program} historical low {ate_low:.1%} "
+                            f"with {days}d to start"
+                        ),
+                    )
+                )
+
+        if days <= WBH_FLOOR_NEAR_DAYS and wbh_show_rate is not None:
+            wbh = int(row.get("wbh_count", 0))
+            wbh_floor = wbh * wbh_show_rate / pool
+            if wbh_floor < ate_low:
+                flags.append(
+                    RedFlag(
+                        cohort=cohort,
+                        program=program,
+                        days_to_start=days,
+                        proj_mid=proj_mid,
+                        reason=(
+                            f"WBH-implied start rate {wbh_floor:.1%} "
+                            f"({wbh} WBH x {wbh_show_rate:.0%} show rate on "
+                            f"{pool} ever enrolled) is below the {program} "
+                            f"historical low {ate_low:.1%} with {days}d to start"
+                        ),
+                    )
+                )
 
     return flags
 

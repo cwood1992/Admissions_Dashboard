@@ -20,6 +20,7 @@ def _cohort_row(
     proj_mid: int,
     proj_high: int,
     wbh_count: int = 5,
+    high_water_enrolled: int | None = None,
 ) -> dict:
     return {
         "cohort": cohort,
@@ -29,6 +30,7 @@ def _cohort_row(
         "proj_mid": proj_mid,
         "proj_high": proj_high,
         "wbh_count": wbh_count,
+        "high_water_enrolled": high_water_enrolled,
     }
 
 
@@ -147,6 +149,83 @@ def test_no_flag_when_healthy():
     df = pd.DataFrame([_cohort_row("UDT566", "UDT", 60, 16, 19, 22, wbh_count=8)])
     flags = compute_red_flags(df, {"UDT566": 18})
     assert flags == []
+
+
+# NDT-Day ATE low as of the NDT568 backtest; WBH show rate then in effect.
+_ATE_LOWS = {"NDT-Day": 0.0436, "NDT-Night": 0.2005, "UDT": 0.0846}
+_WBH_RATE = 0.81
+
+
+def test_red_flag_projected_start_rate_below_ate_low():
+    # NDT568 at 3d out: proj_mid 5 on 123 ever enrolled = 4.1% < 4.36% low.
+    df = pd.DataFrame(
+        [_cohort_row("NDT568", "NDT-Day", 3, 4, 5, 6, wbh_count=5,
+                     high_water_enrolled=123)]
+    )
+    flags = compute_red_flags(df, {"NDT568": 7}, ate_lows=_ATE_LOWS,
+                              wbh_show_rate=_WBH_RATE)
+    reasons = " ".join(f.reason for f in flags)
+    assert "projected start rate" in reasons
+    assert "historical low" in reasons
+
+
+def test_red_flag_wbh_floor_below_ate_low_at_14d():
+    # NDT568 at 14d out: wbh=1 on 117 pool -> floor 0.7%, but proj_mid 7 keeps
+    # the implied projected rate (6.0%) above the low - only the WBH rule fires.
+    df = pd.DataFrame(
+        [_cohort_row("NDT568", "NDT-Day", 14, 6, 7, 9, wbh_count=1,
+                     high_water_enrolled=117)]
+    )
+    flags = compute_red_flags(df, {"NDT568": 7}, ate_lows=_ATE_LOWS,
+                              wbh_show_rate=_WBH_RATE)
+    reasons = [f.reason for f in flags]
+    assert any("WBH-implied start rate" in r for r in reasons)
+    assert not any(r.startswith("projected start rate") for r in reasons)
+
+
+def test_wbh_floor_rule_silent_beyond_14d():
+    # Same weak WBH at 21d out must NOT fire (tagging often hasn't ramped yet).
+    df = pd.DataFrame(
+        [_cohort_row("NDT568", "NDT-Day", 21, 6, 7, 9, wbh_count=1,
+                     high_water_enrolled=104)]
+    )
+    flags = compute_red_flags(df, {"NDT568": 7}, ate_lows=_ATE_LOWS,
+                              wbh_show_rate=_WBH_RATE)
+    assert not any("WBH-implied" in f.reason for f in flags)
+
+
+def test_start_rate_rules_skip_small_pools():
+    # NDT568NC-like: pool of 12 is below the min-pool guard; wbh=1 would fire
+    # the floor rule on rate math alone, but n is too small to trust.
+    df = pd.DataFrame(
+        [_cohort_row("NDT568NC", "NDT-Night", 14, 4, 5, 6, wbh_count=1,
+                     high_water_enrolled=12)]
+    )
+    flags = compute_red_flags(df, {"NDT568NC": 5}, ate_lows=_ATE_LOWS,
+                              wbh_show_rate=_WBH_RATE)
+    assert not any("start rate" in f.reason for f in flags)
+
+
+def test_start_rate_rules_no_fire_when_healthy():
+    # UDT568 at 14d out: wbh=21, pool 94 -> floor 18% and implied 21% both
+    # comfortably above the 8.5% low.
+    df = pd.DataFrame(
+        [_cohort_row("UDT568", "UDT", 14, 18, 20, 23, wbh_count=21,
+                     high_water_enrolled=94)]
+    )
+    flags = compute_red_flags(df, {"UDT568": 15}, ate_lows=_ATE_LOWS,
+                              wbh_show_rate=_WBH_RATE)
+    assert flags == []
+
+
+def test_start_rate_rules_backward_compatible_without_ate():
+    # Callers that don't pass ate_lows get the original two rules only.
+    df = pd.DataFrame(
+        [_cohort_row("NDT568", "NDT-Day", 3, 4, 5, 6, wbh_count=5,
+                     high_water_enrolled=123)]
+    )
+    flags = compute_red_flags(df, {"NDT568": 7})
+    assert not any("start rate" in f.reason for f in flags)
 
 
 def test_management_view_includes_revenue_and_narrative():

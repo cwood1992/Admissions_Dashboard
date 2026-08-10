@@ -148,7 +148,13 @@ def run(
     recognition_view = views.build_revenue_recognition_view(
         enriched, actuals_df, start_dates, str(snapshot_date), confidence_note
     )
-    red_flags = views.compute_red_flags(enriched, pos)
+    ate = projections.load_ate_rates()
+    red_flags = views.compute_red_flags(
+        enriched,
+        pos,
+        ate_lows={p: float(r.low) for p, r in ate.items()},
+        wbh_show_rate=tiers.wbh_show_rate,
+    )
     management = views.build_management_view(enriched, strategic, red_flags, str(snapshot_date))
 
     views_payload = {
