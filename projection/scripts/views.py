@@ -27,9 +27,10 @@ ZERO_WBH_NEAR_DAYS = 21
 # flag). Both compare an implied start rate against the program's ATE low bound
 # from baselines/ate_conversion_rates.csv, so they tighten as calibration moves.
 START_RATE_NEAR_DAYS = 30  # implied projected start rate: proj_mid / high water
-WBH_FLOOR_NEAR_DAYS = 14   # WBH-implied floor: wbh x show rate / high water.
-#   14d, not 21d: backtest shows WBH tagging often hasn't ramped at 21d (567
-#   fired then recovered), while at 14d the rule was clean on Jun-Aug 2026 data.
+WBH_FLOOR_NEAR_DAYS = 28   # WBH-implied floor: wbh x show rate / high water.
+#   Widened from 14 to 28 (2026-08-10, per Clanton): admissions needs the lead
+#   time. Known tradeoff: WBH tagging often hasn't ramped 3-4 weeks out (567
+#   fired at 21d then recovered), so expect recoverable early fires.
 START_RATE_MIN_POOL = 30   # skip small pools (rate math on n<30 is noise)
 
 

@@ -1,6 +1,6 @@
 window.VIEWS = {
   "snapshot_date": "2026-08-10",
-  "generated_at": "2026-08-10T19:47:33.338706+00:00",
+  "generated_at": "2026-08-10T19:49:57.659228+00:00",
   "strategic": {
     "fiscal_year": 2026,
     "label": "2026",

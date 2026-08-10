@@ -183,10 +183,21 @@ def test_red_flag_wbh_floor_below_ate_low_at_14d():
     assert not any(r.startswith("projected start rate") for r in reasons)
 
 
-def test_wbh_floor_rule_silent_beyond_14d():
-    # Same weak WBH at 21d out must NOT fire (tagging often hasn't ramped yet).
+def test_wbh_floor_rule_fires_at_21d_within_window():
+    # Weak WBH at 21d out fires (window widened to 28d for lead time).
     df = pd.DataFrame(
         [_cohort_row("NDT568", "NDT-Day", 21, 6, 7, 9, wbh_count=1,
+                     high_water_enrolled=104)]
+    )
+    flags = compute_red_flags(df, {"NDT568": 7}, ate_lows=_ATE_LOWS,
+                              wbh_show_rate=_WBH_RATE)
+    assert any("WBH-implied" in f.reason for f in flags)
+
+
+def test_wbh_floor_rule_silent_beyond_28d():
+    # Outside the window nothing fires no matter how weak WBH looks.
+    df = pd.DataFrame(
+        [_cohort_row("NDT568", "NDT-Day", 29, 6, 7, 9, wbh_count=0,
                      high_water_enrolled=104)]
     )
     flags = compute_red_flags(df, {"NDT568": 7}, ate_lows=_ATE_LOWS,
