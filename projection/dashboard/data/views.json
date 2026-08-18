@@ -1,43 +1,43 @@
 {
-  "snapshot_date": "2026-08-10",
-  "generated_at": "2026-08-10T19:49:57.659228+00:00",
+  "snapshot_date": "2026-08-18",
+  "generated_at": "2026-08-18T21:24:11.563754+00:00",
   "strategic": {
     "fiscal_year": 2026,
     "label": "2026",
     "total": {
       "actual_starts": 164,
-      "proj_low": 243,
-      "proj_mid": 273,
-      "proj_high": 302
+      "proj_low": 253,
+      "proj_mid": 286,
+      "proj_high": 320
     },
     "revenue_per_start": 25300,
-    "year_end_revenue_low": 6147900,
-    "year_end_revenue_mid": 6906900,
-    "year_end_revenue_high": 7640600,
+    "year_end_revenue_low": 6400900,
+    "year_end_revenue_mid": 7235800,
+    "year_end_revenue_high": 8096000,
     "by_program": {
       "UDT": {
         "cohort_count": 10,
         "started_count": 7,
         "actual_starts": 94,
-        "proj_low": 148,
-        "proj_mid": 168,
-        "proj_high": 188
+        "proj_low": 152,
+        "proj_mid": 172,
+        "proj_high": 193
       },
       "NDT-Day": {
         "cohort_count": 10,
         "started_count": 7,
         "actual_starts": 49,
-        "proj_low": 70,
-        "proj_mid": 78,
-        "proj_high": 86
+        "proj_low": 75,
+        "proj_mid": 86,
+        "proj_high": 97
       },
       "NDT-Night": {
         "cohort_count": 5,
         "started_count": 4,
         "actual_starts": 21,
-        "proj_low": 25,
-        "proj_mid": 27,
-        "proj_high": 28
+        "proj_low": 26,
+        "proj_mid": 28,
+        "proj_high": 30
       }
     },
     "cohorts": [
@@ -227,9 +227,9 @@
         "start_date": "2026-09-08",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 8,
-        "starts_mid": 10,
-        "starts_high": 13
+        "starts_low": 11,
+        "starts_mid": 15,
+        "starts_high": 18
       },
       {
         "cohort": "UDT569",
@@ -237,9 +237,9 @@
         "start_date": "2026-09-08",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 14,
-        "starts_mid": 20,
-        "starts_high": 26
+        "starts_low": 18,
+        "starts_mid": 24,
+        "starts_high": 31
       },
       {
         "cohort": "NDT570",
@@ -247,9 +247,9 @@
         "start_date": "2026-10-13",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 5,
-        "starts_mid": 7,
-        "starts_high": 8
+        "starts_low": 7,
+        "starts_mid": 10,
+        "starts_high": 14
       },
       {
         "cohort": "NDT570NC",
@@ -257,9 +257,9 @@
         "start_date": "2026-10-13",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 4,
-        "starts_mid": 6,
-        "starts_high": 7
+        "starts_low": 5,
+        "starts_mid": 7,
+        "starts_high": 9
       },
       {
         "cohort": "UDT570",
@@ -452,18 +452,18 @@
         "earned_projected": 0
       },
       "2026": {
-        "earned_low": 6442729,
-        "earned_mid": 6689320,
-        "earned_high": 6931525,
+        "earned_low": 6555399,
+        "earned_mid": 6835385,
+        "earned_high": 7123805,
         "earned_actual": 5788303,
-        "earned_projected": 901017
+        "earned_projected": 1047083
       },
       "2027": {
-        "earned_low": 3213943,
-        "earned_mid": 4333553,
-        "earned_high": 5381647,
+        "earned_low": 3354274,
+        "earned_mid": 4516387,
+        "earned_high": 5644767,
         "earned_actual": 402270,
-        "earned_projected": 3931283
+        "earned_projected": 4114117
       }
     },
     "cohorts": [
@@ -819,11 +819,11 @@
         "program": "NDT-Day",
         "start_date": "2026-09-08",
         "status": "projected",
-        "starts_mid": 10,
-        "revenue_mid": 253000,
+        "starts_mid": 15,
+        "revenue_mid": 379500,
         "by_year": {
-          "2026": 124813,
-          "2027": 128187
+          "2026": 187220,
+          "2027": 192280
         }
       },
       {
@@ -831,11 +831,11 @@
         "program": "UDT",
         "start_date": "2026-09-08",
         "status": "projected",
-        "starts_mid": 20,
-        "revenue_mid": 506000,
+        "starts_mid": 24,
+        "revenue_mid": 607200,
         "by_year": {
-          "2026": 249627,
-          "2027": 256373
+          "2026": 299552,
+          "2027": 307648
         }
       },
       {
@@ -843,11 +843,11 @@
         "program": "NDT-Day",
         "start_date": "2026-10-13",
         "status": "projected",
-        "starts_mid": 7,
-        "revenue_mid": 177100,
+        "starts_mid": 10,
+        "revenue_mid": 253000,
         "by_year": {
-          "2026": 59033,
-          "2027": 118067
+          "2026": 84333,
+          "2027": 168667
         }
       },
       {
@@ -855,11 +855,11 @@
         "program": "NDT-Night",
         "start_date": "2026-10-13",
         "status": "projected",
-        "starts_mid": 6,
-        "revenue_mid": 151800,
+        "starts_mid": 7,
+        "revenue_mid": 177100,
         "by_year": {
-          "2026": 50600,
-          "2027": 101200
+          "2026": 59033,
+          "2027": 118067
         }
       },
       {
@@ -1014,12 +1014,20 @@
   },
   "management": {
     "fiscal_year": 2026,
-    "headline_starts_mid": 273,
-    "headline_starts_low": 243,
-    "headline_starts_high": 302,
+    "headline_starts_mid": 286,
+    "headline_starts_low": 253,
+    "headline_starts_high": 320,
     "headline_actual_starts": 164,
-    "headline_revenue_mid": 6906900,
-    "narrative": "As of 2026-08-10, the 2026 financial-year projection is 273 starts (range 243\u2013302) \u2014 164 booked plus 109 projected \u2014 implying $6,906,900 in mid-case revenue. Model has calibrated confidence tier rates. Red-flagged cohorts: none.",
-    "red_flagged_cohorts": []
+    "headline_revenue_mid": 7235800,
+    "narrative": "As of 2026-08-18, the 2026 financial-year projection is 286 starts (range 253\u2013320) \u2014 164 booked plus 122 projected \u2014 implying $7,235,800 in mid-case revenue. Model has calibrated confidence tier rates. Red-flagged cohorts: NDT569: WBH-implied start rate 4.0% (11 WBH x 86% show rate on 235 ever enrolled) is below the NDT-Day historical low 4.4% with 21d to start.",
+    "red_flagged_cohorts": [
+      {
+        "cohort": "NDT569",
+        "program": "NDT-Day",
+        "days_to_start": 21,
+        "proj_mid": 15,
+        "reason": "WBH-implied start rate 4.0% (11 WBH x 86% show rate on 235 ever enrolled) is below the NDT-Day historical low 4.4% with 21d to start"
+      }
+    ]
   }
 }
