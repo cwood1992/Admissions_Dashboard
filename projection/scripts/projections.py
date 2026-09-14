@@ -135,9 +135,16 @@ def _enforce_order(low: int, mid: int, high: int) -> tuple[int, int, int]:
 
 
 FAR_REGIME_PROJECTION_CAP_MULTIPLIER = 2.5
-"""When fill_pct is small (early in the cycle), dividing accumulated enrollment
-by fill_pct amplifies noise. Cap the accumulation-derived projection at this
-multiple of position_avg to keep early-regime numbers sane."""
+"""Cap the accumulation-derived STARTS projection at this multiple of
+position_avg. Safety net against a noisy fill_pct; with ATE applied it should
+rarely bind."""
+
+FAR_REGIME_MIN_FILL_PCT = 0.15
+"""Below this expected fill (roughly 90+ days out) a handful of early
+enrollments divided by a tiny fill_pct is noise, so the far regime uses the
+position average alone. The spec's "weight toward position average, adjusted
+by current fill status" — the accumulation term only enters once the cohort is
+meaningfully filling."""
 
 
 def _accumulated_enrolled(row: pd.Series) -> int:
@@ -161,33 +168,45 @@ def _project_far(
     ate: AteRange,
     curve: AccumulationCurve,
 ) -> Projection:
+    """Accumulation-curve regime, all in STARTS units:
+
+    projected_enrolled = accumulated (high-water) / fill_pct   -> enrollments
+    projected_starts   = projected_enrolled * ate.mid          -> starts
+    capped at 2.5x position_avg, then blended 1/3 with the position_avg prior.
+    Below FAR_REGIME_MIN_FILL_PCT the position average is used alone.
+    """
     fill_pct = curve.fill_pct(program, float(days_to_start))
     capped = False
-    if fill_pct > 0:
+    if fill_pct >= FAR_REGIME_MIN_FILL_PCT:
         projected_enrolled = currently_enrolled / fill_pct
+        projected_starts = projected_enrolled * ate.mid
         cap = FAR_REGIME_PROJECTION_CAP_MULTIPLIER * position_avg
-        if projected_enrolled > cap:
-            projected_enrolled = cap
+        if projected_starts > cap:
+            projected_starts = cap
             capped = True
+        blended = (
+            (1 - POSITION_PRIOR_WEIGHT) * projected_starts
+            + POSITION_PRIOR_WEIGHT * position_avg
+        )
+        cap_note = f", capped@{FAR_REGIME_PROJECTION_CAP_MULTIPLIER:.1f}x_pos_avg" if capped else ""
+        basis = (
+            f"{REGIME_FAR}: accum_fill@{days_to_start}d={fill_pct:.2f}, "
+            f"proj_enrolled={projected_enrolled:.0f} x ate_mid={ate.mid:.3f} "
+            f"= {projected_starts:.1f} starts{cap_note}, blended_with_pos_avg={blended:.1f} "
+            f"(prior_weight={POSITION_PRIOR_WEIGHT:.2f})"
+        )
     else:
-        projected_enrolled = float(position_avg)
-    # Blend with position_avg as prior.
-    blended = (
-        (1 - POSITION_PRIOR_WEIGHT) * projected_enrolled
-        + POSITION_PRIOR_WEIGHT * position_avg
-    )
+        blended = float(position_avg)
+        basis = (
+            f"{REGIME_FAR}: accum_fill@{days_to_start}d={fill_pct:.2f} below "
+            f"{FAR_REGIME_MIN_FILL_PCT:.2f} floor; position_avg={position_avg} only"
+        )
     # Scenario spread derived from the ate range width relative to mid.
     spread = (ate.high - ate.low) / ate.mid if ate.mid else 0.25
     low = max(0, round(blended * (1 - spread / 2)))
     mid = round(blended)
     high = round(blended * (1 + spread / 2))
     low, mid, high = _enforce_order(low, mid, high)
-    cap_note = f", capped@{FAR_REGIME_PROJECTION_CAP_MULTIPLIER:.1f}x_pos_avg" if capped else ""
-    basis = (
-        f"{REGIME_FAR}: accum_fill@{days_to_start}d={fill_pct:.2f}, "
-        f"raw_proj={projected_enrolled:.1f}{cap_note}, blended_with_pos_avg={blended:.1f} "
-        f"(prior_weight={POSITION_PRIOR_WEIGHT:.2f})"
-    )
     return Projection(low, mid, high, basis)
 
 
