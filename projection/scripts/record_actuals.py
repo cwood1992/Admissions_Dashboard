@@ -117,6 +117,31 @@ def _row_for_cohort(snapshot_path: Path, cohort: str) -> pd.Series | None:
     return rows.iloc[0] if len(rows) else None
 
 
+def retrospective_projections(
+    cohort: str, start_date: date, snapshots_dir: Path | None = None
+) -> dict[str, int | str]:
+    """proj_at_{60,30,14,7}d: the proj_mid the pipeline published for this
+    cohort in the snapshot closest to each interval before start (within
+    ``_find_snapshot_closest_to`` tolerance). Blank when no snapshot is close
+    enough. Feeds calibrate's model-accuracy lines and escalation check."""
+    out: dict[str, int | str] = {}
+    for days_before in PROJECTION_INTERVALS:
+        target_date = start_date - timedelta(days=days_before)
+        candidates = [
+            (abs((d - target_date).days), d, p)
+            for d, p in utils.list_snapshots(snapshots_dir)
+        ]
+        candidates.sort()
+        value: int | str = ""
+        if candidates and candidates[0][0] <= 3:
+            _, _, p = candidates[0]
+            row = _row_for_cohort(p, cohort)
+            if row is not None and "proj_mid" in row and pd.notna(row["proj_mid"]):
+                value = int(round(float(row["proj_mid"])))
+        out[f"proj_at_{days_before}d"] = value
+    return out
+
+
 def _ask(prompt: str, default: str | int | None = None, type_=str):
     suffix = f" [{default}]" if default is not None and default != "" else ""
     raw = input(f"  {prompt}{suffix}: ").strip()
@@ -208,17 +233,11 @@ def record_actuals_interactive(cohort: str, at_start_date_override: date | None 
     print()
     print("Retrospective projections at 60/30/14/7d before start (Enter to skip):")
     proj_values: dict[str, int | str] = {}
+    defaults = retrospective_projections(cohort, start_date)
     for days_before in PROJECTION_INTERVALS:
-        target_date = start_date - timedelta(days=days_before)
-        snap = _find_snapshot_closest_to(target_date)
-        default_proj: int | str = ""
-        if snap:
-            d, p = snap
-            row = _row_for_cohort(p, cohort)
-            if row is not None and "proj_mid" in row and pd.notna(row["proj_mid"]):
-                default_proj = int(row["proj_mid"])
-        v = _ask(f"proj_at_{days_before}d", default=default_proj, type_=int)
-        proj_values[f"proj_at_{days_before}d"] = v if v is not None else ""
+        key = f"proj_at_{days_before}d"
+        v = _ask(key, default=defaults[key], type_=int)
+        proj_values[key] = v if v is not None else ""
 
     row = {
         "cohort": cohort,
@@ -278,9 +297,14 @@ def main() -> None:
 
     if args.from_ccs:
         row = derive_from_booked_ccs(args.cohort, Path(args.from_ccs))
+        start_dates = ingest.load_program_start_dates()
+        if args.cohort in start_dates:
+            row.update(retrospective_projections(args.cohort, start_dates[args.cohort]))
+        else:
+            print(f"  WARN: {args.cohort} not in program_start_dates_2026.csv; proj_at_* left blank.")
         print(f"Derived from {args.from_ccs}:")
         for k, v in row.items():
-            if k not in ("cohort", "program", "calibrated_at") and not str(k).startswith("proj_"):
+            if k not in ("cohort", "program", "calibrated_at"):
                 print(f"  {k}: {v}")
         if not _confirm("Accept these and append?"):
             print("Aborted.")

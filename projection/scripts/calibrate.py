@@ -31,7 +31,16 @@ ESCALATION_RUN_LENGTH = 3
 # Weekly-resolution bins for building dense enrollment fill curves.
 BIN_CENTERS = [0, 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91]
 BIN_RADIUS = 3  # ±3 days from center
+# Cohorts (across ALL completed actuals, not just this run's pending rows)
+# that a program needs before its curve is blended. A class start delivers
+# exactly one cohort per program, so gating on pending rows alone never fires.
 MIN_COHORTS_FOR_CURVE_UPDATE = 2
+# Curve observations use the cohort's enrollment high-water mark (peak
+# currently_enrolled to date), not currently_enrolled: the curve describes how
+# fast enrollment ACCUMULATES, and currently_enrolled collapses in the final
+# two weeks as cancellations are processed. projections._project_far divides
+# the same high-water figure by the curve, so the two sides stay consistent.
+CURVE_NUMERATOR_COL = "high_water_enrolled"
 
 
 @dataclass
@@ -206,9 +215,10 @@ def extract_cohort_observations(
     """Extract (bin_center, observed_fill_pct) pairs for a completed cohort.
 
     Scans all snapshots for rows matching the cohort code. For each,
-    computes observed_fill_pct = currently_enrolled / total_ever_enrolled,
-    assigns to the nearest weekly bin (skipping bin 0), and returns all
-    observations.
+    computes observed_fill_pct = high_water_enrolled / total_ever_enrolled
+    (falling back to currently_enrolled when the snapshot predates the
+    high-water column), assigns to the nearest weekly bin (skipping bin 0),
+    and returns all observations.
     """
     if total_ever_enrolled <= 0:
         return []
@@ -224,7 +234,16 @@ def extract_cohort_observations(
             bin_center = _nearest_bin(dts)
             if bin_center is None:
                 continue
-            fill = float(row["currently_enrolled"]) / total_ever_enrolled
+            # Legacy per-cohort CCS snapshots predate the high-water column but
+            # carry their own total_ever_enrolled (incl. cancels); use that
+            # before falling back to currently_enrolled.
+            numer = None
+            for col in (CURVE_NUMERATOR_COL, "total_ever_enrolled", "currently_enrolled"):
+                val = row.get(col)
+                if val is not None and not pd.isna(val):
+                    numer = val
+                    break
+            fill = float(numer) / total_ever_enrolled
             observations.append((bin_center, fill))
     return observations
 
@@ -261,11 +280,32 @@ def _interpolate_prior(curves_df: pd.DataFrame, program: str, days_to_start: int
     return float(ys[-1])
 
 
+def _cohorts_with_curve_coverage(
+    actuals: pd.DataFrame, snapshots_dir: Path | None = None
+) -> dict[str, set[str]]:
+    """Per program, the completed cohorts that have at least one calibratable
+    curve observation in the snapshot history. Used for the min-cohorts gate."""
+    out: dict[str, set[str]] = {}
+    for _, row in actuals.iterrows():
+        tee = row.get("total_ever_enrolled")
+        try:
+            tee_int = int(float(tee))
+        except (TypeError, ValueError):
+            continue
+        if tee_int <= 0:
+            continue
+        cohort = str(row["cohort"])
+        if extract_cohort_observations(cohort, tee_int, snapshots_dir):
+            out.setdefault(str(row["program"]), set()).add(cohort)
+    return out
+
+
 def update_accumulation_curves(
     curves_df: pd.DataFrame,
     completed: pd.DataFrame,
     lr: float = DEFAULT_LEARNING_RATE,
     snapshots_dir: Path | None = None,
+    history: pd.DataFrame | None = None,
 ) -> tuple[pd.DataFrame, list[str]]:
     """Update accumulation curves from completed cohorts' snapshot histories.
 
@@ -274,6 +314,11 @@ def update_accumulation_curves(
     stored snapshots. Blends observations with the prior curve using the same
     learning-rate approach as ATE/tier calibration.
 
+    ``completed`` holds the cohorts whose observations are blended this run.
+    ``history`` (default: ``completed``) is the full set of completed actuals;
+    the per-program min-cohorts gate counts coverage across it so the gate can
+    pass even when a single class start delivers one cohort per program.
+
     Returns updated curves DataFrame and list of delta description strings.
     """
     df = curves_df.copy()
@@ -281,26 +326,30 @@ def update_accumulation_curves(
 
     # Collect observations: {(program, bin_center): [fill_pct, ...]}
     obs_by_key: dict[tuple[str, int], list[float]] = {}
-    cohort_count_by_program: dict[str, set[str]] = {}
 
     for _, row in completed.iterrows():
         cohort = str(row["cohort"])
         program = str(row["program"])
         tee = row.get("total_ever_enrolled")
-        if pd.isna(tee) or int(tee) <= 0:
+        try:
+            tee_int = int(float(tee))
+        except (TypeError, ValueError):
+            continue
+        if tee_int <= 0:
             continue
 
-        points = extract_cohort_observations(cohort, int(tee), snapshots_dir)
-        if not points:
-            continue
-
+        points = extract_cohort_observations(cohort, tee_int, snapshots_dir)
         for bin_center, fill in points:
-            key = (program, bin_center)
-            obs_by_key.setdefault(key, []).append(fill)
-            cohort_count_by_program.setdefault(program, set()).add(cohort)
+            obs_by_key.setdefault((program, bin_center), []).append(fill)
+
+    if not obs_by_key:
+        return df.sort_values(["program", "days_to_start"]).reset_index(drop=True), deltas
+
+    gate_frame = history if history is not None else completed
+    cohort_count_by_program = _cohorts_with_curve_coverage(gate_frame, snapshots_dir)
 
     # Blend observations into curves, per program.
-    for (program, bin_center), fills in obs_by_key.items():
+    for (program, bin_center), fills in sorted(obs_by_key.items()):
         n_cohorts = len(cohort_count_by_program.get(program, set()))
         if n_cohorts < MIN_COHORTS_FOR_CURVE_UPDATE:
             continue
@@ -360,8 +409,8 @@ def update_accumulation_curves(
     return df, deltas
 
 
-def _format_log_entry(result: CalibrationResult, run_date: date) -> str:
-    lines = [f"## {run_date.isoformat()} calibration run", ""]
+def _format_log_entry(result: CalibrationResult, run_date: date, title_suffix: str = "") -> str:
+    lines = [f"## {run_date.isoformat()} calibration run{title_suffix}", ""]
     lines.append(f"Cohorts processed: {', '.join(result.cohorts_processed) or 'none'}")
     lines.append("")
     if result.accuracy_lines:
@@ -387,16 +436,34 @@ def calibrate(
     lr: float = DEFAULT_LEARNING_RATE,
     curves_df: pd.DataFrame | None = None,
     snapshots_dir: Path | None = None,
+    cohorts: list[str] | None = None,
+    curves_only: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame | None, CalibrationResult]:
-    pending = actuals[actuals["calibrated_at"].isna() | (actuals["calibrated_at"] == "")]
-    new_ate, ate_deltas = update_ate_rates(ate_df, pending, lr)
-    new_tier, tier_deltas = update_tier_rates(tier_df, pending, lr)
+    """Run the feedback loop.
+
+    By default the rows processed are the pending ones (blank calibrated_at).
+    ``cohorts`` selects explicit rows instead, regardless of calibrated_at.
+    ``curves_only`` skips the ATE/tier blends (returned unchanged) — used to
+    replay accumulation-curve calibration for cohorts whose ATE/tier
+    observations were already folded in.
+    """
+    if cohorts is not None:
+        pending = actuals[actuals["cohort"].isin(cohorts)]
+    else:
+        pending = actuals[actuals["calibrated_at"].isna() | (actuals["calibrated_at"] == "")]
+
+    if curves_only:
+        new_ate, ate_deltas = ate_df.copy(), []
+        new_tier, tier_deltas = tier_df.copy(), []
+    else:
+        new_ate, ate_deltas = update_ate_rates(ate_df, pending, lr)
+        new_tier, tier_deltas = update_tier_rates(tier_df, pending, lr)
 
     new_curves = None
     curve_deltas: list[str] = []
     if curves_df is not None:
         new_curves, curve_deltas = update_accumulation_curves(
-            curves_df, pending, lr, snapshots_dir
+            curves_df, pending, lr, snapshots_dir, history=actuals
         )
 
     accuracy = _accuracy_lines(pending)
@@ -416,9 +483,10 @@ def write_calibration_log(
     log_path: Path,
     result: CalibrationResult,
     run_date: date | None = None,
+    title_suffix: str = "",
 ) -> None:
     run_date = run_date or date.today()
-    entry = _format_log_entry(result, run_date)
+    entry = _format_log_entry(result, run_date, title_suffix)
     if log_path.exists():
         existing = log_path.read_text(encoding="utf-8")
     else:
@@ -435,7 +503,21 @@ def main() -> None:
     )
     parser.add_argument("--learning-rate", type=float, default=DEFAULT_LEARNING_RATE)
     parser.add_argument("--dry-run", action="store_true", help="Compute deltas without writing.")
+    parser.add_argument(
+        "--cohorts",
+        default=None,
+        help="Comma-separated cohort codes to process instead of the pending rows "
+        "(calibrated_at is left untouched).",
+    )
+    parser.add_argument(
+        "--curves-only",
+        action="store_true",
+        help="Only blend accumulation curves; ATE/tier baselines and calibrated_at "
+        "are not modified. Use with --cohorts to replay curve calibration.",
+    )
     args = parser.parse_args()
+
+    cohorts = [c.strip() for c in args.cohorts.split(",") if c.strip()] if args.cohorts else None
 
     actuals_path = Path(args.actuals) if args.actuals else utils.COMPLETED_DIR / "cohort_actuals.csv"
     actuals = pd.read_csv(actuals_path)
@@ -444,25 +526,29 @@ def main() -> None:
 
     curves_df = pd.read_csv(utils.BASELINES_DIR / "accumulation_curves.csv")
     new_ate, new_tier, new_curves, result = calibrate(
-        actuals, ate_df, tier_df, args.learning_rate, curves_df
+        actuals, ate_df, tier_df, args.learning_rate, curves_df,
+        cohorts=cohorts, curves_only=args.curves_only,
     )
     log_path = utils.PROJECT_ROOT / "calibration_log.md"
+    title_suffix = " (curves only)" if args.curves_only else ""
 
     if args.dry_run:
-        print(_format_log_entry(result, date.today()))
+        print(_format_log_entry(result, date.today(), title_suffix))
         return
 
-    new_ate.to_csv(utils.BASELINES_DIR / "ate_conversion_rates.csv")
-    new_tier.to_csv(utils.BASELINES_DIR / "confidence_tier_rates.csv")
+    if not args.curves_only:
+        new_ate.to_csv(utils.BASELINES_DIR / "ate_conversion_rates.csv")
+        new_tier.to_csv(utils.BASELINES_DIR / "confidence_tier_rates.csv")
     if new_curves is not None:
         new_curves.to_csv(utils.BASELINES_DIR / "accumulation_curves.csv", index=False)
-    # Coerce to object dtype so a date string can be written even when the
-    # column was inferred as float64 (all-NaN from empty cells).
-    actuals["calibrated_at"] = actuals["calibrated_at"].astype("object")
-    pending_mask = actuals["calibrated_at"].isna() | (actuals["calibrated_at"] == "")
-    actuals.loc[pending_mask, "calibrated_at"] = date.today().isoformat()
-    actuals.to_csv(actuals_path, index=False)
-    write_calibration_log(log_path, result)
+    if cohorts is None and not args.curves_only:
+        # Coerce to object dtype so a date string can be written even when the
+        # column was inferred as float64 (all-NaN from empty cells).
+        actuals["calibrated_at"] = actuals["calibrated_at"].astype("object")
+        pending_mask = actuals["calibrated_at"].isna() | (actuals["calibrated_at"] == "")
+        actuals.loc[pending_mask, "calibrated_at"] = date.today().isoformat()
+        actuals.to_csv(actuals_path, index=False)
+    write_calibration_log(log_path, result, title_suffix=title_suffix)
     print(f"Processed {len(result.cohorts_processed)} cohorts. Log: {log_path}")
     if result.escalation_flag:
         print(f"ESCALATION: {result.escalation_reason}")

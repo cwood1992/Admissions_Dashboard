@@ -47,6 +47,23 @@ def test_derived_row_feeds_calibration():
     assert result.cohorts_processed == ["UDT566"]
 
 
+def test_retrospective_projections_reads_nearest_snapshot(tmp_path):
+    from datetime import date
+
+    from scripts.record_actuals import retrospective_projections
+
+    snap_dir = tmp_path / "snapshots"
+    snap_dir.mkdir()
+    # Start 2026-09-08. 60d before = 07-10 (snapshot 07-07 within 3d);
+    # 30d = 08-09 (08-10 ok); 14d = 08-25 (08-26 ok); 7d = 09-01 (09-05 is 4d off -> blank).
+    for d, mid in [("2026-07-07", 12.4), ("2026-08-10", 14.0), ("2026-08-26", 15.6), ("2026-09-05", 16.0)]:
+        pd.DataFrame([{"cohort": "UDT569", "proj_mid": mid}]).to_csv(
+            snap_dir / f"{d}_snapshot.csv", index=False
+        )
+    out = retrospective_projections("UDT569", date(2026, 9, 8), snap_dir)
+    assert out == {"proj_at_60d": 12, "proj_at_30d": 14, "proj_at_14d": 16, "proj_at_7d": ""}
+
+
 def test_blank_total_skips_ate_but_not_tier():
     # Simulate an EnrollList-sourced row with no total_ever_enrolled.
     actuals = pd.DataFrame(

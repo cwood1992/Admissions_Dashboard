@@ -1,16 +1,50 @@
 program,days_to_start,expected_fill_pct,confidence,source
 NDT-Day,0,1.0,approximate,seeded-from-existing-analysis
-NDT-Day,14,0.9,approximate,seeded-from-existing-analysis
-NDT-Day,30,0.75,approximate,seeded-from-existing-analysis
-NDT-Day,60,0.4,approximate,seeded-from-existing-analysis
-NDT-Day,90,0.1,approximate,seeded-from-existing-analysis
+NDT-Day,7,0.9028,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,14,0.7445,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,21,0.6565,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,28,0.511,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,30,0.511,approximate,seeded-from-existing-analysis
+NDT-Day,35,0.511,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,42,0.4232,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,49,0.3096,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,56,0.2704,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,60,0.2704,approximate,seeded-from-existing-analysis
+NDT-Day,63,0.2563,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,70,0.222,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,77,0.1321,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,84,0.0986,calibrated (N=4),calibrated-2026-09-14
+NDT-Day,90,0.0986,approximate,seeded-from-existing-analysis
+NDT-Day,91,0.0822,calibrated (N=4),calibrated-2026-09-14
 NDT-Night,0,1.0,approximate,seeded-from-existing-analysis
-NDT-Night,14,0.9,approximate,seeded-from-existing-analysis
-NDT-Night,30,0.75,approximate,seeded-from-existing-analysis
-NDT-Night,60,0.4,approximate,seeded-from-existing-analysis
+NDT-Night,7,0.9171,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,14,0.8422,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,21,0.7637,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,28,0.7135,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,30,0.7135,approximate,seeded-from-existing-analysis
+NDT-Night,35,0.6644,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,49,0.4853,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,56,0.3781,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,60,0.3781,approximate,seeded-from-existing-analysis
+NDT-Night,63,0.3293,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,70,0.227,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,77,0.1572,calibrated (N=2),calibrated-2026-09-14
+NDT-Night,84,0.1122,calibrated (N=2),calibrated-2026-09-14
 NDT-Night,90,0.1,approximate,seeded-from-existing-analysis
 UDT,0,1.0,approximate,seeded-from-existing-analysis
-UDT,14,0.9,approximate,seeded-from-existing-analysis
-UDT,30,0.75,approximate,seeded-from-existing-analysis
-UDT,60,0.4,approximate,seeded-from-existing-analysis
+UDT,7,0.897,calibrated (N=4),calibrated-2026-09-14
+UDT,14,0.7594,calibrated (N=4),calibrated-2026-09-14
+UDT,21,0.705,calibrated (N=4),calibrated-2026-09-14
+UDT,28,0.6322,calibrated (N=4),calibrated-2026-09-14
+UDT,30,0.6322,approximate,seeded-from-existing-analysis
+UDT,35,0.6213,calibrated (N=4),calibrated-2026-09-14
+UDT,42,0.5024,calibrated (N=4),calibrated-2026-09-14
+UDT,49,0.4435,calibrated (N=4),calibrated-2026-09-14
+UDT,56,0.3451,calibrated (N=4),calibrated-2026-09-14
+UDT,60,0.3451,approximate,seeded-from-existing-analysis
+UDT,63,0.3041,calibrated (N=4),calibrated-2026-09-14
+UDT,70,0.2622,calibrated (N=4),calibrated-2026-09-14
+UDT,77,0.1903,calibrated (N=4),calibrated-2026-09-14
+UDT,84,0.1453,calibrated (N=4),calibrated-2026-09-14
 UDT,90,0.1,approximate,seeded-from-existing-analysis
+UDT,91,0.0926,calibrated (N=4),calibrated-2026-09-14

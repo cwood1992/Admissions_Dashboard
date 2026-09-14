@@ -135,9 +135,22 @@ def _enforce_order(low: int, mid: int, high: int) -> tuple[int, int, int]:
 
 
 FAR_REGIME_PROJECTION_CAP_MULTIPLIER = 2.5
-"""When fill_pct is small (early in the cycle), dividing currently_enrolled by
-fill_pct amplifies noise. Cap the accumulation-derived projection at this
+"""When fill_pct is small (early in the cycle), dividing accumulated enrollment
+by fill_pct amplifies noise. Cap the accumulation-derived projection at this
 multiple of position_avg to keep early-regime numbers sane."""
+
+
+def _accumulated_enrolled(row: pd.Series) -> int:
+    """Enrollment figure the accumulation curve is divided into: the cohort's
+    high-water mark (peak currently_enrolled to date, attached by
+    high_water.annotate_cohort_df). The curve is calibrated on the same figure
+    (calibrate.CURVE_NUMERATOR_COL), because currently_enrolled collapses in
+    the final two weeks as cancellations land. Falls back to currently_enrolled
+    when the column is absent."""
+    hw = row.get("high_water_enrolled")
+    if hw is None or pd.isna(hw):
+        return int(row["currently_enrolled"])
+    return max(int(hw), int(row["currently_enrolled"]))
 
 
 def _project_far(
@@ -239,6 +252,9 @@ def project_three_regime(
 ) -> Projection:
     days = int(row["days_to_start"])
     currently_enrolled = int(row["currently_enrolled"])
+    # Accumulation regimes (far/medium) divide the high-water mark by the
+    # fill curve; the trivial fallback keeps using currently_enrolled.
+    accumulated = _accumulated_enrolled(row)
     program = str(row["program"])
     wbh = int(row.get("wbh_count", 0) or 0)
     vip = int(row.get("vip_count", 0) or 0)
@@ -260,10 +276,10 @@ def project_three_regime(
         )
 
     if days >= FAR_REGIME_THRESHOLD:
-        return _project_far(currently_enrolled, position_avg, days, program, ate, curve)
+        return _project_far(accumulated, position_avg, days, program, ate, curve)
     if days >= NEAR_REGIME_THRESHOLD:
         return _project_medium(
-            currently_enrolled,
+            accumulated,
             position_avg,
             days,
             program,

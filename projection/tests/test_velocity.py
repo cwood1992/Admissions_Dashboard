@@ -119,7 +119,10 @@ def test_production_curve_file_loads():
         assert curve.fill_pct(program, 30) > 0
         assert curve.fill_pct(program, 0) >= curve.fill_pct(program, 90)
     # Confidence flag is preserved so downstream basis strings can surface it.
-    assert (curve.rows["confidence"] == "approximate").all()
+    # Seed rows stay "approximate"; rows calibrate.py has blended read
+    # "calibrated (N=<cohorts>)".
+    conf = curve.rows["confidence"].astype(str)
+    assert (conf.eq("approximate") | conf.str.startswith("calibrated")).all()
 
 
 def test_classify_velocity_from_snapshot_no_prior_needed(curve):

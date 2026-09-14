@@ -58,13 +58,33 @@ uv run python -m scripts.calibrate
 ```
 
 This auto-derives `total_ever_enrolled` (row count), `actual_starts`
-(`FULL Current Status` = "Active Earning"), and the WBH/VIP/Priority
-at-start-vs-started cross-tabs; you confirm; it appends to
-`completed/cohort_actuals.csv`, marks the cohort's high-water row superseded,
-and offers to run calibration. Calibration blends the observation into
-`baselines/ate_conversion_rates.csv` and `baselines/confidence_tier_rates.csv`
-(learning rate 0.2) and appends to [calibration_log.md](calibration_log.md).
+(`FULL Current Status` = "Active Earning"), the WBH/VIP/Priority
+at-start-vs-started cross-tabs, and `proj_at_{60,30,14,7}d` (the `proj_mid`
+this pipeline published in the snapshot nearest each interval before start,
+within 3 days); you confirm; it appends to `completed/cohort_actuals.csv`,
+marks the cohort's high-water row superseded, and offers to run calibration.
+Calibration blends the observation into `baselines/ate_conversion_rates.csv`,
+`baselines/confidence_tier_rates.csv` and `baselines/accumulation_curves.csv`
+(learning rate 0.2) and appends to [calibration_log.md](calibration_log.md),
+including a "Model accuracy" section comparing each `proj_at_*` to the actual.
 Last three cohorts erring >30% same direction → escalation flag in the log.
+
+Accumulation-curve notes:
+- Observations are `high_water_enrolled / total_ever_enrolled` per weekly bin
+  (not `currently_enrolled`, which collapses in the final two weeks as cancels
+  are processed). `projections.py` divides the same high-water figure by the
+  curve, so the two sides stay consistent.
+- The per-program gate (`MIN_COHORTS_FOR_CURVE_UPDATE`, 2) counts cohorts with
+  snapshot coverage across ALL completed actuals, since a class start delivers
+  exactly one cohort per program.
+- `--cohorts UDT568,NDT568 --curves-only` replays curve calibration for rows
+  already stamped `calibrated_at` without re-blending ATE/tier rates (used on
+  2026-09-14 to fold 566–569 in class by class after the gate fix).
+
+Known gaps in `--from-ccs`: it counts rows, not students (CCS-N569 carried 10
+exact-duplicate rows for 3 students), and Action Status is cleared once a
+student shows, so the tier cross-tabs need the at-start EnrollList student-ID
+join described in the class-start runbook. Check both before calibrating.
 
 Without `--from-ccs` the command falls back to the fully-manual guided prompt.
 The one-time historical seed (2022–2025 + early-2026) came from

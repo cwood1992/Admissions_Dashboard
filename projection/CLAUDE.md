@@ -60,6 +60,8 @@ Every projection must record its `projection_basis` so the dashboard can show *w
 
 When a cohort's start date passes, `calibrate.py` compares actuals against the projections that were made at 60/30/14/7 days out, then updates the files in `baselines/` (position averages, ATE-to-start rates, accumulation curves, enrollment distribution, confidence tier conversion rates). The model is explicitly **data-starved** in the first ~6 months; confidence tier conversion rates don't exist yet and have to be built up. Don't fabricate them or use overconfident defaults — frame outputs with the available-data caveat.
 
+Accumulation curves are calibrated on the **high-water mark** (`high_water_enrolled / total_ever_enrolled`), never `currently_enrolled`, and `projections.py` divides the same high-water figure by the curve. The curve gate counts cohorts across all completed actuals, not just the run's pending rows (a class start delivers one cohort per program). `scripts.calibrate --cohorts ... --curves-only` replays curve calibration without touching ATE/tier rates. See README "After a class starts and books".
+
 ## Non-Obvious Constraints
 
 These will not be evident from reading the code alone:

@@ -94,3 +94,140 @@ Cohorts processed: UDT569, NDT569
 - Priority conversion: 0.3985 -> 0.5188 (observed 1.0000 from UDT569, lr=0.2)
 - Priority conversion: 0.5188 -> 0.5650 (observed 0.7500 from NDT569, lr=0.2)
 
+## 2026-09-14 calibration run (curves only)
+
+Cohorts processed: UDT566, NDT566, NDT566NC
+
+### Model accuracy
+- UDT566 7d projection: 14 -> actual 10 (error +40.0%)
+- NDT566 7d projection: 3 -> actual 3 (error +0.0%)
+- NDT566NC 7d projection: 5 -> actual 6 (error -16.7%)
+
+### Baseline deltas
+- NDT-Day fill@7d: 0.9500 -> 0.9539 (observed mean 0.9694 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Night fill@7d: 0.9500 -> 0.9171 (observed mean 0.7857 from 1 obs, N=2 cohorts, lr=0.2)
+- UDT fill@7d: 0.9500 -> 0.9600 (observed mean 1.0000 from 1 obs, N=4 cohorts, lr=0.2)
+
+## 2026-09-14 calibration run (curves only)
+
+Cohorts processed: UDT567, NDT567
+
+### Model accuracy
+- UDT567 30d projection: 15 -> actual 8 (error +87.5%)
+- UDT567 14d projection: 17 -> actual 8 (error +112.5%)
+- NDT567 30d projection: 12 -> actual 18 (error -33.3%)
+- NDT567 14d projection: 15 -> actual 18 (error -16.7%)
+
+### Baseline deltas
+- NDT-Day fill@14d: 0.9000 -> 0.8200 (observed mean 0.5000 from 2 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@21d: 0.7894 -> 0.7135 (observed mean 0.4100 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@28d: 0.7419 -> 0.6535 (observed mean 0.3000 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@35d: 0.6917 -> 0.5973 (observed mean 0.2200 from 2 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@42d: 0.5421 -> 0.4776 (observed mean 0.2200 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@49d: 0.4474 -> 0.4019 (observed mean 0.2200 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@14d: 0.9000 -> 0.8315 (observed mean 0.5575 from 2 obs, N=4 cohorts, lr=0.2)
+- UDT fill@21d: 0.7958 -> 0.7482 (observed mean 0.5575 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@28d: 0.7496 -> 0.7006 (observed mean 0.5044 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@35d: 0.6917 -> 0.6312 (observed mean 0.3894 from 2 obs, N=4 cohorts, lr=0.2)
+- UDT fill@42d: 0.5665 -> 0.5310 (observed mean 0.3894 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@49d: 0.4801 -> 0.4761 (observed mean 0.4602 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@30d: clamped 0.7500 -> 0.6535 (monotonicity enforcement)
+- UDT fill@30d: clamped 0.7500 -> 0.7006 (monotonicity enforcement)
+
+## 2026-09-14 calibration run (curves only)
+
+Cohorts processed: UDT568, NDT568, NDT568NC
+
+### Model accuracy
+- UDT568 60d projection: 21 -> actual 20 (error +5.0%)
+- UDT568 30d projection: 17 -> actual 20 (error -15.0%)
+- UDT568 14d projection: 21 -> actual 20 (error +5.0%)
+- NDT568 60d projection: 10 -> actual 5 (error +100.0%)
+- NDT568 30d projection: 6 -> actual 5 (error +20.0%)
+- NDT568 14d projection: 7 -> actual 5 (error +40.0%)
+- NDT568NC 60d projection: 8 -> actual 8 (error +0.0%)
+- NDT568NC 30d projection: 6 -> actual 8 (error -25.0%)
+- NDT568NC 14d projection: 6 -> actual 8 (error -25.0%)
+
+### Baseline deltas
+- NDT-Day fill@14d: 0.8200 -> 0.7560 (observed mean 0.5000 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@21d: 0.7135 -> 0.6597 (observed mean 0.4444 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@28d: 0.6535 -> 0.5792 (observed mean 0.2821 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@35d: 0.5973 -> 0.5343 (observed mean 0.2821 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@49d: 0.4019 -> 0.3630 (observed mean 0.2073 from 2 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@56d: 0.3865 -> 0.3263 (observed mean 0.0855 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@63d: 0.3700 -> 0.3122 (observed mean 0.0812 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@70d: 0.2572 -> 0.2220 (observed mean 0.0812 from 2 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@77d: 0.1793 -> 0.1597 (observed mean 0.0812 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@84d: 0.1276 -> 0.1191 (observed mean 0.0855 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Night fill@14d: 0.9000 -> 0.8422 (observed mean 0.6111 from 1 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@21d: 0.8019 -> 0.7637 (observed mean 0.6111 from 1 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@28d: 0.7530 -> 0.7135 (observed mean 0.5556 from 1 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@35d: 0.6917 -> 0.6644 (observed mean 0.5556 from 1 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@49d: 0.5163 -> 0.4853 (observed mean 0.3611 from 2 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@56d: 0.4310 -> 0.3781 (observed mean 0.1667 from 1 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@63d: 0.3700 -> 0.3293 (observed mean 0.1667 from 1 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@70d: 0.2699 -> 0.2270 (observed mean 0.0556 from 2 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@77d: 0.1825 -> 0.1572 (observed mean 0.0556 from 1 obs, N=2 cohorts, lr=0.2)
+- NDT-Night fill@84d: 0.1264 -> 0.1122 (observed mean 0.0556 from 1 obs, N=2 cohorts, lr=0.2)
+- UDT fill@14d: 0.8315 -> 0.7881 (observed mean 0.6144 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@21d: 0.7482 -> 0.7201 (observed mean 0.6078 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@28d: 0.7006 -> 0.6768 (observed mean 0.5817 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@35d: 0.6312 -> 0.6213 (observed mean 0.5817 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@49d: 0.4761 -> 0.4711 (observed mean 0.4510 from 2 obs, N=4 cohorts, lr=0.2)
+- UDT fill@56d: 0.4259 -> 0.3904 (observed mean 0.2484 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@63d: 0.3700 -> 0.3391 (observed mean 0.2157 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@70d: 0.2771 -> 0.2622 (observed mean 0.2026 from 2 obs, N=4 cohorts, lr=0.2)
+- UDT fill@77d: 0.2054 -> 0.2023 (observed mean 0.1895 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@84d: 0.1472 -> 0.1557 (observed mean 0.1895 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@30d: clamped 0.6535 -> 0.5792 (monotonicity enforcement)
+- NDT-Day fill@60d: clamped 0.4000 -> 0.3263 (monotonicity enforcement)
+- NDT-Night fill@30d: clamped 0.7500 -> 0.7135 (monotonicity enforcement)
+- NDT-Night fill@60d: clamped 0.4000 -> 0.3781 (monotonicity enforcement)
+- UDT fill@30d: clamped 0.7006 -> 0.6768 (monotonicity enforcement)
+- UDT fill@60d: clamped 0.4000 -> 0.3904 (monotonicity enforcement)
+
+## 2026-09-14 calibration run (curves only)
+
+Cohorts processed: UDT569, NDT569
+
+### Model accuracy
+- UDT569 60d projection: 34 -> actual 16 (error +112.5%)
+- UDT569 30d projection: 20 -> actual 16 (error +25.0%)
+- UDT569 14d projection: 19 -> actual 16 (error +18.8%)
+- UDT569 7d projection: 15 -> actual 16 (error -6.2%)
+- NDT569 60d projection: 16 -> actual 20 (error -20.0%)
+- NDT569 30d projection: 10 -> actual 20 (error -50.0%)
+- NDT569 14d projection: 14 -> actual 20 (error -30.0%)
+- NDT569 7d projection: 15 -> actual 20 (error -25.0%)
+
+### Baseline deltas
+- NDT-Day fill@7d: 0.9539 -> 0.9028 (observed mean 0.6986 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@14d: 0.7560 -> 0.7445 (observed mean 0.6986 from 2 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@21d: 0.6597 -> 0.6565 (observed mean 0.6438 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@28d: 0.5792 -> 0.5110 (observed mean 0.2384 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@42d: 0.4776 -> 0.4232 (observed mean 0.2055 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@49d: 0.3630 -> 0.3096 (observed mean 0.0959 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@56d: 0.3263 -> 0.2704 (observed mean 0.0466 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@63d: 0.3122 -> 0.2563 (observed mean 0.0329 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@77d: 0.1597 -> 0.1321 (observed mean 0.0219 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@84d: 0.1191 -> 0.0986 (observed mean 0.0164 from 1 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@91d: 0.1000 -> 0.0822 (observed mean 0.0110 from 2 obs, N=4 cohorts, lr=0.2)
+- UDT fill@7d: 0.9600 -> 0.8970 (observed mean 0.6448 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@14d: 0.7881 -> 0.7594 (observed mean 0.6448 from 2 obs, N=4 cohorts, lr=0.2)
+- UDT fill@21d: 0.7201 -> 0.7050 (observed mean 0.6448 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@28d: 0.6768 -> 0.6322 (observed mean 0.4536 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@42d: 0.5310 -> 0.5024 (observed mean 0.3880 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@49d: 0.4711 -> 0.4435 (observed mean 0.3333 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@56d: 0.3904 -> 0.3451 (observed mean 0.1639 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@63d: 0.3391 -> 0.3041 (observed mean 0.1639 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@77d: 0.2023 -> 0.1903 (observed mean 0.1421 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@84d: 0.1557 -> 0.1453 (observed mean 0.1038 from 1 obs, N=4 cohorts, lr=0.2)
+- UDT fill@91d: 0.1000 -> 0.0926 (observed mean 0.0628 from 2 obs, N=4 cohorts, lr=0.2)
+- NDT-Day fill@30d: clamped 0.5792 -> 0.5110 (monotonicity enforcement)
+- NDT-Day fill@35d: clamped 0.5343 -> 0.5110 (monotonicity enforcement)
+- NDT-Day fill@60d: clamped 0.3263 -> 0.2704 (monotonicity enforcement)
+- NDT-Day fill@90d: clamped 0.1000 -> 0.0986 (monotonicity enforcement)
+- UDT fill@30d: clamped 0.6768 -> 0.6322 (monotonicity enforcement)
+- UDT fill@60d: clamped 0.3904 -> 0.3451 (monotonicity enforcement)
+

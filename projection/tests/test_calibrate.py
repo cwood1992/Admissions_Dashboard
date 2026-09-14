@@ -369,6 +369,41 @@ class TestUpdateAccumulationCurves:
             curves.sort_values(["program", "days_to_start"]).reset_index(drop=True),
         )
 
+    def test_history_gate_passes_with_one_pending_cohort(self, tmp_path: Path):
+        """A class start delivers one cohort per program. The gate must count
+        coverage across all completed actuals (history), not just this run."""
+        _write_snapshot(tmp_path, "2026-05-01", [
+            {"cohort": "UDT567", "days_to_start": 60, "currently_enrolled": 8, "program": "UDT"},
+            {"cohort": "UDT568", "days_to_start": 62, "currently_enrolled": 6, "program": "UDT"},
+        ])
+        history = self._make_completed([
+            {"cohort": "UDT567", "program": "UDT", "total_ever_enrolled": 20},
+            {"cohort": "UDT568", "program": "UDT", "total_ever_enrolled": 20},
+        ])
+        history.loc[history["cohort"] == "UDT567", "calibrated_at"] = "2026-07-07"
+        pending = history[history["cohort"] == "UDT568"]
+        curves = _curves_baseline()
+        new_curves, deltas = update_accumulation_curves(
+            curves, pending, snapshots_dir=tmp_path / "snapshots", history=history
+        )
+        # Only UDT568's observation (6/20 = 0.30) is blended; prior at 63 = 0.37.
+        row_63 = new_curves[
+            (new_curves["program"] == "UDT") & (new_curves["days_to_start"] == 63)
+        ]
+        assert len(deltas) == 1
+        assert row_63.iloc[0]["expected_fill_pct"] == pytest.approx(0.37 * 0.8 + 0.30 * 0.2, abs=1e-3)
+        assert "N=2" in row_63.iloc[0]["confidence"]
+
+    def test_observations_use_high_water_not_currently_enrolled(self, tmp_path: Path):
+        """currently_enrolled collapses inside two weeks of start as cancels
+        are processed; the accumulation curve must read the high-water mark."""
+        _write_snapshot(tmp_path, "2026-05-01", [
+            {"cohort": "UDT567", "days_to_start": 7, "currently_enrolled": 6,
+             "high_water_enrolled": 16, "program": "UDT"},
+        ])
+        obs = extract_cohort_observations("UDT567", 20, tmp_path / "snapshots")
+        assert obs == [(7, 0.8)]
+
     def test_monotonicity_enforcement(self, tmp_path: Path):
         """If blended fill_pct violates monotonicity, clamp it."""
         # Set up: observations that would push fill_pct at day 28 above day 14.
@@ -411,6 +446,24 @@ class TestUpdateAccumulationCurves:
         ndt_orig = curves[curves["program"] == "NDT-Day"].sort_values("days_to_start").reset_index(drop=True)
         ndt_new = new_curves[new_curves["program"] == "NDT-Day"].sort_values("days_to_start").reset_index(drop=True)
         pd.testing.assert_frame_equal(ndt_orig, ndt_new)
+
+
+def test_calibrate_cohorts_and_curves_only_leave_ate_tier_untouched():
+    actuals = pd.DataFrame([
+        _actuals_row(cohort="UDT566", calibrated_at="2026-05-26"),
+        _actuals_row(cohort="UDT567", calibrated_at="2026-07-07"),
+    ])
+    ate, tier = _ate_baseline(), _tier_baseline()
+    new_ate, new_tier, new_curves, result = calibrate(
+        actuals, ate, tier, curves_df=_curves_baseline(),
+        cohorts=["UDT567"], curves_only=True,
+    )
+    assert result.cohorts_processed == ["UDT567"]
+    pd.testing.assert_frame_equal(new_ate, ate)
+    pd.testing.assert_frame_equal(new_tier, tier)
+    assert new_curves is not None
+    # Accuracy lines are still produced for the selected cohort.
+    assert any("UDT567 30d projection" in line for line in result.accuracy_lines)
 
 
 def test_calibrate_backward_compat():
