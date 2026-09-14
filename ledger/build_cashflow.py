@@ -44,6 +44,10 @@ OUT_JSON = ROOT / "cash" / "data" / "cashflow.json"
 OUT_JS = ROOT / "cash" / "data" / "cashflow.js"
 
 FUNDS = ["VA", "PELL", "SEOG", "SUB", "UNSUB", "PLUS", "SCHOL"]
+# Booked cohorts without an expected-funds file are modeled at the average
+# mix x actual starts only from this class onward (the cash window; earlier
+# classes have long since disbursed).
+MIN_BOOKED_FALLBACK_CLASS = 561
 TITLE_IV = ["PELL", "SEOG", "SUB", "UNSUB", "PLUS"]  # split 50/50 disb1/disb2
 ORIGINATION_FEES = {"SUB": 0.01057, "UNSUB": 0.01057, "PLUS": 0.04228}
 
@@ -61,6 +65,11 @@ ASSUMPTIONS = [
     "Future cohorts without an expected-funds file use the per-program average "
     "net funding per student from filed classes x projected starts "
     "(low/mid/high) from the cohort ledger.",
+    "Booked cohorts whose expected-funds file has not landed yet use the same "
+    "per-program average x actual starts (no low/high band) until the file "
+    "arrives and replaces them.",
+    "OCEF, Climb and Payments columns (new in the 568 workbook) are not yet "
+    "modeled; their timing is unconfirmed.",
     "Classes beyond the disbursement schedule use dates extrapolated from the "
     "average calendar offsets of scheduled classes.",
 ]
@@ -162,7 +171,8 @@ def _colmap(header_row: tuple) -> dict[int, str] | None:
     """Map column index -> fund key for a section header row."""
     labels = {i: str(v).strip().upper() for i, v in enumerate(header_row)
               if isinstance(v, str) and v.strip()}
-    if "PROGRAM" not in labels.values():
+    # 561-567 files label the program column PROGRAM; 568+ label it Cohort.
+    if not ({"PROGRAM", "COHORT"} & set(labels.values())):
         return None
     mapping: dict[int, str] = {}
     for i, label in labels.items():
@@ -179,7 +189,7 @@ PROGRAM_RE = re.compile(r"(UDT|NDT|U|N)\s*(\d{3})\s*(NC)?", re.IGNORECASE)
 def _parse_program(label: str, file_class: int) -> tuple[int, str] | None:
     """Normalize a PROGRAM cell to (class_num, program_group)."""
     text = label.strip()
-    if not text or text.upper() == "PROGRAM":
+    if not text or text.upper() in ("PROGRAM", "COHORT"):
         return None
     if re.search(r"RE-?ENTRY", text, re.IGNORECASE):
         m = re.search(r"(\d{3})", text)
@@ -194,14 +204,29 @@ def _parse_program(label: str, file_class: int) -> tuple[int, str] | None:
     return None
 
 
+def _pick_check_list(wb) -> "openpyxl.worksheet.worksheet.Worksheet":
+    """The canonical sheet is the check list carrying the SUM reconciliation
+    column. Through 567 it was the first worksheet; from 568 FA leads with
+    per-program tabs (UDT / NDT / NDT NC) and the check list sits later. Take
+    the first sheet whose header maps to funds AND has a SUM column; fall back
+    to the first worksheet."""
+    for ws in wb.worksheets:
+        for row in ws.iter_rows(values_only=True, max_row=40):
+            m = _colmap(row)
+            if m and "SUM" in m.values():
+                return ws
+    return wb.worksheets[0]
+
+
 def parse_expected_funds(path: Path, file_class: int) -> dict:
-    """First worksheet only (the live 'Check List'); other sheets are drafts.
+    """Parse the check-list worksheet (see _pick_check_list); other sheets are
+    drafts, memos or per-program working copies.
 
     Returns {(class_num, program): {students, cash_payers, funds{...gross}}}
     plus a reconciliation list of (row_sum_col, row_parsed_total) pairs.
     """
     wb = openpyxl.load_workbook(_tmp_copy(path), data_only=True)
-    ws = wb.worksheets[0]
+    ws = _pick_check_list(wb)
     sections: dict[tuple[int, str], dict] = {}
     recon = {"sum_col": 0.0, "parsed": 0.0}
     colmap: dict[int, str] | None = None
@@ -240,7 +265,7 @@ def parse_expected_funds(path: Path, file_class: int) -> dict:
             rec["funds"][f] += amounts[f]
         recon["sum_col"] += sum_col
         recon["parsed"] += total
-    return {"sections": sections, "recon": recon}
+    return {"sections": sections, "recon": recon, "sheet": ws.title}
 
 
 # --------------------------------------------------------------- events -----
@@ -298,12 +323,19 @@ def main() -> int:
             continue
         file_class = int(m.group(1))
         parsed = parse_expected_funds(path, file_class)
+        r = parsed["recon"]
+        if r["parsed"] <= 0:
+            # Layout not recognised (or an empty shell) - do NOT let a $0 file
+            # silently zero the class; fall through to the ledger-based model.
+            print(f"  WARNING: {path.name}: sheet {parsed['sheet']!r} parsed $0 - "
+                  f"treating class {file_class} as unfiled (model fallback)")
+            continue
         filed[file_class] = parsed["sections"]
         mtime = datetime.fromtimestamp(path.stat().st_mtime).date().isoformat()
-        file_meta.append({"class": file_class, "file": path.name, "modified": mtime})
-        r = parsed["recon"]
+        file_meta.append({"class": file_class, "file": path.name,
+                          "sheet": parsed["sheet"], "modified": mtime})
         flag = "OK" if abs(r["sum_col"] - r["parsed"]) < 1 else "MISMATCH"
-        print(f"  {path.name}: parsed ${r['parsed']:,.0f} vs SUM col "
+        print(f"  {path.name} [{parsed['sheet']}]: parsed ${r['parsed']:,.0f} vs SUM col "
               f"${r['sum_col']:,.0f}  [{flag}]")
 
     filed_classes = set(filed)
@@ -348,14 +380,27 @@ def main() -> int:
     # 4. projected events from the cohort ledger ---------------------------
     ledger = json.loads(LEDGER_PATH.read_text(encoding="utf-8"))
     for cohort in ledger["cohorts"]:
-        if cohort.get("proj_mid") is None:
-            continue
         m = re.match(r"(UDT|NDT)(\d{3})(NC)?$", cohort["cohort"])
         if not m:
             continue
         cls = int(m.group(2))
         if cls in filed_classes:
             continue  # real expected-funds data wins
+        # Starts basis: in-flight cohorts carry proj_low/mid/high; a completed
+        # (booked) cohort whose FA file has not landed yet carries actual_starts
+        # and is modeled at the average mix x actual starts (no band).
+        if cohort.get("proj_mid") is not None:
+            starts = {"low": cohort["proj_low"], "mid": cohort["proj_mid"],
+                      "high": cohort["proj_high"]}
+            basis = "projected"
+        elif cohort.get("lifecycle") == "completed" and cohort.get("actual_starts"):
+            n = int(cohort["actual_starts"])
+            if cls < MIN_BOOKED_FALLBACK_CLASS:
+                continue  # historical classes predate the cash window
+            starts = {"low": n, "mid": n, "high": n}
+            basis = "booked-avg-mix"
+        else:
+            continue
         program = ("UDT" if m.group(1) == "UDT" else "NDT") + ("-NC" if m.group(3) else "")
         mix = per_student.get(program)
         if not mix:
@@ -368,25 +413,26 @@ def main() -> int:
                 continue
             dates = extrapolate_schedule(schedule, cls, cohort["start_date"])
             schedule[cls] = dates
-        gross = {f: mix[f] * cohort["proj_mid"] for f in FUNDS}
+        gross = {f: mix[f] * starts["mid"] for f in FUNDS}
         bands = {
-            "low": {f: mix[f] * cohort["proj_low"] for f in FUNDS},
-            "high": {f: mix[f] * cohort["proj_high"] for f in FUNDS},
+            "low": {f: mix[f] * starts["low"] for f in FUNDS},
+            "high": {f: mix[f] * starts["high"] for f in FUNDS},
         }
         label = f"{program} {cls}"
         events.extend(fund_events(cls, program, dates, gross, "projected",
                                   label, bands))
+        source = basis + ("-derived-dates" if dates.get("derived") else "")
         summary = class_summaries.setdefault(cls, {
-            "class": cls,
-            "source": "projected-derived-dates" if dates.get("derived") else "projected",
-            "dates": dates, "programs": []})
-        summary["programs"].append({
+            "class": cls, "source": source, "dates": dates, "programs": []})
+        entry = {
             "program": program,
-            "proj_starts": {"low": cohort["proj_low"], "mid": cohort["proj_mid"],
-                            "high": cohort["proj_high"]},
+            "proj_starts": starts,
             "funds_gross": {f: round(gross[f], 2) for f in FUNDS},
             "total_net": round(sum(net_amount(f, gross[f]) for f in FUNDS), 2),
-        })
+        }
+        if basis == "booked-avg-mix":
+            entry["actual_starts"] = starts["mid"]
+        summary["programs"].append(entry)
 
     events.sort(key=lambda e: (e["date"], e["class"], e["fund"]))
 

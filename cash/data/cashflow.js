@@ -1,6 +1,6 @@
 window.CASHFLOW = {
- "generated_at": "2026-06-12T17:23:56.465143+00:00",
- "ledger_snapshot_date": "2026-06-08",
+ "generated_at": "2026-09-14T20:52:20.679229+00:00",
+ "ledger_snapshot_date": "2026-09-14",
  "assumptions": [
   "Title IV (Pell/SEOG/Sub/Unsub/PLUS) arrives 50% on the 1st disbursement date and 50% on the 2nd, net of origination fees (1.057% Sub/Unsub, 4.228% PLUS).",
   "VA benefits arrive 100% on the first VA release date (~46th class day).",
@@ -9,6 +9,8 @@ window.CASHFLOW = {
   "Re-entry students are included in their class totals on that class's schedule dates (actual request dates may differ).",
   "Title IV returns/refunds (R2T4) are not modeled.",
   "Future cohorts without an expected-funds file use the per-program average net funding per student from filed classes x projected starts (low/mid/high) from the cohort ledger.",
+  "Booked cohorts whose expected-funds file has not landed yet use the same per-program average x actual starts (no low/high band) until the file arrives and replaces them.",
+  "OCEF, Climb and Payments columns (new in the 568 workbook) are not yet modeled; their timing is unconfirmed.",
   "Classes beyond the disbursement schedule use dates extrapolated from the average calendar offsets of scheduled classes."
  ],
  "sources": {
@@ -17,32 +19,50 @@ window.CASHFLOW = {
    {
     "class": 561,
     "file": "561 Class.xlsx",
-    "modified": "2026-04-08"
+    "sheet": "FILE CHECK LIST",
+    "modified": "2026-07-10"
    },
    {
     "class": 562,
     "file": "562 Class.xlsx",
+    "sheet": "Check List",
     "modified": "2026-05-15"
    },
    {
     "class": 563,
     "file": "563 Class.xlsx",
+    "sheet": "Check List",
     "modified": "2026-06-08"
    },
    {
     "class": 564,
     "file": "564 Class.xlsx",
-    "modified": "2026-06-10"
+    "sheet": "Check List",
+    "modified": "2026-08-11"
    },
    {
     "class": 565,
     "file": "565 Class.xlsx",
-    "modified": "2026-06-11"
+    "sheet": "Check List",
+    "modified": "2026-08-26"
    },
    {
     "class": 566,
     "file": "566 Class.xlsx",
-    "modified": "2026-06-12"
+    "sheet": "Check List",
+    "modified": "2026-08-21"
+   },
+   {
+    "class": 567,
+    "file": "567 Class.xlsx",
+    "sheet": "Check List",
+    "modified": "2026-08-21"
+   },
+   {
+    "class": 568,
+    "file": "568 Class.xlsx",
+    "sheet": "Check List",
+    "modified": "2026-09-08"
    }
   ]
  },
@@ -57,30 +77,30 @@ window.CASHFLOW = {
  ],
  "per_student_avg_gross": {
   "NDT": {
-   "VA": 8127.45,
-   "PELL": 4301.09,
-   "SEOG": 160.64,
-   "SUB": 2308.51,
-   "UNSUB": 2959.89,
-   "PLUS": 2824.81,
+   "VA": 7168.29,
+   "PELL": 4432.33,
+   "SEOG": 182.14,
+   "SUB": 2200.0,
+   "UNSUB": 2887.36,
+   "PLUS": 3207.99,
    "SCHOL": 0.0
   },
   "UDT": {
-   "VA": 6965.5,
-   "PELL": 3484.72,
-   "SEOG": 115.0,
-   "SUB": 2111.94,
-   "UNSUB": 2888.89,
-   "PLUS": 5262.28,
-   "SCHOL": 22.22
+   "VA": 7007.06,
+   "PELL": 3518.31,
+   "SEOG": 119.92,
+   "SUB": 1996.4,
+   "UNSUB": 2690.68,
+   "PLUS": 4996.65,
+   "SCHOL": 21.19
   },
   "NDT-NC": {
-   "VA": 2406.94,
-   "PELL": 3012.22,
-   "SEOG": 125.0,
-   "SUB": 2138.89,
-   "UNSUB": 4055.56,
-   "PLUS": 3527.78,
+   "VA": 1604.63,
+   "PELL": 4199.26,
+   "SEOG": 201.85,
+   "SUB": 2203.7,
+   "UNSUB": 3888.89,
+   "PLUS": 3574.07,
    "SCHOL": 0.0
   }
  },
@@ -284,14 +304,14 @@ window.CASHFLOW = {
      "cash_payers": 3,
      "funds_gross": {
       "VA": 51000.0,
-      "PELL": 27882.0,
-      "SEOG": 200.0,
+      "PELL": 31579.0,
+      "SEOG": 400.0,
       "SUB": 24500.0,
       "UNSUB": 29500.0,
       "PLUS": 55000.0,
       "SCHOL": 2000.0
      },
-     "total_net": 187185.82
+     "total_net": 191082.82
     },
     {
      "program": "NDT",
@@ -374,14 +394,14 @@ window.CASHFLOW = {
      "cash_payers": 0,
      "funds_gross": {
       "VA": 63744.0,
-      "PELL": 44826.0,
+      "PELL": 46360.0,
       "SEOG": 1000.0,
       "SUB": 30000.0,
       "UNSUB": 38000.0,
-      "PLUS": 81000.0,
+      "PLUS": 87000.0,
       "SCHOL": 0.0
      },
-     "total_net": 254426.56
+     "total_net": 261706.88
     },
     {
      "program": "NDT",
@@ -389,14 +409,29 @@ window.CASHFLOW = {
      "cash_payers": 0,
      "funds_gross": {
       "VA": 24200.0,
-      "PELL": 45871.0,
+      "PELL": 49568.0,
       "SEOG": 1000.0,
       "SUB": 28000.0,
       "UNSUB": 30000.0,
-      "PLUS": 41605.0,
+      "PLUS": 41398.0,
       "SCHOL": 0.0
      },
-     "total_net": 168303.88
+     "total_net": 171802.63
+    },
+    {
+     "program": "Re-entry",
+     "students": 1,
+     "cash_payers": 0,
+     "funds_gross": {
+      "VA": 0.0,
+      "PELL": 10477.0,
+      "SEOG": 0.0,
+      "SUB": 3500.0,
+      "UNSUB": 6000.0,
+      "PLUS": 0.0,
+      "SCHOL": 0.0
+     },
+     "total_net": 19876.59
     }
    ]
   },
@@ -419,14 +454,14 @@ window.CASHFLOW = {
      "cash_payers": 3,
      "funds_gross": {
       "VA": 79200.0,
-      "PELL": 36975.0,
+      "PELL": 43060.0,
       "SEOG": 2000.0,
       "SUB": 10500.0,
       "UNSUB": 18000.0,
       "PLUS": 0.0,
       "SCHOL": 0.0
      },
-     "total_net": 146373.76
+     "total_net": 152458.76
     },
     {
      "program": "NDT",
@@ -462,7 +497,7 @@ window.CASHFLOW = {
   },
   {
    "class": 567,
-   "source": "projected",
+   "source": "file",
    "dates": {
     "start": "2026-06-29",
     "disb1": "2026-07-29",
@@ -474,46 +509,40 @@ window.CASHFLOW = {
    },
    "programs": [
     {
-     "program": "NDT",
-     "proj_starts": {
-      "low": 8,
-      "mid": 13,
-      "high": 17
-     },
+     "program": "UDT",
+     "students": 8,
+     "cash_payers": 3,
      "funds_gross": {
-      "VA": 105656.81,
-      "PELL": 55914.11,
-      "SEOG": 2088.3,
-      "SUB": 30010.64,
-      "UNSUB": 38478.62,
-      "PLUS": 36722.51,
+      "VA": 26400.0,
+      "PELL": 26620.0,
+      "SEOG": 1200.0,
+      "SUB": 14000.0,
+      "UNSUB": 20000.0,
+      "PLUS": 15000.0,
       "SCHOL": 0.0
      },
-     "total_net": 266594.43
+     "total_net": 102226.42
     },
     {
-     "program": "UDT",
-     "proj_starts": {
-      "low": 10,
-      "mid": 15,
-      "high": 21
-     },
+     "program": "NDT",
+     "students": 18,
+     "cash_payers": 1,
      "funds_gross": {
-      "VA": 104482.5,
-      "PELL": 52270.83,
-      "SEOG": 1725.0,
-      "SUB": 31679.17,
-      "UNSUB": 43333.33,
-      "PLUS": 78934.17,
-      "SCHOL": 333.33
+      "VA": 29040.0,
+      "PELL": 82230.0,
+      "SEOG": 4000.0,
+      "SUB": 38500.0,
+      "UNSUB": 51000.0,
+      "PLUS": 92000.0,
+      "SCHOL": 0.0
      },
-     "total_net": 308628.11
+     "total_net": 291934.23
     }
    ]
   },
   {
    "class": 568,
-   "source": "projected",
+   "source": "file",
    "dates": {
     "start": "2026-08-03",
     "disb1": "2026-09-03",
@@ -525,64 +554,55 @@ window.CASHFLOW = {
    },
    "programs": [
     {
-     "program": "NDT",
-     "proj_starts": {
-      "low": 8,
-      "mid": 10,
-      "high": 13
-     },
+     "program": "UDT",
+     "students": 20,
+     "cash_payers": 3,
      "funds_gross": {
-      "VA": 81274.47,
-      "PELL": 43010.85,
-      "SEOG": 1606.38,
-      "SUB": 23085.11,
-      "UNSUB": 29598.94,
-      "PLUS": 28248.09,
+      "VA": 173538.0,
+      "PELL": 63600.0,
+      "SEOG": 2400.0,
+      "SUB": 31500.0,
+      "UNSUB": 37500.0,
+      "PLUS": 95000.0,
+      "SCHOL": 500.0
+     },
+     "total_net": 399292.07
+    },
+    {
+     "program": "NDT",
+     "students": 5,
+     "cash_payers": 0,
+     "funds_gross": {
+      "VA": 90750.0,
+      "PELL": 22185.0,
+      "SEOG": 1200.0,
+      "SUB": 7000.0,
+      "UNSUB": 12000.0,
+      "PLUS": 0.0,
       "SCHOL": 0.0
      },
-     "total_net": 205072.64
+     "total_net": 132934.17
     },
     {
      "program": "NDT-NC",
-     "proj_starts": {
-      "low": 5,
-      "mid": 8,
-      "high": 10
-     },
+     "students": 9,
+     "cash_payers": 1,
      "funds_gross": {
-      "VA": 19255.56,
-      "PELL": 24097.78,
-      "SEOG": 1000.0,
-      "SUB": 17111.11,
-      "UNSUB": 32444.44,
-      "PLUS": 28222.22,
+      "VA": 0.0,
+      "PELL": 59160.0,
+      "SEOG": 3200.0,
+      "SUB": 21000.0,
+      "UNSUB": 32000.0,
+      "PLUS": 33000.0,
       "SCHOL": 0.0
      },
-     "total_net": 120414.09
-    },
-    {
-     "program": "UDT",
-     "proj_starts": {
-      "low": 16,
-      "mid": 21,
-      "high": 26
-     },
-     "funds_gross": {
-      "VA": 146275.5,
-      "PELL": 73179.17,
-      "SEOG": 2415.0,
-      "SUB": 44350.83,
-      "UNSUB": 60666.67,
-      "PLUS": 110507.83,
-      "SCHOL": 466.67
-     },
-     "total_net": 432079.37
+     "total_net": 146404.55
     }
    ]
   },
   {
    "class": 569,
-   "source": "projected",
+   "source": "booked-avg-mix",
    "dates": {
     "start": "2026-09-08",
     "disb1": "2026-10-08",
@@ -596,38 +616,40 @@ window.CASHFLOW = {
     {
      "program": "NDT",
      "proj_starts": {
-      "low": 10,
-      "mid": 14,
-      "high": 18
+      "low": 20,
+      "mid": 20,
+      "high": 20
      },
      "funds_gross": {
-      "VA": 113784.26,
-      "PELL": 60215.19,
-      "SEOG": 2248.94,
-      "SUB": 32319.15,
-      "UNSUB": 41438.51,
-      "PLUS": 39547.32,
+      "VA": 143365.71,
+      "PELL": 88646.57,
+      "SEOG": 3642.86,
+      "SUB": 44000.0,
+      "UNSUB": 57747.14,
+      "PLUS": 64159.71,
       "SCHOL": 0.0
      },
-     "total_net": 287101.7
+     "total_net": 397773.86,
+     "actual_starts": 20
     },
     {
      "program": "UDT",
      "proj_starts": {
-      "low": 26,
-      "mid": 34,
-      "high": 43
+      "low": 16,
+      "mid": 16,
+      "high": 16
      },
      "funds_gross": {
-      "VA": 236827.0,
-      "PELL": 118480.56,
-      "SEOG": 3910.0,
-      "SUB": 71806.11,
-      "UNSUB": 98222.22,
-      "PLUS": 178917.44,
-      "SCHOL": 755.56
+      "VA": 112112.95,
+      "PELL": 56293.02,
+      "SEOG": 1918.64,
+      "SUB": 31942.37,
+      "UNSUB": 43050.85,
+      "PLUS": 79946.44,
+      "SCHOL": 338.98
      },
-     "total_net": 699557.06
+     "total_net": 321430.44,
+     "actual_starts": 16
     }
    ]
   },
@@ -647,56 +669,56 @@ window.CASHFLOW = {
     {
      "program": "NDT",
      "proj_starts": {
-      "low": 3,
-      "mid": 5,
-      "high": 6
-     },
-     "funds_gross": {
-      "VA": 40637.23,
-      "PELL": 21505.43,
-      "SEOG": 803.19,
-      "SUB": 11542.55,
-      "UNSUB": 14799.47,
-      "PLUS": 14124.04,
-      "SCHOL": 0.0
-     },
-     "total_net": 102536.32
-    },
-    {
-     "program": "NDT-NC",
-     "proj_starts": {
-      "low": 5,
+      "low": 4,
       "mid": 7,
       "high": 10
      },
      "funds_gross": {
-      "VA": 16848.61,
-      "PELL": 21085.56,
-      "SEOG": 875.0,
-      "SUB": 14972.22,
-      "UNSUB": 28388.89,
-      "PLUS": 24694.44,
+      "VA": 50178.0,
+      "PELL": 31026.3,
+      "SEOG": 1275.0,
+      "SUB": 15400.0,
+      "UNSUB": 20211.5,
+      "PLUS": 22455.9,
       "SCHOL": 0.0
      },
-     "total_net": 105362.32
+     "total_net": 139220.84
+    },
+    {
+     "program": "NDT-NC",
+     "proj_starts": {
+      "low": 2,
+      "mid": 4,
+      "high": 5
+     },
+     "funds_gross": {
+      "VA": 6418.52,
+      "PELL": 16797.04,
+      "SEOG": 807.41,
+      "SUB": 8814.81,
+      "UNSUB": 15555.56,
+      "PLUS": 14296.3,
+      "SCHOL": 0.0
+     },
+     "total_net": 61827.59
     },
     {
      "program": "UDT",
      "proj_starts": {
-      "low": 20,
-      "mid": 27,
-      "high": 33
+      "low": 10,
+      "mid": 17,
+      "high": 26
      },
      "funds_gross": {
-      "VA": 188068.5,
-      "PELL": 94087.5,
-      "SEOG": 3105.0,
-      "SUB": 57022.5,
-      "UNSUB": 78000.0,
-      "PLUS": 142081.5,
-      "SCHOL": 600.0
+      "VA": 119120.01,
+      "PELL": 59811.33,
+      "SEOG": 2038.56,
+      "SUB": 33938.77,
+      "UNSUB": 45741.53,
+      "PLUS": 84943.09,
+      "SCHOL": 360.17
      },
-     "total_net": 555530.6
+     "total_net": 341519.85
     }
    ]
   },
@@ -718,36 +740,36 @@ window.CASHFLOW = {
      "proj_starts": {
       "low": 6,
       "mid": 9,
-      "high": 11
+      "high": 12
      },
      "funds_gross": {
-      "VA": 73147.02,
-      "PELL": 38709.77,
-      "SEOG": 1445.74,
-      "SUB": 20776.6,
-      "UNSUB": 26639.04,
-      "PLUS": 25423.28,
+      "VA": 64514.57,
+      "PELL": 39890.96,
+      "SEOG": 1639.29,
+      "SUB": 19800.0,
+      "UNSUB": 25986.21,
+      "PLUS": 28871.87,
       "SCHOL": 0.0
      },
-     "total_net": 184565.37
+     "total_net": 178998.24
     },
     {
      "program": "UDT",
      "proj_starts": {
-      "low": 16,
-      "mid": 21,
-      "high": 26
+      "low": 11,
+      "mid": 15,
+      "high": 20
      },
      "funds_gross": {
-      "VA": 146275.5,
-      "PELL": 73179.17,
-      "SEOG": 2415.0,
-      "SUB": 44350.83,
-      "UNSUB": 60666.67,
-      "PLUS": 110507.83,
-      "SCHOL": 466.67
+      "VA": 105105.89,
+      "PELL": 52774.7,
+      "SEOG": 1798.73,
+      "SUB": 29945.97,
+      "UNSUB": 40360.17,
+      "PLUS": 74949.79,
+      "SCHOL": 317.8
      },
-     "total_net": 432079.37
+     "total_net": 301341.04
     }
    ]
   },
@@ -767,56 +789,56 @@ window.CASHFLOW = {
     {
      "program": "NDT",
      "proj_starts": {
-      "low": 4,
-      "mid": 6,
-      "high": 8
+      "low": 3,
+      "mid": 4,
+      "high": 5
      },
      "funds_gross": {
-      "VA": 48764.68,
-      "PELL": 25806.51,
-      "SEOG": 963.83,
-      "SUB": 13851.06,
-      "UNSUB": 17759.36,
-      "PLUS": 16948.85,
+      "VA": 28673.14,
+      "PELL": 17729.31,
+      "SEOG": 728.57,
+      "SUB": 8800.0,
+      "UNSUB": 11549.43,
+      "PLUS": 12831.94,
       "SCHOL": 0.0
      },
-     "total_net": 123043.58
+     "total_net": 79554.76
     },
     {
      "program": "NDT-NC",
      "proj_starts": {
-      "low": 2,
-      "mid": 3,
-      "high": 4
+      "low": 1,
+      "mid": 2,
+      "high": 3
      },
      "funds_gross": {
-      "VA": 7220.83,
-      "PELL": 9036.67,
-      "SEOG": 375.0,
-      "SUB": 6416.67,
-      "UNSUB": 12166.67,
-      "PLUS": 10583.33,
+      "VA": 3209.26,
+      "PELL": 8398.52,
+      "SEOG": 403.7,
+      "SUB": 4407.41,
+      "UNSUB": 7777.78,
+      "PLUS": 7148.15,
       "SCHOL": 0.0
      },
-     "total_net": 45155.28
+     "total_net": 30913.79
     },
     {
      "program": "UDT",
      "proj_starts": {
-      "low": 11,
-      "mid": 15,
-      "high": 18
+      "low": 12,
+      "mid": 17,
+      "high": 22
      },
      "funds_gross": {
-      "VA": 104482.5,
-      "PELL": 52270.83,
-      "SEOG": 1725.0,
-      "SUB": 31679.17,
-      "UNSUB": 43333.33,
-      "PLUS": 78934.17,
-      "SCHOL": 333.33
+      "VA": 119120.01,
+      "PELL": 59811.33,
+      "SEOG": 2038.56,
+      "SUB": 33938.77,
+      "UNSUB": 45741.53,
+      "PLUS": 84943.09,
+      "SCHOL": 360.17
      },
-     "total_net": 308628.11
+     "total_net": 341519.85
     }
    ]
   },
@@ -836,38 +858,38 @@ window.CASHFLOW = {
     {
      "program": "NDT",
      "proj_starts": {
-      "low": 4,
-      "mid": 5,
-      "high": 7
+      "low": 6,
+      "mid": 8,
+      "high": 10
      },
      "funds_gross": {
-      "VA": 40637.23,
-      "PELL": 21505.43,
-      "SEOG": 803.19,
-      "SUB": 11542.55,
-      "UNSUB": 14799.47,
-      "PLUS": 14124.04,
+      "VA": 57346.29,
+      "PELL": 35458.63,
+      "SEOG": 1457.14,
+      "SUB": 17600.0,
+      "UNSUB": 23098.86,
+      "PLUS": 25663.89,
       "SCHOL": 0.0
      },
-     "total_net": 102536.32
+     "total_net": 159109.55
     },
     {
      "program": "UDT",
      "proj_starts": {
-      "low": 4,
-      "mid": 5,
-      "high": 6
+      "low": 5,
+      "mid": 7,
+      "high": 9
      },
      "funds_gross": {
-      "VA": 34827.5,
-      "PELL": 17423.61,
-      "SEOG": 575.0,
-      "SUB": 10559.72,
-      "UNSUB": 14444.44,
-      "PLUS": 26311.39,
-      "SCHOL": 111.11
+      "VA": 49049.42,
+      "PELL": 24628.19,
+      "SEOG": 839.41,
+      "SUB": 13974.79,
+      "UNSUB": 18834.75,
+      "PLUS": 34976.57,
+      "SCHOL": 148.31
      },
-     "total_net": 102876.04
+     "total_net": 140625.82
     }
    ]
   },
@@ -875,68 +897,68 @@ window.CASHFLOW = {
    "class": 574,
    "source": "projected",
    "dates": {
-    "start": "2027-03-15",
-    "disb1": "2027-04-15",
-    "disb2": "2027-07-01",
-    "grad": "2027-10-15",
-    "va1": "2027-05-17",
-    "va2": "2027-09-03",
+    "start": "2027-03-08",
+    "disb1": "2027-04-08",
+    "disb2": "2027-06-23",
+    "grad": "2027-10-07",
+    "va1": "2027-05-10",
+    "va2": "2027-08-26",
     "derived": false
    },
    "programs": [
     {
      "program": "NDT",
      "proj_starts": {
+      "low": 3,
+      "mid": 5,
+      "high": 7
+     },
+     "funds_gross": {
+      "VA": 35841.43,
+      "PELL": 22161.64,
+      "SEOG": 910.71,
+      "SUB": 11000.0,
+      "UNSUB": 14436.79,
+      "PLUS": 16039.93,
+      "SCHOL": 0.0
+     },
+     "total_net": 99443.46
+    },
+    {
+     "program": "NDT-NC",
+     "proj_starts": {
       "low": 2,
       "mid": 3,
       "high": 4
      },
      "funds_gross": {
-      "VA": 24382.34,
-      "PELL": 12903.26,
-      "SEOG": 481.91,
-      "SUB": 6925.53,
-      "UNSUB": 8879.68,
-      "PLUS": 8474.43,
-      "SCHOL": 0.0
-     },
-     "total_net": 61521.79
-    },
-    {
-     "program": "NDT-NC",
-     "proj_starts": {
-      "low": 1,
-      "mid": 2,
-      "high": 3
-     },
-     "funds_gross": {
       "VA": 4813.89,
-      "PELL": 6024.44,
-      "SEOG": 250.0,
-      "SUB": 4277.78,
-      "UNSUB": 8111.11,
-      "PLUS": 7055.56,
+      "PELL": 12597.78,
+      "SEOG": 605.56,
+      "SUB": 6611.11,
+      "UNSUB": 11666.67,
+      "PLUS": 10722.22,
       "SCHOL": 0.0
      },
-     "total_net": 30103.52
+     "total_net": 46370.7
     },
     {
      "program": "UDT",
      "proj_starts": {
-      "low": 7,
-      "mid": 9,
-      "high": 12
+      "low": 10,
+      "mid": 14,
+      "high": 18
      },
      "funds_gross": {
-      "VA": 62689.5,
-      "PELL": 31362.5,
-      "SEOG": 1035.0,
-      "SUB": 19007.5,
-      "UNSUB": 26000.0,
-      "PLUS": 47360.5,
-      "SCHOL": 200.0
+      "VA": 98098.83,
+      "PELL": 49256.39,
+      "SEOG": 1678.81,
+      "SUB": 27949.58,
+      "UNSUB": 37669.49,
+      "PLUS": 69953.14,
+      "SCHOL": 296.61
      },
-     "total_net": 185176.87
+     "total_net": 281251.63
     }
    ]
   },
@@ -956,38 +978,38 @@ window.CASHFLOW = {
     {
      "program": "NDT",
      "proj_starts": {
-      "low": 3,
-      "mid": 4,
-      "high": 5
+      "low": 4,
+      "mid": 6,
+      "high": 8
      },
      "funds_gross": {
-      "VA": 32509.79,
-      "PELL": 17204.34,
-      "SEOG": 642.55,
-      "SUB": 9234.04,
-      "UNSUB": 11839.57,
-      "PLUS": 11299.23,
+      "VA": 43009.71,
+      "PELL": 26593.97,
+      "SEOG": 1092.86,
+      "SUB": 13200.0,
+      "UNSUB": 17324.14,
+      "PLUS": 19247.91,
       "SCHOL": 0.0
      },
-     "total_net": 82029.05
+     "total_net": 119332.16
     },
     {
      "program": "UDT",
      "proj_starts": {
-      "low": 5,
-      "mid": 7,
-      "high": 8
+      "low": 7,
+      "mid": 10,
+      "high": 13
      },
      "funds_gross": {
-      "VA": 48758.5,
-      "PELL": 24393.06,
-      "SEOG": 805.0,
-      "SUB": 14783.61,
-      "UNSUB": 20222.22,
-      "PLUS": 36835.94,
-      "SCHOL": 155.56
+      "VA": 70070.59,
+      "PELL": 35183.14,
+      "SEOG": 1199.15,
+      "SUB": 19963.98,
+      "UNSUB": 26906.78,
+      "PLUS": 49966.53,
+      "SCHOL": 211.86
      },
-     "total_net": 144026.46
+     "total_net": 200894.02
     }
    ]
   }
@@ -1621,7 +1643,7 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "expected",
-   "amount": 13941.0
+   "amount": 15789.5
   },
   {
    "date": "2026-04-15",
@@ -1691,7 +1713,7 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "expected",
-   "amount": 100.0
+   "amount": 200.0
   },
   {
    "date": "2026-04-15",
@@ -2021,7 +2043,7 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "expected",
-   "amount": 22413.0
+   "amount": 23180.0
   },
   {
    "date": "2026-05-20",
@@ -2031,7 +2053,17 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "expected",
-   "amount": 22935.5
+   "amount": 24784.0
+  },
+  {
+   "date": "2026-05-20",
+   "class": 565,
+   "cohort": "Re-entry 565",
+   "program": "Re-entry",
+   "fund": "PELL",
+   "tranche": "disb1",
+   "kind": "expected",
+   "amount": 5238.5
   },
   {
    "date": "2026-05-20",
@@ -2041,7 +2073,7 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "expected",
-   "amount": 38787.66
+   "amount": 41660.82
   },
   {
    "date": "2026-05-20",
@@ -2051,7 +2083,7 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "expected",
-   "amount": 19922.97
+   "amount": 19823.85
   },
   {
    "date": "2026-05-20",
@@ -2096,6 +2128,16 @@ window.CASHFLOW = {
   {
    "date": "2026-05-20",
    "class": 565,
+   "cohort": "Re-entry 565",
+   "program": "Re-entry",
+   "fund": "SUB",
+   "tranche": "disb1",
+   "kind": "expected",
+   "amount": 1731.5
+  },
+  {
+   "date": "2026-05-20",
+   "class": 565,
    "cohort": "UDT 565",
    "program": "UDT",
    "fund": "UNSUB",
@@ -2112,6 +2154,16 @@ window.CASHFLOW = {
    "tranche": "disb1",
    "kind": "expected",
    "amount": 14841.45
+  },
+  {
+   "date": "2026-05-20",
+   "class": 565,
+   "cohort": "Re-entry 565",
+   "program": "Re-entry",
+   "fund": "UNSUB",
+   "tranche": "disb1",
+   "kind": "expected",
+   "amount": 2968.29
   },
   {
    "date": "2026-05-27",
@@ -2201,7 +2253,7 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "expected",
-   "amount": 18487.5
+   "amount": 21530.0
   },
   {
    "date": "2026-06-18",
@@ -2351,7 +2403,7 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "expected",
-   "amount": 13941.0
+   "amount": 15789.5
   },
   {
    "date": "2026-07-01",
@@ -2411,7 +2463,7 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "expected",
-   "amount": 100.0
+   "amount": 200.0
   },
   {
    "date": "2026-07-01",
@@ -2546,38 +2598,22 @@ window.CASHFLOW = {
   {
    "date": "2026-07-29",
    "class": 567,
-   "cohort": "NDT 567",
-   "program": "NDT",
-   "fund": "PELL",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 27957.05,
-   "low": 17204.34,
-   "high": 36559.22
-  },
-  {
-   "date": "2026-07-29",
-   "class": 567,
    "cohort": "UDT 567",
    "program": "UDT",
    "fund": "PELL",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 26135.42,
-   "low": 17423.61,
-   "high": 36589.58
+   "kind": "expected",
+   "amount": 13310.0
   },
   {
    "date": "2026-07-29",
    "class": 567,
    "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "PLUS",
+   "fund": "PELL",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 17584.94,
-   "low": 10821.5,
-   "high": 22995.69
+   "kind": "expected",
+   "amount": 41115.0
   },
   {
    "date": "2026-07-29",
@@ -2586,34 +2622,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "PLUS",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 37798.42,
-   "low": 25198.94,
-   "high": 52917.78
-  },
-  {
-   "date": "2026-07-29",
-   "class": 567,
-   "cohort": "UDT 567",
-   "program": "UDT",
-   "fund": "SCHOL",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 333.33,
-   "low": 222.22,
-   "high": 466.67
+   "kind": "expected",
+   "amount": 7182.9
   },
   {
    "date": "2026-07-29",
    "class": 567,
    "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "SEOG",
+   "fund": "PLUS",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 1044.15,
-   "low": 642.55,
-   "high": 1365.43
+   "kind": "expected",
+   "amount": 44055.12
   },
   {
    "date": "2026-07-29",
@@ -2622,22 +2642,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SEOG",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 862.5,
-   "low": 575.0,
-   "high": 1207.5
+   "kind": "expected",
+   "amount": 600.0
   },
   {
    "date": "2026-07-29",
    "class": 567,
    "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "SUB",
+   "fund": "SEOG",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 14846.71,
-   "low": 9136.44,
-   "high": 19414.93
+   "kind": "expected",
+   "amount": 2000.0
   },
   {
    "date": "2026-07-29",
@@ -2646,22 +2662,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SUB",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 15672.16,
-   "low": 10448.11,
-   "high": 21941.02
+   "kind": "expected",
+   "amount": 6926.01
   },
   {
    "date": "2026-07-29",
    "class": 567,
    "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "UNSUB",
+   "fund": "SUB",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 19035.95,
-   "low": 11714.43,
-   "high": 24893.16
+   "kind": "expected",
+   "amount": 19046.53
   },
   {
    "date": "2026-07-29",
@@ -2670,10 +2682,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "UNSUB",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 21437.65,
-   "low": 14291.77,
-   "high": 30012.71
+   "kind": "expected",
+   "amount": 9894.3
+  },
+  {
+   "date": "2026-07-29",
+   "class": 567,
+   "cohort": "NDT 567",
+   "program": "NDT",
+   "fund": "UNSUB",
+   "tranche": "disb1",
+   "kind": "expected",
+   "amount": 25230.47
   },
   {
    "date": "2026-08-07",
@@ -2683,7 +2703,7 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "expected",
-   "amount": 22413.0
+   "amount": 23180.0
   },
   {
    "date": "2026-08-07",
@@ -2693,7 +2713,17 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "expected",
-   "amount": 22935.5
+   "amount": 24784.0
+  },
+  {
+   "date": "2026-08-07",
+   "class": 565,
+   "cohort": "Re-entry 565",
+   "program": "Re-entry",
+   "fund": "PELL",
+   "tranche": "disb2",
+   "kind": "expected",
+   "amount": 5238.5
   },
   {
    "date": "2026-08-07",
@@ -2703,7 +2733,7 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "expected",
-   "amount": 38787.66
+   "amount": 41660.82
   },
   {
    "date": "2026-08-07",
@@ -2713,7 +2743,7 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "expected",
-   "amount": 19922.97
+   "amount": 19823.85
   },
   {
    "date": "2026-08-07",
@@ -2758,6 +2788,16 @@ window.CASHFLOW = {
   {
    "date": "2026-08-07",
    "class": 565,
+   "cohort": "Re-entry 565",
+   "program": "Re-entry",
+   "fund": "SUB",
+   "tranche": "disb2",
+   "kind": "expected",
+   "amount": 1731.5
+  },
+  {
+   "date": "2026-08-07",
+   "class": 565,
    "cohort": "UDT 565",
    "program": "UDT",
    "fund": "UNSUB",
@@ -2776,16 +2816,14 @@ window.CASHFLOW = {
    "amount": 14841.45
   },
   {
-   "date": "2026-09-01",
-   "class": 567,
-   "cohort": "NDT 567",
-   "program": "NDT",
-   "fund": "VA",
-   "tranche": "va1",
-   "kind": "projected",
-   "amount": 105656.81,
-   "low": 65019.57,
-   "high": 138166.6
+   "date": "2026-08-07",
+   "class": 565,
+   "cohort": "Re-entry 565",
+   "program": "Re-entry",
+   "fund": "UNSUB",
+   "tranche": "disb2",
+   "kind": "expected",
+   "amount": 2968.29
   },
   {
    "date": "2026-09-01",
@@ -2794,34 +2832,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "VA",
    "tranche": "va1",
-   "kind": "projected",
-   "amount": 104482.5,
-   "low": 69655.0,
-   "high": 146275.5
+   "kind": "expected",
+   "amount": 26400.0
   },
   {
-   "date": "2026-09-03",
-   "class": 568,
-   "cohort": "NDT 568",
+   "date": "2026-09-01",
+   "class": 567,
+   "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "PELL",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 21505.43,
-   "low": 17204.34,
-   "high": 27957.05
-  },
-  {
-   "date": "2026-09-03",
-   "class": 568,
-   "cohort": "NDT-NC 568",
-   "program": "NDT-NC",
-   "fund": "PELL",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 12048.89,
-   "low": 7530.56,
-   "high": 15061.11
+   "fund": "VA",
+   "tranche": "va1",
+   "kind": "expected",
+   "amount": 29040.0
   },
   {
    "date": "2026-09-03",
@@ -2830,34 +2852,28 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "PELL",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 36589.58,
-   "low": 27877.78,
-   "high": 45301.39
+   "kind": "expected",
+   "amount": 31800.0
   },
   {
    "date": "2026-09-03",
    "class": 568,
    "cohort": "NDT 568",
    "program": "NDT",
-   "fund": "PLUS",
+   "fund": "PELL",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 13526.88,
-   "low": 10821.5,
-   "high": 17584.94
+   "kind": "expected",
+   "amount": 11092.5
   },
   {
    "date": "2026-09-03",
    "class": 568,
    "cohort": "NDT-NC 568",
    "program": "NDT-NC",
-   "fund": "PLUS",
+   "fund": "PELL",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 13514.49,
-   "low": 8446.56,
-   "high": 16893.12
+   "kind": "expected",
+   "amount": 29580.0
   },
   {
    "date": "2026-09-03",
@@ -2866,10 +2882,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "PLUS",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 52917.78,
-   "low": 40318.31,
-   "high": 65517.25
+   "kind": "expected",
+   "amount": 45491.7
+  },
+  {
+   "date": "2026-09-03",
+   "class": 568,
+   "cohort": "NDT-NC 568",
+   "program": "NDT-NC",
+   "fund": "PLUS",
+   "tranche": "disb1",
+   "kind": "expected",
+   "amount": 15802.38
   },
   {
    "date": "2026-09-03",
@@ -2878,34 +2902,8 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SCHOL",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 466.67,
-   "low": 355.56,
-   "high": 577.78
-  },
-  {
-   "date": "2026-09-03",
-   "class": 568,
-   "cohort": "NDT 568",
-   "program": "NDT",
-   "fund": "SEOG",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 803.19,
-   "low": 642.55,
-   "high": 1044.15
-  },
-  {
-   "date": "2026-09-03",
-   "class": 568,
-   "cohort": "NDT-NC 568",
-   "program": "NDT-NC",
-   "fund": "SEOG",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 500.0,
-   "low": 312.5,
-   "high": 625.0
+   "kind": "expected",
+   "amount": 500.0
   },
   {
    "date": "2026-09-03",
@@ -2914,34 +2912,28 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SEOG",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 1207.5,
-   "low": 920.0,
-   "high": 1495.0
+   "kind": "expected",
+   "amount": 1200.0
   },
   {
    "date": "2026-09-03",
    "class": 568,
    "cohort": "NDT 568",
    "program": "NDT",
-   "fund": "SUB",
+   "fund": "SEOG",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 11420.55,
-   "low": 9136.44,
-   "high": 14846.71
+   "kind": "expected",
+   "amount": 600.0
   },
   {
    "date": "2026-09-03",
    "class": 568,
    "cohort": "NDT-NC 568",
    "program": "NDT-NC",
-   "fund": "SUB",
+   "fund": "SEOG",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 8465.12,
-   "low": 5290.7,
-   "high": 10581.4
+   "kind": "expected",
+   "amount": 1600.0
   },
   {
    "date": "2026-09-03",
@@ -2950,34 +2942,28 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SUB",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 21941.02,
-   "low": 16716.97,
-   "high": 27165.08
+   "kind": "expected",
+   "amount": 15583.52
   },
   {
    "date": "2026-09-03",
    "class": 568,
    "cohort": "NDT 568",
    "program": "NDT",
-   "fund": "UNSUB",
+   "fund": "SUB",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 14643.04,
-   "low": 11714.43,
-   "high": 19035.95
+   "kind": "expected",
+   "amount": 3463.01
   },
   {
    "date": "2026-09-03",
    "class": 568,
    "cohort": "NDT-NC 568",
    "program": "NDT-NC",
-   "fund": "UNSUB",
+   "fund": "SUB",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 16050.75,
-   "low": 10031.72,
-   "high": 20063.44
+   "kind": "expected",
+   "amount": 10389.02
   },
   {
    "date": "2026-09-03",
@@ -2986,10 +2972,28 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "UNSUB",
    "tranche": "disb1",
-   "kind": "projected",
-   "amount": 30012.71,
-   "low": 22866.83,
-   "high": 37158.59
+   "kind": "expected",
+   "amount": 18551.81
+  },
+  {
+   "date": "2026-09-03",
+   "class": 568,
+   "cohort": "NDT 568",
+   "program": "NDT",
+   "fund": "UNSUB",
+   "tranche": "disb1",
+   "kind": "expected",
+   "amount": 5936.58
+  },
+  {
+   "date": "2026-09-03",
+   "class": 568,
+   "cohort": "NDT-NC 568",
+   "program": "NDT-NC",
+   "fund": "UNSUB",
+   "tranche": "disb1",
+   "kind": "expected",
+   "amount": 15830.88
   },
   {
    "date": "2026-09-04",
@@ -2999,7 +3003,7 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "expected",
-   "amount": 18487.5
+   "amount": 21530.0
   },
   {
    "date": "2026-09-04",
@@ -3124,38 +3128,22 @@ window.CASHFLOW = {
   {
    "date": "2026-10-06",
    "class": 568,
-   "cohort": "NDT 568",
-   "program": "NDT",
-   "fund": "VA",
-   "tranche": "va1",
-   "kind": "projected",
-   "amount": 81274.47,
-   "low": 65019.57,
-   "high": 105656.81
-  },
-  {
-   "date": "2026-10-06",
-   "class": 568,
-   "cohort": "NDT-NC 568",
-   "program": "NDT-NC",
-   "fund": "VA",
-   "tranche": "va1",
-   "kind": "projected",
-   "amount": 19255.56,
-   "low": 12034.72,
-   "high": 24069.44
-  },
-  {
-   "date": "2026-10-06",
-   "class": 568,
    "cohort": "UDT 568",
    "program": "UDT",
    "fund": "VA",
    "tranche": "va1",
-   "kind": "projected",
-   "amount": 146275.5,
-   "low": 111448.0,
-   "high": 181103.0
+   "kind": "expected",
+   "amount": 173538.0
+  },
+  {
+   "date": "2026-10-06",
+   "class": 568,
+   "cohort": "NDT 568",
+   "program": "NDT",
+   "fund": "VA",
+   "tranche": "va1",
+   "kind": "expected",
+   "amount": 90750.0
   },
   {
    "date": "2026-10-08",
@@ -3165,9 +3153,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 30107.6,
-   "low": 21505.43,
-   "high": 38709.77
+   "amount": 44323.29,
+   "low": 44323.29,
+   "high": 44323.29
   },
   {
    "date": "2026-10-08",
@@ -3177,9 +3165,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 59240.28,
-   "low": 45301.39,
-   "high": 74921.53
+   "amount": 28146.51,
+   "low": 28146.51,
+   "high": 28146.51
   },
   {
    "date": "2026-10-08",
@@ -3189,9 +3177,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 18937.63,
-   "low": 13526.88,
-   "high": 24348.38
+   "amount": 30723.52,
+   "low": 30723.52,
+   "high": 30723.52
   },
   {
    "date": "2026-10-08",
@@ -3201,9 +3189,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 85676.41,
-   "low": 65517.25,
-   "high": 108355.46
+   "amount": 38283.15,
+   "low": 38283.15,
+   "high": 38283.15
   },
   {
    "date": "2026-10-08",
@@ -3213,9 +3201,9 @@ window.CASHFLOW = {
    "fund": "SCHOL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 755.56,
-   "low": 577.78,
-   "high": 955.56
+   "amount": 338.98,
+   "low": 338.98,
+   "high": 338.98
   },
   {
    "date": "2026-10-08",
@@ -3225,9 +3213,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 1124.47,
-   "low": 803.19,
-   "high": 1445.74
+   "amount": 1821.43,
+   "low": 1821.43,
+   "high": 1821.43
   },
   {
    "date": "2026-10-08",
@@ -3237,9 +3225,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 1955.0,
-   "low": 1495.0,
-   "high": 2472.5
+   "amount": 959.32,
+   "low": 959.32,
+   "high": 959.32
   },
   {
    "date": "2026-10-08",
@@ -3249,9 +3237,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 15988.77,
-   "low": 11420.55,
-   "high": 20556.99
+   "amount": 21767.46,
+   "low": 21767.46,
+   "high": 21767.46
   },
   {
    "date": "2026-10-08",
@@ -3261,9 +3249,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 35523.56,
-   "low": 27165.08,
-   "high": 44926.86
+   "amount": 15802.37,
+   "low": 15802.37,
+   "high": 15802.37
   },
   {
    "date": "2026-10-08",
@@ -3273,9 +3261,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 20500.25,
-   "low": 14643.04,
-   "high": 26357.47
+   "amount": 28568.38,
+   "low": 28568.38,
+   "high": 28568.38
   },
   {
    "date": "2026-10-08",
@@ -3285,21 +3273,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 48592.01,
-   "low": 37158.59,
-   "high": 61454.6
-  },
-  {
-   "date": "2026-10-16",
-   "class": 567,
-   "cohort": "NDT 567",
-   "program": "NDT",
-   "fund": "PELL",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 27957.05,
-   "low": 17204.34,
-   "high": 36559.22
+   "amount": 21297.9,
+   "low": 21297.9,
+   "high": 21297.9
   },
   {
    "date": "2026-10-16",
@@ -3308,22 +3284,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "PELL",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 26135.42,
-   "low": 17423.61,
-   "high": 36589.58
+   "kind": "expected",
+   "amount": 13310.0
   },
   {
    "date": "2026-10-16",
    "class": 567,
    "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "PLUS",
+   "fund": "PELL",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 17584.94,
-   "low": 10821.5,
-   "high": 22995.69
+   "kind": "expected",
+   "amount": 41115.0
   },
   {
    "date": "2026-10-16",
@@ -3332,22 +3304,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "PLUS",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 37798.42,
-   "low": 25198.94,
-   "high": 52917.78
+   "kind": "expected",
+   "amount": 7182.9
   },
   {
    "date": "2026-10-16",
    "class": 567,
    "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "SEOG",
+   "fund": "PLUS",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 1044.15,
-   "low": 642.55,
-   "high": 1365.43
+   "kind": "expected",
+   "amount": 44055.12
   },
   {
    "date": "2026-10-16",
@@ -3356,22 +3324,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SEOG",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 862.5,
-   "low": 575.0,
-   "high": 1207.5
+   "kind": "expected",
+   "amount": 600.0
   },
   {
    "date": "2026-10-16",
    "class": 567,
    "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "SUB",
+   "fund": "SEOG",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 14846.71,
-   "low": 9136.44,
-   "high": 19414.93
+   "kind": "expected",
+   "amount": 2000.0
   },
   {
    "date": "2026-10-16",
@@ -3380,22 +3344,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SUB",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 15672.16,
-   "low": 10448.11,
-   "high": 21941.02
+   "kind": "expected",
+   "amount": 6926.01
   },
   {
    "date": "2026-10-16",
    "class": 567,
    "cohort": "NDT 567",
    "program": "NDT",
-   "fund": "UNSUB",
+   "fund": "SUB",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 19035.95,
-   "low": 11714.43,
-   "high": 24893.16
+   "kind": "expected",
+   "amount": 19046.53
   },
   {
    "date": "2026-10-16",
@@ -3404,10 +3364,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "UNSUB",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 21437.65,
-   "low": 14291.77,
-   "high": 30012.71
+   "kind": "expected",
+   "amount": 9894.3
+  },
+  {
+   "date": "2026-10-16",
+   "class": 567,
+   "cohort": "NDT 567",
+   "program": "NDT",
+   "fund": "UNSUB",
+   "tranche": "disb2",
+   "kind": "expected",
+   "amount": 25230.47
   },
   {
    "date": "2026-11-12",
@@ -3417,9 +3385,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 113784.26,
-   "low": 81274.47,
-   "high": 146294.04
+   "amount": 143365.71,
+   "low": 143365.71,
+   "high": 143365.71
   },
   {
    "date": "2026-11-12",
@@ -3429,9 +3397,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 236827.0,
-   "low": 181103.0,
-   "high": 299516.5
+   "amount": 112112.95,
+   "low": 112112.95,
+   "high": 112112.95
   },
   {
    "date": "2026-11-13",
@@ -3441,9 +3409,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 10752.71,
-   "low": 6451.63,
-   "high": 12903.26
+   "amount": 15513.15,
+   "low": 8864.66,
+   "high": 22161.64
   },
   {
    "date": "2026-11-13",
@@ -3453,9 +3421,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 10542.78,
-   "low": 7530.56,
-   "high": 15061.11
+   "amount": 8398.52,
+   "low": 4199.26,
+   "high": 10498.15
   },
   {
    "date": "2026-11-13",
@@ -3465,9 +3433,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 47043.75,
-   "low": 34847.22,
-   "high": 57497.92
+   "amount": 29905.67,
+   "low": 17591.57,
+   "high": 45738.08
   },
   {
    "date": "2026-11-13",
@@ -3477,9 +3445,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 6763.44,
-   "low": 4058.06,
-   "high": 8116.13
+   "amount": 10753.23,
+   "low": 6144.7,
+   "high": 15361.76
   },
   {
    "date": "2026-11-13",
@@ -3489,9 +3457,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 11825.18,
-   "low": 8446.56,
-   "high": 16893.12
+   "amount": 6845.92,
+   "low": 3422.96,
+   "high": 8557.41
   },
   {
    "date": "2026-11-13",
@@ -3501,9 +3469,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 68037.15,
-   "low": 50397.89,
-   "high": 83156.51
+   "amount": 40675.85,
+   "low": 23926.97,
+   "high": 62210.12
   },
   {
    "date": "2026-11-13",
@@ -3513,9 +3481,9 @@ window.CASHFLOW = {
    "fund": "SCHOL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 600.0,
-   "low": 444.44,
-   "high": 733.33
+   "amount": 360.17,
+   "low": 211.86,
+   "high": 550.85
   },
   {
    "date": "2026-11-13",
@@ -3525,9 +3493,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 401.6,
-   "low": 240.96,
-   "high": 481.91
+   "amount": 637.5,
+   "low": 364.29,
+   "high": 910.71
   },
   {
    "date": "2026-11-13",
@@ -3537,9 +3505,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 437.5,
-   "low": 312.5,
-   "high": 625.0
+   "amount": 403.7,
+   "low": 201.85,
+   "high": 504.63
   },
   {
    "date": "2026-11-13",
@@ -3549,9 +3517,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 1552.5,
-   "low": 1150.0,
-   "high": 1897.5
+   "amount": 1019.28,
+   "low": 599.58,
+   "high": 1558.9
   },
   {
    "date": "2026-11-13",
@@ -3561,9 +3529,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 5710.27,
-   "low": 3426.16,
-   "high": 6852.33
+   "amount": 7618.61,
+   "low": 4353.49,
+   "high": 10883.73
   },
   {
    "date": "2026-11-13",
@@ -3573,9 +3541,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 7406.98,
-   "low": 5290.7,
-   "high": 10581.4
+   "amount": 4360.82,
+   "low": 2180.41,
+   "high": 5451.03
   },
   {
    "date": "2026-11-13",
@@ -3585,9 +3553,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 28209.89,
-   "low": 20896.21,
-   "high": 34478.75
+   "amount": 16790.02,
+   "low": 9876.48,
+   "high": 25678.85
   },
   {
    "date": "2026-11-13",
@@ -3597,9 +3565,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 7321.52,
-   "low": 4392.91,
-   "high": 8785.82
+   "amount": 9998.93,
+   "low": 5713.68,
+   "high": 14284.19
   },
   {
    "date": "2026-11-13",
@@ -3609,9 +3577,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 14044.41,
-   "low": 10031.72,
-   "high": 20063.44
+   "amount": 7695.57,
+   "low": 3847.78,
+   "high": 9619.46
   },
   {
    "date": "2026-11-13",
@@ -3621,33 +3589,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 38587.77,
-   "low": 28583.53,
-   "high": 47162.83
-  },
-  {
-   "date": "2026-11-20",
-   "class": 568,
-   "cohort": "NDT 568",
-   "program": "NDT",
-   "fund": "PELL",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 21505.43,
-   "low": 17204.34,
-   "high": 27957.05
-  },
-  {
-   "date": "2026-11-20",
-   "class": 568,
-   "cohort": "NDT-NC 568",
-   "program": "NDT-NC",
-   "fund": "PELL",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 12048.89,
-   "low": 7530.56,
-   "high": 15061.11
+   "amount": 22629.02,
+   "low": 13311.19,
+   "high": 34609.09
   },
   {
    "date": "2026-11-20",
@@ -3656,34 +3600,28 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "PELL",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 36589.58,
-   "low": 27877.78,
-   "high": 45301.39
+   "kind": "expected",
+   "amount": 31800.0
   },
   {
    "date": "2026-11-20",
    "class": 568,
    "cohort": "NDT 568",
    "program": "NDT",
-   "fund": "PLUS",
+   "fund": "PELL",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 13526.88,
-   "low": 10821.5,
-   "high": 17584.94
+   "kind": "expected",
+   "amount": 11092.5
   },
   {
    "date": "2026-11-20",
    "class": 568,
    "cohort": "NDT-NC 568",
    "program": "NDT-NC",
-   "fund": "PLUS",
+   "fund": "PELL",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 13514.49,
-   "low": 8446.56,
-   "high": 16893.12
+   "kind": "expected",
+   "amount": 29580.0
   },
   {
    "date": "2026-11-20",
@@ -3692,34 +3630,18 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "PLUS",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 52917.78,
-   "low": 40318.31,
-   "high": 65517.25
-  },
-  {
-   "date": "2026-11-20",
-   "class": 568,
-   "cohort": "NDT 568",
-   "program": "NDT",
-   "fund": "SEOG",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 803.19,
-   "low": 642.55,
-   "high": 1044.15
+   "kind": "expected",
+   "amount": 45491.7
   },
   {
    "date": "2026-11-20",
    "class": 568,
    "cohort": "NDT-NC 568",
    "program": "NDT-NC",
-   "fund": "SEOG",
+   "fund": "PLUS",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 500.0,
-   "low": 312.5,
-   "high": 625.0
+   "kind": "expected",
+   "amount": 15802.38
   },
   {
    "date": "2026-11-20",
@@ -3728,34 +3650,28 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SEOG",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 1207.5,
-   "low": 920.0,
-   "high": 1495.0
+   "kind": "expected",
+   "amount": 1200.0
   },
   {
    "date": "2026-11-20",
    "class": 568,
    "cohort": "NDT 568",
    "program": "NDT",
-   "fund": "SUB",
+   "fund": "SEOG",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 11420.55,
-   "low": 9136.44,
-   "high": 14846.71
+   "kind": "expected",
+   "amount": 600.0
   },
   {
    "date": "2026-11-20",
    "class": 568,
    "cohort": "NDT-NC 568",
    "program": "NDT-NC",
-   "fund": "SUB",
+   "fund": "SEOG",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 8465.12,
-   "low": 5290.7,
-   "high": 10581.4
+   "kind": "expected",
+   "amount": 1600.0
   },
   {
    "date": "2026-11-20",
@@ -3764,34 +3680,28 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "SUB",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 21941.02,
-   "low": 16716.97,
-   "high": 27165.08
+   "kind": "expected",
+   "amount": 15583.52
   },
   {
    "date": "2026-11-20",
    "class": 568,
    "cohort": "NDT 568",
    "program": "NDT",
-   "fund": "UNSUB",
+   "fund": "SUB",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 14643.04,
-   "low": 11714.43,
-   "high": 19035.95
+   "kind": "expected",
+   "amount": 3463.01
   },
   {
    "date": "2026-11-20",
    "class": 568,
    "cohort": "NDT-NC 568",
    "program": "NDT-NC",
-   "fund": "UNSUB",
+   "fund": "SUB",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 16050.75,
-   "low": 10031.72,
-   "high": 20063.44
+   "kind": "expected",
+   "amount": 10389.02
   },
   {
    "date": "2026-11-20",
@@ -3800,10 +3710,28 @@ window.CASHFLOW = {
    "program": "UDT",
    "fund": "UNSUB",
    "tranche": "disb2",
-   "kind": "projected",
-   "amount": 30012.71,
-   "low": 22866.83,
-   "high": 37158.59
+   "kind": "expected",
+   "amount": 18551.81
+  },
+  {
+   "date": "2026-11-20",
+   "class": 568,
+   "cohort": "NDT 568",
+   "program": "NDT",
+   "fund": "UNSUB",
+   "tranche": "disb2",
+   "kind": "expected",
+   "amount": 5936.58
+  },
+  {
+   "date": "2026-11-20",
+   "class": 568,
+   "cohort": "NDT-NC 568",
+   "program": "NDT-NC",
+   "fund": "UNSUB",
+   "tranche": "disb2",
+   "kind": "expected",
+   "amount": 15830.88
   },
   {
    "date": "2026-12-16",
@@ -3813,9 +3741,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 19354.88,
-   "low": 12903.26,
-   "high": 23655.97
+   "amount": 19945.48,
+   "low": 13296.99,
+   "high": 26593.97
   },
   {
    "date": "2026-12-16",
@@ -3825,9 +3753,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 36589.58,
-   "low": 27877.78,
-   "high": 45301.39
+   "amount": 26387.35,
+   "low": 19350.72,
+   "high": 35183.14
   },
   {
    "date": "2026-12-16",
@@ -3837,9 +3765,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 12174.19,
-   "low": 8116.13,
-   "high": 14879.57
+   "amount": 13825.58,
+   "low": 9217.06,
+   "high": 18434.11
   },
   {
    "date": "2026-12-16",
@@ -3849,9 +3777,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 52917.78,
-   "low": 40318.31,
-   "high": 65517.25
+   "amount": 35890.46,
+   "low": 26319.67,
+   "high": 47853.94
   },
   {
    "date": "2026-12-16",
@@ -3861,9 +3789,9 @@ window.CASHFLOW = {
    "fund": "SCHOL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 466.67,
-   "low": 355.56,
-   "high": 577.78
+   "amount": 317.8,
+   "low": 233.05,
+   "high": 423.73
   },
   {
    "date": "2026-12-16",
@@ -3873,9 +3801,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 722.87,
-   "low": 481.91,
-   "high": 883.51
+   "amount": 819.64,
+   "low": 546.43,
+   "high": 1092.86
   },
   {
    "date": "2026-12-16",
@@ -3885,9 +3813,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 1207.5,
-   "low": 920.0,
-   "high": 1495.0
+   "amount": 899.36,
+   "low": 659.53,
+   "high": 1199.15
   },
   {
    "date": "2026-12-16",
@@ -3897,9 +3825,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 10278.49,
-   "low": 6852.33,
-   "high": 12562.6
+   "amount": 9795.36,
+   "low": 6530.24,
+   "high": 13060.48
   },
   {
    "date": "2026-12-16",
@@ -3909,9 +3837,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 21941.02,
-   "low": 16716.97,
-   "high": 27165.08
+   "amount": 14814.72,
+   "low": 10864.13,
+   "high": 19752.96
   },
   {
    "date": "2026-12-16",
@@ -3921,9 +3849,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 13178.73,
-   "low": 8785.82,
-   "high": 16107.34
+   "amount": 12855.77,
+   "low": 8570.51,
+   "high": 17141.03
   },
   {
    "date": "2026-12-16",
@@ -3933,9 +3861,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 30012.71,
-   "low": 22866.83,
-   "high": 37158.59
+   "amount": 19966.78,
+   "low": 14642.31,
+   "high": 26622.38
   },
   {
    "date": "2026-12-18",
@@ -3945,9 +3873,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 40637.23,
-   "low": 24382.34,
-   "high": 48764.68
+   "amount": 50178.0,
+   "low": 28673.14,
+   "high": 71682.86
   },
   {
    "date": "2026-12-18",
@@ -3957,9 +3885,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 16848.61,
-   "low": 12034.72,
-   "high": 24069.44
+   "amount": 6418.52,
+   "low": 3209.26,
+   "high": 8023.15
   },
   {
    "date": "2026-12-18",
@@ -3969,9 +3897,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 188068.5,
-   "low": 139310.0,
-   "high": 229861.5
+   "amount": 119120.01,
+   "low": 70070.59,
+   "high": 182183.54
   },
   {
    "date": "2027-01-07",
@@ -3981,9 +3909,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 30107.6,
-   "low": 21505.43,
-   "high": 38709.77
+   "amount": 44323.29,
+   "low": 44323.29,
+   "high": 44323.29
   },
   {
    "date": "2027-01-07",
@@ -3993,9 +3921,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 59240.28,
-   "low": 45301.39,
-   "high": 74921.53
+   "amount": 28146.51,
+   "low": 28146.51,
+   "high": 28146.51
   },
   {
    "date": "2027-01-07",
@@ -4005,9 +3933,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 18937.63,
-   "low": 13526.88,
-   "high": 24348.38
+   "amount": 30723.52,
+   "low": 30723.52,
+   "high": 30723.52
   },
   {
    "date": "2027-01-07",
@@ -4017,9 +3945,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 85676.41,
-   "low": 65517.25,
-   "high": 108355.46
+   "amount": 38283.15,
+   "low": 38283.15,
+   "high": 38283.15
   },
   {
    "date": "2027-01-07",
@@ -4029,9 +3957,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 1124.47,
-   "low": 803.19,
-   "high": 1445.74
+   "amount": 1821.43,
+   "low": 1821.43,
+   "high": 1821.43
   },
   {
    "date": "2027-01-07",
@@ -4041,9 +3969,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 1955.0,
-   "low": 1495.0,
-   "high": 2472.5
+   "amount": 959.32,
+   "low": 959.32,
+   "high": 959.32
   },
   {
    "date": "2027-01-07",
@@ -4053,9 +3981,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 15988.77,
-   "low": 11420.55,
-   "high": 20556.99
+   "amount": 21767.46,
+   "low": 21767.46,
+   "high": 21767.46
   },
   {
    "date": "2027-01-07",
@@ -4065,9 +3993,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 35523.56,
-   "low": 27165.08,
-   "high": 44926.86
+   "amount": 15802.37,
+   "low": 15802.37,
+   "high": 15802.37
   },
   {
    "date": "2027-01-07",
@@ -4077,9 +4005,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 20500.25,
-   "low": 14643.04,
-   "high": 26357.47
+   "amount": 28568.38,
+   "low": 28568.38,
+   "high": 28568.38
   },
   {
    "date": "2027-01-07",
@@ -4089,9 +4017,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 48592.01,
-   "low": 37158.59,
-   "high": 61454.6
+   "amount": 21297.9,
+   "low": 21297.9,
+   "high": 21297.9
   },
   {
    "date": "2027-02-01",
@@ -4101,9 +4029,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 73147.02,
-   "low": 48764.68,
-   "high": 89401.91
+   "amount": 64514.57,
+   "low": 43009.71,
+   "high": 86019.43
   },
   {
    "date": "2027-02-01",
@@ -4113,9 +4041,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 146275.5,
-   "low": 111448.0,
-   "high": 181103.0
+   "amount": 105105.89,
+   "low": 77077.65,
+   "high": 140141.19
   },
   {
    "date": "2027-02-04",
@@ -4125,9 +4053,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 12903.26,
-   "low": 8602.17,
-   "high": 17204.34
+   "amount": 8864.66,
+   "low": 6648.49,
+   "high": 11080.82
   },
   {
    "date": "2027-02-04",
@@ -4137,9 +4065,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 4518.33,
-   "low": 3012.22,
-   "high": 6024.44
+   "amount": 4199.26,
+   "low": 2099.63,
+   "high": 6298.89
   },
   {
    "date": "2027-02-04",
@@ -4149,9 +4077,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 26135.42,
-   "low": 19165.97,
-   "high": 31362.5
+   "amount": 29905.67,
+   "low": 21109.88,
+   "high": 38701.45
   },
   {
    "date": "2027-02-04",
@@ -4161,9 +4089,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 8116.13,
-   "low": 5410.75,
-   "high": 10821.5
+   "amount": 6144.7,
+   "low": 4608.53,
+   "high": 7680.88
   },
   {
    "date": "2027-02-04",
@@ -4173,9 +4101,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 5067.94,
-   "low": 3378.62,
-   "high": 6757.25
+   "amount": 3422.96,
+   "low": 1711.48,
+   "high": 5134.44
   },
   {
    "date": "2027-02-04",
@@ -4185,9 +4113,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 37798.42,
-   "low": 27718.84,
-   "high": 45358.1
+   "amount": 40675.85,
+   "low": 28712.36,
+   "high": 52639.33
   },
   {
    "date": "2027-02-04",
@@ -4197,9 +4125,9 @@ window.CASHFLOW = {
    "fund": "SCHOL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 333.33,
-   "low": 244.44,
-   "high": 400.0
+   "amount": 360.17,
+   "low": 254.24,
+   "high": 466.1
   },
   {
    "date": "2027-02-04",
@@ -4209,9 +4137,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 481.91,
-   "low": 321.28,
-   "high": 642.55
+   "amount": 364.29,
+   "low": 273.21,
+   "high": 455.36
   },
   {
    "date": "2027-02-04",
@@ -4221,9 +4149,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 187.5,
-   "low": 125.0,
-   "high": 250.0
+   "amount": 201.85,
+   "low": 100.93,
+   "high": 302.78
   },
   {
    "date": "2027-02-04",
@@ -4233,9 +4161,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 862.5,
-   "low": 632.5,
-   "high": 1035.0
+   "amount": 1019.28,
+   "low": 719.49,
+   "high": 1319.07
   },
   {
    "date": "2027-02-04",
@@ -4245,9 +4173,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 6852.33,
-   "low": 4568.22,
-   "high": 9136.44
+   "amount": 4353.49,
+   "low": 3265.12,
+   "high": 5441.86
   },
   {
    "date": "2027-02-04",
@@ -4257,9 +4185,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 3174.42,
-   "low": 2116.28,
-   "high": 4232.56
+   "amount": 2180.41,
+   "low": 1090.21,
+   "high": 3270.62
   },
   {
    "date": "2027-02-04",
@@ -4269,9 +4197,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 15672.16,
-   "low": 11492.92,
-   "high": 18806.59
+   "amount": 16790.02,
+   "low": 11851.78,
+   "high": 21728.26
   },
   {
    "date": "2027-02-04",
@@ -4281,9 +4209,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 8785.82,
-   "low": 5857.22,
-   "high": 11714.43
+   "amount": 5713.68,
+   "low": 4285.26,
+   "high": 7142.09
   },
   {
    "date": "2027-02-04",
@@ -4293,9 +4221,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 6019.03,
-   "low": 4012.69,
-   "high": 8025.38
+   "amount": 3847.78,
+   "low": 1923.89,
+   "high": 5771.68
   },
   {
    "date": "2027-02-04",
@@ -4305,9 +4233,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 21437.65,
-   "low": 15720.94,
-   "high": 25725.18
+   "amount": 22629.02,
+   "low": 15973.42,
+   "high": 29284.61
   },
   {
    "date": "2027-02-11",
@@ -4317,9 +4245,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 10752.71,
-   "low": 6451.63,
-   "high": 12903.26
+   "amount": 15513.15,
+   "low": 8864.66,
+   "high": 22161.64
   },
   {
    "date": "2027-02-11",
@@ -4329,9 +4257,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 10542.78,
-   "low": 7530.56,
-   "high": 15061.11
+   "amount": 8398.52,
+   "low": 4199.26,
+   "high": 10498.15
   },
   {
    "date": "2027-02-11",
@@ -4341,9 +4269,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 47043.75,
-   "low": 34847.22,
-   "high": 57497.92
+   "amount": 29905.67,
+   "low": 17591.57,
+   "high": 45738.08
   },
   {
    "date": "2027-02-11",
@@ -4353,9 +4281,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 6763.44,
-   "low": 4058.06,
-   "high": 8116.13
+   "amount": 10753.23,
+   "low": 6144.7,
+   "high": 15361.76
   },
   {
    "date": "2027-02-11",
@@ -4365,9 +4293,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 11825.18,
-   "low": 8446.56,
-   "high": 16893.12
+   "amount": 6845.92,
+   "low": 3422.96,
+   "high": 8557.41
   },
   {
    "date": "2027-02-11",
@@ -4377,9 +4305,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 68037.15,
-   "low": 50397.89,
-   "high": 83156.51
+   "amount": 40675.85,
+   "low": 23926.97,
+   "high": 62210.12
   },
   {
    "date": "2027-02-11",
@@ -4389,9 +4317,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 401.6,
-   "low": 240.96,
-   "high": 481.91
+   "amount": 637.5,
+   "low": 364.29,
+   "high": 910.71
   },
   {
    "date": "2027-02-11",
@@ -4401,9 +4329,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 437.5,
-   "low": 312.5,
-   "high": 625.0
+   "amount": 403.7,
+   "low": 201.85,
+   "high": 504.63
   },
   {
    "date": "2027-02-11",
@@ -4413,9 +4341,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 1552.5,
-   "low": 1150.0,
-   "high": 1897.5
+   "amount": 1019.28,
+   "low": 599.58,
+   "high": 1558.9
   },
   {
    "date": "2027-02-11",
@@ -4425,9 +4353,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 5710.27,
-   "low": 3426.16,
-   "high": 6852.33
+   "amount": 7618.61,
+   "low": 4353.49,
+   "high": 10883.73
   },
   {
    "date": "2027-02-11",
@@ -4437,9 +4365,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 7406.98,
-   "low": 5290.7,
-   "high": 10581.4
+   "amount": 4360.82,
+   "low": 2180.41,
+   "high": 5451.03
   },
   {
    "date": "2027-02-11",
@@ -4449,9 +4377,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 28209.89,
-   "low": 20896.21,
-   "high": 34478.75
+   "amount": 16790.02,
+   "low": 9876.48,
+   "high": 25678.85
   },
   {
    "date": "2027-02-11",
@@ -4461,9 +4389,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 7321.52,
-   "low": 4392.91,
-   "high": 8785.82
+   "amount": 9998.93,
+   "low": 5713.68,
+   "high": 14284.19
   },
   {
    "date": "2027-02-11",
@@ -4473,9 +4401,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 14044.41,
-   "low": 10031.72,
-   "high": 20063.44
+   "amount": 7695.57,
+   "low": 3847.78,
+   "high": 9619.46
   },
   {
    "date": "2027-02-11",
@@ -4485,9 +4413,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 38587.77,
-   "low": 28583.53,
-   "high": 47162.83
+   "amount": 22629.02,
+   "low": 13311.19,
+   "high": 34609.09
   },
   {
    "date": "2027-03-08",
@@ -4497,9 +4425,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 10752.71,
-   "low": 8602.17,
-   "high": 15053.8
+   "amount": 17729.31,
+   "low": 13296.99,
+   "high": 22161.64
   },
   {
    "date": "2027-03-08",
@@ -4509,9 +4437,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 8711.81,
-   "low": 6969.44,
-   "high": 10454.17
+   "amount": 12314.1,
+   "low": 8795.78,
+   "high": 15832.41
   },
   {
    "date": "2027-03-08",
@@ -4521,9 +4449,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 6763.44,
-   "low": 5410.75,
-   "high": 9468.81
+   "amount": 12289.41,
+   "low": 9217.06,
+   "high": 15361.76
   },
   {
    "date": "2027-03-08",
@@ -4533,9 +4461,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 12599.47,
-   "low": 10079.58,
-   "high": 15119.37
+   "amount": 16748.88,
+   "low": 11963.49,
+   "high": 21534.27
   },
   {
    "date": "2027-03-08",
@@ -4545,9 +4473,9 @@ window.CASHFLOW = {
    "fund": "SCHOL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 111.11,
-   "low": 88.89,
-   "high": 133.33
+   "amount": 148.31,
+   "low": 105.93,
+   "high": 190.68
   },
   {
    "date": "2027-03-08",
@@ -4557,9 +4485,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 401.6,
-   "low": 321.28,
-   "high": 562.23
+   "amount": 728.57,
+   "low": 546.43,
+   "high": 910.71
   },
   {
    "date": "2027-03-08",
@@ -4569,9 +4497,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 287.5,
-   "low": 230.0,
-   "high": 345.0
+   "amount": 419.7,
+   "low": 299.79,
+   "high": 539.62
   },
   {
    "date": "2027-03-08",
@@ -4581,9 +4509,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 5710.27,
-   "low": 4568.22,
-   "high": 7994.38
+   "amount": 8706.98,
+   "low": 6530.24,
+   "high": 10883.73
   },
   {
    "date": "2027-03-08",
@@ -4593,9 +4521,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 5224.05,
-   "low": 4179.24,
-   "high": 6268.86
+   "amount": 6913.54,
+   "low": 4938.24,
+   "high": 8888.83
   },
   {
    "date": "2027-03-08",
@@ -4605,9 +4533,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 7321.52,
-   "low": 5857.22,
-   "high": 10250.13
+   "amount": 11427.35,
+   "low": 8570.51,
+   "high": 14284.19
   },
   {
    "date": "2027-03-08",
@@ -4617,9 +4545,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 7145.88,
-   "low": 5716.71,
-   "high": 8575.06
+   "amount": 9317.83,
+   "low": 6655.59,
+   "high": 11980.07
   },
   {
    "date": "2027-03-10",
@@ -4629,9 +4557,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 48764.68,
-   "low": 32509.79,
-   "high": 65019.57
+   "amount": 28673.14,
+   "low": 21504.86,
+   "high": 35841.43
   },
   {
    "date": "2027-03-10",
@@ -4641,9 +4569,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 7220.83,
-   "low": 4813.89,
-   "high": 9627.78
+   "amount": 3209.26,
+   "low": 1604.63,
+   "high": 4813.89
   },
   {
    "date": "2027-03-10",
@@ -4653,9 +4581,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 104482.5,
-   "low": 76620.5,
-   "high": 125379.0
+   "amount": 119120.01,
+   "low": 84084.71,
+   "high": 154155.31
   },
   {
    "date": "2027-03-17",
@@ -4665,9 +4593,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 19354.88,
-   "low": 12903.26,
-   "high": 23655.97
+   "amount": 19945.48,
+   "low": 13296.99,
+   "high": 26593.97
   },
   {
    "date": "2027-03-17",
@@ -4677,9 +4605,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 36589.58,
-   "low": 27877.78,
-   "high": 45301.39
+   "amount": 26387.35,
+   "low": 19350.72,
+   "high": 35183.14
   },
   {
    "date": "2027-03-17",
@@ -4689,9 +4617,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 12174.19,
-   "low": 8116.13,
-   "high": 14879.57
+   "amount": 13825.58,
+   "low": 9217.06,
+   "high": 18434.11
   },
   {
    "date": "2027-03-17",
@@ -4701,9 +4629,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 52917.78,
-   "low": 40318.31,
-   "high": 65517.25
+   "amount": 35890.46,
+   "low": 26319.67,
+   "high": 47853.94
   },
   {
    "date": "2027-03-17",
@@ -4713,9 +4641,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 722.87,
-   "low": 481.91,
-   "high": 883.51
+   "amount": 819.64,
+   "low": 546.43,
+   "high": 1092.86
   },
   {
    "date": "2027-03-17",
@@ -4725,9 +4653,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 1207.5,
-   "low": 920.0,
-   "high": 1495.0
+   "amount": 899.36,
+   "low": 659.53,
+   "high": 1199.15
   },
   {
    "date": "2027-03-17",
@@ -4737,9 +4665,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 10278.49,
-   "low": 6852.33,
-   "high": 12562.6
+   "amount": 9795.36,
+   "low": 6530.24,
+   "high": 13060.48
   },
   {
    "date": "2027-03-17",
@@ -4749,9 +4677,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 21941.02,
-   "low": 16716.97,
-   "high": 27165.08
+   "amount": 14814.72,
+   "low": 10864.13,
+   "high": 19752.96
   },
   {
    "date": "2027-03-17",
@@ -4761,9 +4689,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 13178.73,
-   "low": 8785.82,
-   "high": 16107.34
+   "amount": 12855.77,
+   "low": 8570.51,
+   "high": 17141.03
   },
   {
    "date": "2027-03-17",
@@ -4773,9 +4701,201 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 30012.71,
-   "low": 22866.83,
-   "high": 37158.59
+   "amount": 19966.78,
+   "low": 14642.31,
+   "high": 26622.38
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "PELL",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 11080.82,
+   "low": 6648.49,
+   "high": 15513.15
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "PELL",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 6298.89,
+   "low": 4199.26,
+   "high": 8398.52
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "PELL",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 24628.19,
+   "low": 17591.57,
+   "high": 31664.82
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "PLUS",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 7680.88,
+   "low": 4608.53,
+   "high": 10753.23
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "PLUS",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 5134.44,
+   "low": 3422.96,
+   "high": 6845.92
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "PLUS",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 33497.76,
+   "low": 23926.97,
+   "high": 43068.55
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "SCHOL",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 296.61,
+   "low": 211.86,
+   "high": 381.36
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "SEOG",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 455.36,
+   "low": 273.21,
+   "high": 637.5
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "SEOG",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 302.78,
+   "low": 201.85,
+   "high": 403.7
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "SEOG",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 839.41,
+   "low": 599.58,
+   "high": 1079.24
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "SUB",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 5441.86,
+   "low": 3265.12,
+   "high": 7618.61
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "SUB",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 3270.62,
+   "low": 2180.41,
+   "high": 4360.82
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "SUB",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 13827.07,
+   "low": 9876.48,
+   "high": 17777.67
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "UNSUB",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 7142.09,
+   "low": 4285.26,
+   "high": 9998.93
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "UNSUB",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 5771.68,
+   "low": 3847.78,
+   "high": 7695.57
+  },
+  {
+   "date": "2027-04-08",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "UNSUB",
+   "tranche": "disb1",
+   "kind": "projected",
+   "amount": 18635.66,
+   "low": 13311.19,
+   "high": 23960.14
   },
   {
    "date": "2027-04-13",
@@ -4785,9 +4905,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 40637.23,
-   "low": 32509.79,
-   "high": 56892.13
+   "amount": 57346.29,
+   "low": 43009.71,
+   "high": 71682.86
   },
   {
    "date": "2027-04-13",
@@ -4797,201 +4917,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 34827.5,
-   "low": 27862.0,
-   "high": 41793.0
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "PELL",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 6451.63,
-   "low": 4301.09,
-   "high": 8602.17
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "PELL",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 3012.22,
-   "low": 1506.11,
-   "high": 4518.33
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "PELL",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 15681.25,
-   "low": 12196.53,
-   "high": 20908.33
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "PLUS",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 4058.06,
-   "low": 2705.38,
-   "high": 5410.75
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "PLUS",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 3378.62,
-   "low": 1689.31,
-   "high": 5067.94
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "PLUS",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 22679.05,
-   "low": 17639.26,
-   "high": 30238.73
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "SCHOL",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 200.0,
-   "low": 155.56,
-   "high": 266.67
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "SEOG",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 240.96,
-   "low": 160.64,
-   "high": 321.28
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "SEOG",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 125.0,
-   "low": 62.5,
-   "high": 187.5
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "SEOG",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 517.5,
-   "low": 402.5,
-   "high": 690.0
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "SUB",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 3426.16,
-   "low": 2284.11,
-   "high": 4568.22
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "SUB",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 2116.28,
-   "low": 1058.14,
-   "high": 3174.42
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "SUB",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 9403.3,
-   "low": 7313.67,
-   "high": 12537.73
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "UNSUB",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 4392.91,
-   "low": 2928.61,
-   "high": 5857.22
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "UNSUB",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 4012.69,
-   "low": 2006.34,
-   "high": 6019.03
-  },
-  {
-   "date": "2027-04-15",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "UNSUB",
-   "tranche": "disb1",
-   "kind": "projected",
-   "amount": 12862.59,
-   "low": 10004.24,
-   "high": 17150.12
+   "amount": 49049.42,
+   "low": 35035.3,
+   "high": 63063.53
   },
   {
    "date": "2027-04-22",
@@ -5001,9 +4929,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 12903.26,
-   "low": 8602.17,
-   "high": 17204.34
+   "amount": 8864.66,
+   "low": 6648.49,
+   "high": 11080.82
   },
   {
    "date": "2027-04-22",
@@ -5013,9 +4941,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 4518.33,
-   "low": 3012.22,
-   "high": 6024.44
+   "amount": 4199.26,
+   "low": 2099.63,
+   "high": 6298.89
   },
   {
    "date": "2027-04-22",
@@ -5025,9 +4953,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 26135.42,
-   "low": 19165.97,
-   "high": 31362.5
+   "amount": 29905.67,
+   "low": 21109.88,
+   "high": 38701.45
   },
   {
    "date": "2027-04-22",
@@ -5037,9 +4965,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 8116.13,
-   "low": 5410.75,
-   "high": 10821.5
+   "amount": 6144.7,
+   "low": 4608.53,
+   "high": 7680.88
   },
   {
    "date": "2027-04-22",
@@ -5049,9 +4977,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 5067.94,
-   "low": 3378.62,
-   "high": 6757.25
+   "amount": 3422.96,
+   "low": 1711.48,
+   "high": 5134.44
   },
   {
    "date": "2027-04-22",
@@ -5061,9 +4989,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 37798.42,
-   "low": 27718.84,
-   "high": 45358.1
+   "amount": 40675.85,
+   "low": 28712.36,
+   "high": 52639.33
   },
   {
    "date": "2027-04-22",
@@ -5073,9 +5001,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 481.91,
-   "low": 321.28,
-   "high": 642.55
+   "amount": 364.29,
+   "low": 273.21,
+   "high": 455.36
   },
   {
    "date": "2027-04-22",
@@ -5085,9 +5013,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 187.5,
-   "low": 125.0,
-   "high": 250.0
+   "amount": 201.85,
+   "low": 100.93,
+   "high": 302.78
   },
   {
    "date": "2027-04-22",
@@ -5097,9 +5025,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 862.5,
-   "low": 632.5,
-   "high": 1035.0
+   "amount": 1019.28,
+   "low": 719.49,
+   "high": 1319.07
   },
   {
    "date": "2027-04-22",
@@ -5109,9 +5037,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 6852.33,
-   "low": 4568.22,
-   "high": 9136.44
+   "amount": 4353.49,
+   "low": 3265.12,
+   "high": 5441.86
   },
   {
    "date": "2027-04-22",
@@ -5121,9 +5049,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 3174.42,
-   "low": 2116.28,
-   "high": 4232.56
+   "amount": 2180.41,
+   "low": 1090.21,
+   "high": 3270.62
   },
   {
    "date": "2027-04-22",
@@ -5133,9 +5061,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 15672.16,
-   "low": 11492.92,
-   "high": 18806.59
+   "amount": 16790.02,
+   "low": 11851.78,
+   "high": 21728.26
   },
   {
    "date": "2027-04-22",
@@ -5145,9 +5073,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 8785.82,
-   "low": 5857.22,
-   "high": 11714.43
+   "amount": 5713.68,
+   "low": 4285.26,
+   "high": 7142.09
   },
   {
    "date": "2027-04-22",
@@ -5157,9 +5085,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 6019.03,
-   "low": 4012.69,
-   "high": 8025.38
+   "amount": 3847.78,
+   "low": 1923.89,
+   "high": 5771.68
   },
   {
    "date": "2027-04-22",
@@ -5169,24 +5097,24 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 21437.65,
-   "low": 15720.94,
-   "high": 25725.18
+   "amount": 22629.02,
+   "low": 15973.42,
+   "high": 29284.61
   },
   {
-   "date": "2027-05-17",
+   "date": "2027-05-10",
    "class": 574,
    "cohort": "NDT 574",
    "program": "NDT",
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 24382.34,
-   "low": 16254.89,
-   "high": 32509.79
+   "amount": 35841.43,
+   "low": 21504.86,
+   "high": 50178.0
   },
   {
-   "date": "2027-05-17",
+   "date": "2027-05-10",
    "class": 574,
    "cohort": "NDT-NC 574",
    "program": "NDT-NC",
@@ -5194,20 +5122,20 @@ window.CASHFLOW = {
    "tranche": "va1",
    "kind": "projected",
    "amount": 4813.89,
-   "low": 2406.94,
-   "high": 7220.83
+   "low": 3209.26,
+   "high": 6418.52
   },
   {
-   "date": "2027-05-17",
+   "date": "2027-05-10",
    "class": 574,
    "cohort": "UDT 574",
    "program": "UDT",
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 62689.5,
-   "low": 48758.5,
-   "high": 83586.0
+   "amount": 98098.83,
+   "low": 70070.59,
+   "high": 126127.07
   },
   {
    "date": "2027-05-19",
@@ -5217,9 +5145,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 8602.17,
-   "low": 6451.63,
-   "high": 10752.71
+   "amount": 13296.99,
+   "low": 8864.66,
+   "high": 17729.31
   },
   {
    "date": "2027-05-19",
@@ -5229,9 +5157,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 12196.53,
-   "low": 8711.81,
-   "high": 13938.89
+   "amount": 17591.57,
+   "low": 12314.1,
+   "high": 22869.04
   },
   {
    "date": "2027-05-19",
@@ -5241,9 +5169,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 5410.75,
-   "low": 4058.06,
-   "high": 6763.44
+   "amount": 9217.06,
+   "low": 6144.7,
+   "high": 12289.41
   },
   {
    "date": "2027-05-19",
@@ -5253,9 +5181,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 17639.26,
-   "low": 12599.47,
-   "high": 20159.15
+   "amount": 23926.97,
+   "low": 16748.88,
+   "high": 31105.06
   },
   {
    "date": "2027-05-19",
@@ -5265,9 +5193,9 @@ window.CASHFLOW = {
    "fund": "SCHOL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 155.56,
-   "low": 111.11,
-   "high": 177.78
+   "amount": 211.86,
+   "low": 148.31,
+   "high": 275.42
   },
   {
    "date": "2027-05-19",
@@ -5277,9 +5205,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 321.28,
-   "low": 240.96,
-   "high": 401.6
+   "amount": 546.43,
+   "low": 364.29,
+   "high": 728.57
   },
   {
    "date": "2027-05-19",
@@ -5289,9 +5217,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 402.5,
-   "low": 287.5,
-   "high": 460.0
+   "amount": 599.58,
+   "low": 419.7,
+   "high": 779.45
   },
   {
    "date": "2027-05-19",
@@ -5301,9 +5229,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 4568.22,
-   "low": 3426.16,
-   "high": 5710.27
+   "amount": 6530.24,
+   "low": 4353.49,
+   "high": 8706.98
   },
   {
    "date": "2027-05-19",
@@ -5313,9 +5241,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 7313.67,
-   "low": 5224.05,
-   "high": 8358.48
+   "amount": 9876.48,
+   "low": 6913.54,
+   "high": 12839.43
   },
   {
    "date": "2027-05-19",
@@ -5325,9 +5253,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 5857.22,
-   "low": 4392.91,
-   "high": 7321.52
+   "amount": 8570.51,
+   "low": 5713.68,
+   "high": 11427.35
   },
   {
    "date": "2027-05-19",
@@ -5337,9 +5265,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 10004.24,
-   "low": 7145.88,
-   "high": 11433.41
+   "amount": 13311.19,
+   "low": 9317.83,
+   "high": 17304.54
   },
   {
    "date": "2027-05-26",
@@ -5349,9 +5277,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 10752.71,
-   "low": 8602.17,
-   "high": 15053.8
+   "amount": 17729.31,
+   "low": 13296.99,
+   "high": 22161.64
   },
   {
    "date": "2027-05-26",
@@ -5361,9 +5289,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 8711.81,
-   "low": 6969.44,
-   "high": 10454.17
+   "amount": 12314.1,
+   "low": 8795.78,
+   "high": 15832.41
   },
   {
    "date": "2027-05-26",
@@ -5373,9 +5301,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 6763.44,
-   "low": 5410.75,
-   "high": 9468.81
+   "amount": 12289.41,
+   "low": 9217.06,
+   "high": 15361.76
   },
   {
    "date": "2027-05-26",
@@ -5385,9 +5313,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 12599.47,
-   "low": 10079.58,
-   "high": 15119.37
+   "amount": 16748.88,
+   "low": 11963.49,
+   "high": 21534.27
   },
   {
    "date": "2027-05-26",
@@ -5397,9 +5325,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 401.6,
-   "low": 321.28,
-   "high": 562.23
+   "amount": 728.57,
+   "low": 546.43,
+   "high": 910.71
   },
   {
    "date": "2027-05-26",
@@ -5409,9 +5337,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 287.5,
-   "low": 230.0,
-   "high": 345.0
+   "amount": 419.7,
+   "low": 299.79,
+   "high": 539.62
   },
   {
    "date": "2027-05-26",
@@ -5421,9 +5349,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 5710.27,
-   "low": 4568.22,
-   "high": 7994.38
+   "amount": 8706.98,
+   "low": 6530.24,
+   "high": 10883.73
   },
   {
    "date": "2027-05-26",
@@ -5433,9 +5361,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 5224.05,
-   "low": 4179.24,
-   "high": 6268.86
+   "amount": 6913.54,
+   "low": 4938.24,
+   "high": 8888.83
   },
   {
    "date": "2027-05-26",
@@ -5445,9 +5373,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 7321.52,
-   "low": 5857.22,
-   "high": 10250.13
+   "amount": 11427.35,
+   "low": 8570.51,
+   "high": 14284.19
   },
   {
    "date": "2027-05-26",
@@ -5457,9 +5385,189 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 7145.88,
-   "low": 5716.71,
-   "high": 8575.06
+   "amount": 9317.83,
+   "low": 6655.59,
+   "high": 11980.07
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "PELL",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 11080.82,
+   "low": 6648.49,
+   "high": 15513.15
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "PELL",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 6298.89,
+   "low": 4199.26,
+   "high": 8398.52
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "PELL",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 24628.19,
+   "low": 17591.57,
+   "high": 31664.82
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "PLUS",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 7680.88,
+   "low": 4608.53,
+   "high": 10753.23
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "PLUS",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 5134.44,
+   "low": 3422.96,
+   "high": 6845.92
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "PLUS",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 33497.76,
+   "low": 23926.97,
+   "high": 43068.55
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "SEOG",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 455.36,
+   "low": 273.21,
+   "high": 637.5
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "SEOG",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 302.78,
+   "low": 201.85,
+   "high": 403.7
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "SEOG",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 839.41,
+   "low": 599.58,
+   "high": 1079.24
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "SUB",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 5441.86,
+   "low": 3265.12,
+   "high": 7618.61
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "SUB",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 3270.62,
+   "low": 2180.41,
+   "high": 4360.82
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "SUB",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 13827.07,
+   "low": 9876.48,
+   "high": 17777.67
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT 574",
+   "program": "NDT",
+   "fund": "UNSUB",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 7142.09,
+   "low": 4285.26,
+   "high": 9998.93
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "NDT-NC 574",
+   "program": "NDT-NC",
+   "fund": "UNSUB",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 5771.68,
+   "low": 3847.78,
+   "high": 7695.57
+  },
+  {
+   "date": "2027-06-23",
+   "class": 574,
+   "cohort": "UDT 574",
+   "program": "UDT",
+   "fund": "UNSUB",
+   "tranche": "disb2",
+   "kind": "projected",
+   "amount": 18635.66,
+   "low": 13311.19,
+   "high": 23960.14
   },
   {
    "date": "2027-06-24",
@@ -5469,9 +5577,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 32509.79,
-   "low": 24382.34,
-   "high": 40637.23
+   "amount": 43009.71,
+   "low": 28673.14,
+   "high": 57346.29
   },
   {
    "date": "2027-06-24",
@@ -5481,189 +5589,9 @@ window.CASHFLOW = {
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 48758.5,
-   "low": 34827.5,
-   "high": 55724.0
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "PELL",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 6451.63,
-   "low": 4301.09,
-   "high": 8602.17
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "PELL",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 3012.22,
-   "low": 1506.11,
-   "high": 4518.33
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "PELL",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 15681.25,
-   "low": 12196.53,
-   "high": 20908.33
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "PLUS",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 4058.06,
-   "low": 2705.38,
-   "high": 5410.75
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "PLUS",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 3378.62,
-   "low": 1689.31,
-   "high": 5067.94
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "PLUS",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 22679.05,
-   "low": 17639.26,
-   "high": 30238.73
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "SEOG",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 240.96,
-   "low": 160.64,
-   "high": 321.28
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "SEOG",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 125.0,
-   "low": 62.5,
-   "high": 187.5
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "SEOG",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 517.5,
-   "low": 402.5,
-   "high": 690.0
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "SUB",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 3426.16,
-   "low": 2284.11,
-   "high": 4568.22
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "SUB",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 2116.28,
-   "low": 1058.14,
-   "high": 3174.42
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "SUB",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 9403.3,
-   "low": 7313.67,
-   "high": 12537.73
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT 574",
-   "program": "NDT",
-   "fund": "UNSUB",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 4392.91,
-   "low": 2928.61,
-   "high": 5857.22
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "NDT-NC 574",
-   "program": "NDT-NC",
-   "fund": "UNSUB",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 4012.69,
-   "low": 2006.34,
-   "high": 6019.03
-  },
-  {
-   "date": "2027-07-01",
-   "class": 574,
-   "cohort": "UDT 574",
-   "program": "UDT",
-   "fund": "UNSUB",
-   "tranche": "disb2",
-   "kind": "projected",
-   "amount": 12862.59,
-   "low": 10004.24,
-   "high": 17150.12
+   "amount": 70070.59,
+   "low": 49049.42,
+   "high": 91091.77
   },
   {
    "date": "2027-08-09",
@@ -5673,9 +5601,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 8602.17,
-   "low": 6451.63,
-   "high": 10752.71
+   "amount": 13296.99,
+   "low": 8864.66,
+   "high": 17729.31
   },
   {
    "date": "2027-08-09",
@@ -5685,9 +5613,9 @@ window.CASHFLOW = {
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 12196.53,
-   "low": 8711.81,
-   "high": 13938.89
+   "amount": 17591.57,
+   "low": 12314.1,
+   "high": 22869.04
   },
   {
    "date": "2027-08-09",
@@ -5697,9 +5625,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 5410.75,
-   "low": 4058.06,
-   "high": 6763.44
+   "amount": 9217.06,
+   "low": 6144.7,
+   "high": 12289.41
   },
   {
    "date": "2027-08-09",
@@ -5709,9 +5637,9 @@ window.CASHFLOW = {
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 17639.26,
-   "low": 12599.47,
-   "high": 20159.15
+   "amount": 23926.97,
+   "low": 16748.88,
+   "high": 31105.06
   },
   {
    "date": "2027-08-09",
@@ -5721,9 +5649,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 321.28,
-   "low": 240.96,
-   "high": 401.6
+   "amount": 546.43,
+   "low": 364.29,
+   "high": 728.57
   },
   {
    "date": "2027-08-09",
@@ -5733,9 +5661,9 @@ window.CASHFLOW = {
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 402.5,
-   "low": 287.5,
-   "high": 460.0
+   "amount": 599.58,
+   "low": 419.7,
+   "high": 779.45
   },
   {
    "date": "2027-08-09",
@@ -5745,9 +5673,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 4568.22,
-   "low": 3426.16,
-   "high": 5710.27
+   "amount": 6530.24,
+   "low": 4353.49,
+   "high": 8706.98
   },
   {
    "date": "2027-08-09",
@@ -5757,9 +5685,9 @@ window.CASHFLOW = {
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 7313.67,
-   "low": 5224.05,
-   "high": 8358.48
+   "amount": 9876.48,
+   "low": 6913.54,
+   "high": 12839.43
   },
   {
    "date": "2027-08-09",
@@ -5769,9 +5697,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 5857.22,
-   "low": 4392.91,
-   "high": 7321.52
+   "amount": 8570.51,
+   "low": 5713.68,
+   "high": 11427.35
   },
   {
    "date": "2027-08-09",
@@ -5781,9 +5709,9 @@ window.CASHFLOW = {
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 10004.24,
-   "low": 7145.88,
-   "high": 11433.41
+   "amount": 13311.19,
+   "low": 9317.83,
+   "high": 17304.54
   }
  ]
 };

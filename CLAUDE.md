@@ -49,12 +49,14 @@ python -m http.server 8000                                 # 5. serve from ROOT
 
 `build_cashflow.py` reads two Financial Aid sources directly from OneDrive (paths in its CONFIG block):
 - `…\TOC-FinancialAid - Documents\Disbursement Dates\DISBURSMNT 26-27.xlsx` — per-class Title IV 1st/2nd disbursement dates (class row) and VA release dates (companion row below).
-- `…\TOC-FinancialAid - Documents\Expected Funds\From 561 Class and above\NNN Class.xlsx` — per-student expected funding; only the **first worksheet** is canonical (others are drafts/memos). New class files dropped in that folder are picked up automatically and override the model projection for that class.
+- `…\TOC-FinancialAid - Documents\Expected Funds\From 561 Class and above\NNN Class.xlsx` — per-student expected funding. The canonical sheet is the **check list carrying the SUM column** (first worksheet through 567; from 568 FA leads with per-program UDT/NDT/NDT NC tabs and the check list sits later — `_pick_check_list` finds it). Header column is `PROGRAM` (≤567) or `Cohort` (568+). New class files dropped in that folder are picked up automatically and override the model projection for that class; a file that parses to $0 is treated as unfiled (warning printed) rather than zeroing the class.
 
 Non-obvious constraints:
 - **OneDrive files-on-demand:** the xlsx are placeholders, often locked by Excel; the script copies to `%TEMP%` via PowerShell `Copy-Item` before opening (Python `open()` cannot hydrate them).
 - **FERPA:** source files contain names + SSNs. Only counts and per-class/program sums may be written to `cash/data/` — never student rows.
-- Timing model (confirmed with FA): Title IV 50/50 across the two disbursement dates net of origination fees (1.057% Sub/Unsub, 4.228% PLUS); VA 100% on the first VA release date; scholarships at disb 1; cash payers counted but $0; cohorts without an FA file use per-program average funding × ledger proj_low/mid/high.
+- Timing model (confirmed with FA): Title IV 50/50 across the two disbursement dates net of origination fees (1.057% Sub/Unsub, 4.228% PLUS); VA 100% on the first VA release date; scholarships at disb 1; cash payers counted but $0; in-flight cohorts without an FA file use per-program average funding × ledger proj_low/mid/high; **booked** cohorts whose FA file hasn't landed yet (e.g. 569 on 2026-09-14) use the same average × `actual_starts` (source `booked-avg-mix`, no band) until the file arrives.
+- The 568+ workbook adds `OCEF`, `Climb` and `Payments` columns that are in FA's SUM but not modeled (`Payments` is cash-payer money, deliberately excluded; OCEF/Climb timing unconfirmed) — expect a `MISMATCH` equal to their total (568: $13,500, all Payments) until they are.
+- Run order matters: weekly projection → `build_ledger.py` (reads `dashboard/data/snapshot.json` + `cohort_actuals.csv`) → `build_cashflow.py` (reads `cohort_ledger.json`). Class-start runs must include the ledger and cash rebuild or booked cohorts stay `in_flight` in cash.
 - The script prints a per-file reconciliation (parsed totals vs the workbook's SUM column) — investigate any `MISMATCH` before trusting the output.
 
 The projection engine has its own detailed guide at `projection/CLAUDE.md`.
