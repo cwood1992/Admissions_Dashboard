@@ -1,4 +1,4 @@
 tier,conversion_rate,confidence,source,notes
-WBH,0.8557,calibrated,judgment-2026-05-13,WBH-to-start rate; refine with calibration once first cohorts complete
-VIP,0.222,calibrated,judgment-2026-05-13,VIP-to-start rate
-Priority,0.3985,calibrated,judgment-2026-05-13,Average P-FA/P-VA/P-Acc/P-Adm conversion
+WBH,0.8771,calibrated,judgment-2026-05-13,WBH-to-start rate; refine with calibration once first cohorts complete
+VIP,0.2721,calibrated,judgment-2026-05-13,VIP-to-start rate
+Priority,0.565,calibrated,judgment-2026-05-13,Average P-FA/P-VA/P-Acc/P-Adm conversion

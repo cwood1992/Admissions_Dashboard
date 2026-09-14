@@ -1,4 +1,4 @@
 program,low,mid,high,source,notes
-NDT-Day,0.0436,0.0692,0.0844,empirical-2022-2026-n44,"p25/mean/p75 across 44 completed cohorts. min=0.0234, max=0.28, stddev=0.0495"
+NDT-Day,0.0407,0.0663,0.0815,empirical-2022-2026-n44,"p25/mean/p75 across 44 completed cohorts. min=0.0234, max=0.28, stddev=0.0495"
 NDT-Night,0.2005,0.2745,0.3417,empirical-2022-2026-n22,"p25/mean/p75 across 22 completed cohorts. min=0.0, max=0.4737, stddev=0.1176"
-UDT,0.0846,0.1193,0.1483,empirical-2022-2026-n44,"p25/mean/p75 across 44 completed cohorts. min=0.0392, max=0.2447, stddev=0.0467"
+UDT,0.0782,0.1129,0.1419,empirical-2022-2026-n44,"p25/mean/p75 across 44 completed cohorts. min=0.0392, max=0.2447, stddev=0.0467"
