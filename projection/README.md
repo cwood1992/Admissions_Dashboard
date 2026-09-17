@@ -109,6 +109,38 @@ class 566 (first weekly snapshot 2026-05-12); the four snapshots before
 2026-06-01 were first committed on 2026-06-01 and are flagged
 `earliest-available`.
 
+### Low/high bands (sized from observed error, 2026-09-17)
+
+The regimes produce the **mid**. Low and high no longer come from the ATE
+spread or the tier stack (those contained the actual under half the time, 46%
+in the final week). `scripts/error_bands.py` sizes them from how wrong the model
+has been at that distance from start:
+
+    half_width = k x rms_z(days-to-start bucket) x sqrt(mid)
+    z          = (actual_starts - proj_mid) / sqrt(proj_mid)
+
+- `rms_z` comes from replaying the **current** model over every stored snapshot
+  of every completed cohort, one median z per cohort per bucket, pooled across
+  programs (4 cohorts per program is too few to split). Published errors are not
+  used because the far-regime ones grade logic retired on 2026-09-14. The replay
+  is partly in-sample, so far-out widths are probably still narrow.
+- `k` (1.28, about 80% coverage), the buckets and the minimum cohorts per bucket
+  live in `baselines/projection_band_config.json`. The measured table is
+  `baselines/projection_error_bands.csv`; `scripts.calibrate` rebuilds it at
+  every class start (`uv run python -m scripts.error_bands` by hand). A bucket
+  under the minimum borrows its wider neighbour; with no table the regime's own
+  band is kept.
+- Leave-one-class-out backtest on 566-569: actual in range 79% overall (was
+  37-67% by bucket); 569 held out reached 58%.
+- **Roll-ups combine cohorts as independent errors**
+  (`error_bands.combine_independent`: mids add, distances to low/high add in
+  quadrature) in the FY views, revenue recognition, the ledger totals and the
+  accuracy report's whole-class table. Summing lows and highs assumes every
+  cohort misses the same way at once. Cohorts share baselines, so the truth sits
+  between the two and a year with many far-out cohorts is likely wider than shown.
+- **Not changed:** the cash dashboard's low/high scenario still stacks every
+  cohort's low (or high) together, so it widened with the cohort bands.
+
 ### Interim ATE before a class books
 
 Because EnrollList can't give total-ever-enrolled per cohort, the pipeline

@@ -30,6 +30,7 @@ ingest.py     → snapshots/YYYY-MM-DD_snapshot.csv (per-cohort + per-rep aggreg
 high_water.py → snapshots/enrollment_high_water.csv (per-cohort peak enrollment, interim ATE denominator)
 velocity.py   → adds days_to_start, weekly_velocity, velocity_vs_historical
 projections.py → adds proj_low, proj_mid, proj_high, projection_basis (depends on velocity)
+error_bands.py → low/high around each mid from baselines/projection_error_bands.csv (applied inside projections.project_dataframe)
 rep_health.py → rep scorecard (reads raw/<date>, the raw/ snapshots ~28 and ~60 days back, and raw/booked/; independent of velocity/projections)
 calibrate.py  → updates baselines/ from completed/ (only when a cohort's start date has passed)
 accuracy_report.py → reports/projection_accuracy.md|.csv (every published snapshot vs actual_starts; run after a class is recorded)
@@ -60,6 +61,8 @@ Dashboard reads JSON written into `dashboard/data/` by the scripts. Scripts must
 - **14–30 days out:** blend accumulation projection with confidence tiers (WBH × WBH-to-start rate + VIP × VIP-to-start rate + remainder at baseline).
 - **Under 14 days:** confidence tiers dominate. WBH count minus historical no-show rate is the floor; VIP × conversion is the upside.
 
+The regimes own the **mid only**. Low/high are overwritten by `error_bands` (half-width = k x observed rms_z for the days-to-start bucket x sqrt(mid); k and buckets in `baselines/projection_band_config.json`), and the regime's own band is only a fallback when no table exists. The band table is measured by replaying the current model over stored snapshots and is rebuilt by `calibrate`. Roll-ups use `error_bands.combine_independent`, not sums of lows/highs. See README "Low/high bands".
+
 Every projection must record its `projection_basis` so the dashboard can show *why* a number is what it is.
 
 ## Calibration Loop
@@ -79,6 +82,7 @@ These will not be evident from reading the code alone:
 - **Cohort count is configured at 10/10/5.** If a snapshot delivers a different count, `ingest.py` should flag — it may indicate a program change requiring reindex of position averages, not just a missing file.
 - **New reps** (fewer than 2 completed cohort cycles) should be excluded from rep quality scoring, not scored against the team average. Implemented as a per-metric minimum sample (`MIN_METRIC_SAMPLE`), not a tenure check: a thin rate is shown with its n but left out of `vs_team_avg`.
 - **Tier rates only mean something near start.** WBH tagging is 0% beyond 60 days out; rep tier progress is measured on classes 45 days or less from start. Do not reintroduce a pipeline-wide WBH rate.
+- **UDT students switch to the same-class NDT cohort in week one** (day-one orientation is blunter than the reps). They show as Cancel in the booked UDT CCS and Active in the NDT CCS; `PREV Cohort` undercounts them, a student-ID join between the two booked files does not (566: 1, 569: 3). It makes UDT grade high and NDT-Day grade low near start. No switcher term is modeled.
 - **Accuracy is graded on snapshots as published.** `accuracy_report.py` reads each snapshot CSV from git (last commit within 3 days of its date), not the working file, because replayed snapshots (2026-09-04 was recomputed on 2026-09-14) would grade a fixed model with hindsight. Do not "simplify" it to read `snapshots/` directly.
 - **A cohort missing from `baselines/program_start_dates_2026.csv` is dropped silently** from projections, FY views and rep rosters (13 students in 576-578 were invisible until 2026-09-17). The table runs through 582; extend it each cycle.
 

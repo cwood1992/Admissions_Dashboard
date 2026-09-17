@@ -1,0 +1,6 @@
+{
+  "k": 1.28,
+  "target_coverage": 0.80,
+  "buckets": [[0, 7], [8, 14], [15, 30], [31, 60], [61, null]],
+  "min_cohorts_per_bucket": 5
+}

@@ -1,43 +1,43 @@
 window.VIEWS = {
   "snapshot_date": "2026-09-14",
-  "generated_at": "2026-09-17T20:15:35.748395+00:00",
+  "generated_at": "2026-09-17T20:54:52.426196+00:00",
   "strategic": {
     "fiscal_year": 2026,
     "label": "2026",
     "total": {
       "actual_starts": 200,
-      "proj_low": 233,
+      "proj_low": 235,
       "proj_mid": 252,
-      "proj_high": 273
+      "proj_high": 269
     },
     "revenue_per_start": 25300,
-    "year_end_revenue_low": 5894900,
+    "year_end_revenue_low": 5945500,
     "year_end_revenue_mid": 6375600,
-    "year_end_revenue_high": 6906900,
+    "year_end_revenue_high": 6805700,
     "by_program": {
       "UDT": {
         "cohort_count": 10,
         "started_count": 8,
         "actual_starts": 110,
-        "proj_low": 131,
+        "proj_low": 129,
         "proj_mid": 142,
-        "proj_high": 156
+        "proj_high": 155
       },
       "NDT-Day": {
         "cohort_count": 10,
         "started_count": 8,
         "actual_starts": 69,
-        "proj_low": 79,
+        "proj_low": 76,
         "proj_mid": 85,
-        "proj_high": 91
+        "proj_high": 94
       },
       "NDT-Night": {
         "cohort_count": 5,
         "started_count": 4,
         "actual_starts": 21,
-        "proj_low": 23,
+        "proj_low": 21,
         "proj_mid": 25,
-        "proj_high": 26
+        "proj_high": 30
       }
     },
     "cohorts": [
@@ -247,9 +247,9 @@ window.VIEWS = {
         "start_date": "2026-10-13",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 4,
+        "starts_low": 1,
         "starts_mid": 7,
-        "starts_high": 10
+        "starts_high": 13
       },
       {
         "cohort": "NDT570NC",
@@ -257,9 +257,9 @@ window.VIEWS = {
         "start_date": "2026-10-13",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 2,
+        "starts_low": 0,
         "starts_mid": 4,
-        "starts_high": 5
+        "starts_high": 9
       },
       {
         "cohort": "UDT570",
@@ -267,9 +267,9 @@ window.VIEWS = {
         "start_date": "2026-10-13",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 10,
+        "starts_low": 7,
         "starts_mid": 17,
-        "starts_high": 26
+        "starts_high": 27
       },
       {
         "cohort": "NDT571",
@@ -277,9 +277,9 @@ window.VIEWS = {
         "start_date": "2026-11-16",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 6,
+        "starts_low": 2,
         "starts_mid": 9,
-        "starts_high": 12
+        "starts_high": 16
       },
       {
         "cohort": "UDT571",
@@ -287,50 +287,50 @@ window.VIEWS = {
         "start_date": "2026-11-16",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 11,
+        "starts_low": 6,
         "starts_mid": 15,
-        "starts_high": 20
+        "starts_high": 24
       }
     ],
-    "model_confidence_note": "Model has calibrated confidence tier rates."
+    "model_confidence_note": "Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown."
   },
   "strategic_next": {
     "fiscal_year": 2027,
     "label": "2027",
     "total": {
       "actual_starts": 0,
-      "proj_low": 168,
+      "proj_low": 205,
       "proj_mid": 239,
-      "proj_high": 310
+      "proj_high": 274
     },
     "revenue_per_start": 25300,
-    "year_end_revenue_low": 4250400,
+    "year_end_revenue_low": 5186500,
     "year_end_revenue_mid": 6046700,
-    "year_end_revenue_high": 7843000,
+    "year_end_revenue_high": 6932200,
     "by_program": {
       "UDT": {
         "cohort_count": 10,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 103,
+        "proj_low": 118,
         "proj_mid": 145,
-        "proj_high": 187
+        "proj_high": 172
       },
       "NDT-Day": {
         "cohort_count": 10,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 51,
+        "proj_low": 54,
         "proj_mid": 73,
-        "proj_high": 95
+        "proj_high": 92
       },
       "NDT-Night": {
         "cohort_count": 5,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 14,
+        "proj_low": 12,
         "proj_mid": 21,
-        "proj_high": 28
+        "proj_high": 31
       }
     },
     "cohorts": [
@@ -340,9 +340,9 @@ window.VIEWS = {
         "start_date": "2027-01-04",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 3,
+        "starts_low": 0,
         "starts_mid": 4,
-        "starts_high": 5
+        "starts_high": 9
       },
       {
         "cohort": "NDT572NC",
@@ -350,9 +350,9 @@ window.VIEWS = {
         "start_date": "2027-01-04",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 1,
+        "starts_low": 0,
         "starts_mid": 2,
-        "starts_high": 3
+        "starts_high": 5
       },
       {
         "cohort": "UDT572",
@@ -360,9 +360,9 @@ window.VIEWS = {
         "start_date": "2027-01-04",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 12,
+        "starts_low": 8,
         "starts_mid": 17,
-        "starts_high": 22
+        "starts_high": 26
       },
       {
         "cohort": "NDT573",
@@ -370,9 +370,9 @@ window.VIEWS = {
         "start_date": "2027-02-08",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 6,
+        "starts_low": 2,
         "starts_mid": 8,
-        "starts_high": 10
+        "starts_high": 14
       },
       {
         "cohort": "UDT573",
@@ -380,9 +380,9 @@ window.VIEWS = {
         "start_date": "2027-02-08",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 5,
+        "starts_low": 1,
         "starts_mid": 7,
-        "starts_high": 9
+        "starts_high": 13
       },
       {
         "cohort": "NDT574",
@@ -390,9 +390,9 @@ window.VIEWS = {
         "start_date": "2027-03-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 3,
+        "starts_low": 0,
         "starts_mid": 5,
-        "starts_high": 7
+        "starts_high": 10
       },
       {
         "cohort": "NDT574NC",
@@ -400,9 +400,9 @@ window.VIEWS = {
         "start_date": "2027-03-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 2,
+        "starts_low": 0,
         "starts_mid": 3,
-        "starts_high": 4
+        "starts_high": 7
       },
       {
         "cohort": "UDT574",
@@ -410,9 +410,9 @@ window.VIEWS = {
         "start_date": "2027-03-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 10,
+        "starts_low": 6,
         "starts_mid": 14,
-        "starts_high": 18
+        "starts_high": 22
       },
       {
         "cohort": "NDT575",
@@ -420,9 +420,9 @@ window.VIEWS = {
         "start_date": "2027-04-19",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 4,
+        "starts_low": 0,
         "starts_mid": 6,
-        "starts_high": 8
+        "starts_high": 12
       },
       {
         "cohort": "UDT575",
@@ -430,9 +430,9 @@ window.VIEWS = {
         "start_date": "2027-04-19",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 7,
+        "starts_low": 3,
         "starts_mid": 10,
-        "starts_high": 13
+        "starts_high": 17
       },
       {
         "cohort": "NDT576",
@@ -440,9 +440,9 @@ window.VIEWS = {
         "start_date": "2027-05-17",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 3,
+        "starts_low": 0,
         "starts_mid": 5,
-        "starts_high": 7
+        "starts_high": 10
       },
       {
         "cohort": "NDT576NC",
@@ -450,9 +450,9 @@ window.VIEWS = {
         "start_date": "2027-05-17",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 1,
+        "starts_low": 0,
         "starts_mid": 2,
-        "starts_high": 3
+        "starts_high": 5
       },
       {
         "cohort": "UDT576",
@@ -460,9 +460,9 @@ window.VIEWS = {
         "start_date": "2027-05-17",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 6,
+        "starts_low": 2,
         "starts_mid": 9,
-        "starts_high": 12
+        "starts_high": 16
       },
       {
         "cohort": "NDT577",
@@ -470,9 +470,9 @@ window.VIEWS = {
         "start_date": "2027-06-21",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 8,
+        "starts_low": 4,
         "starts_mid": 12,
-        "starts_high": 16
+        "starts_high": 20
       },
       {
         "cohort": "UDT577",
@@ -480,9 +480,9 @@ window.VIEWS = {
         "start_date": "2027-06-21",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 11,
+        "starts_low": 6,
         "starts_mid": 15,
-        "starts_high": 19
+        "starts_high": 24
       },
       {
         "cohort": "NDT578",
@@ -490,9 +490,9 @@ window.VIEWS = {
         "start_date": "2027-07-26",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 5,
+        "starts_low": 1,
         "starts_mid": 7,
-        "starts_high": 9
+        "starts_high": 13
       },
       {
         "cohort": "NDT578NC",
@@ -500,9 +500,9 @@ window.VIEWS = {
         "start_date": "2027-07-26",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 6,
+        "starts_low": 2,
         "starts_mid": 8,
-        "starts_high": 10
+        "starts_high": 14
       },
       {
         "cohort": "UDT578",
@@ -510,9 +510,9 @@ window.VIEWS = {
         "start_date": "2027-07-26",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 10,
+        "starts_low": 6,
         "starts_mid": 14,
-        "starts_high": 18
+        "starts_high": 22
       },
       {
         "cohort": "NDT579",
@@ -520,9 +520,9 @@ window.VIEWS = {
         "start_date": "2027-09-07",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 8,
+        "starts_low": 4,
         "starts_mid": 11,
-        "starts_high": 14
+        "starts_high": 18
       },
       {
         "cohort": "UDT579",
@@ -530,9 +530,9 @@ window.VIEWS = {
         "start_date": "2027-09-07",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 17,
+        "starts_low": 12,
         "starts_mid": 23,
-        "starts_high": 29
+        "starts_high": 34
       },
       {
         "cohort": "NDT580",
@@ -540,9 +540,9 @@ window.VIEWS = {
         "start_date": "2027-10-12",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 5,
+        "starts_low": 1,
         "starts_mid": 7,
-        "starts_high": 9
+        "starts_high": 13
       },
       {
         "cohort": "NDT580NC",
@@ -550,9 +550,9 @@ window.VIEWS = {
         "start_date": "2027-10-12",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 4,
+        "starts_low": 0,
         "starts_mid": 6,
-        "starts_high": 8
+        "starts_high": 12
       },
       {
         "cohort": "UDT580",
@@ -560,9 +560,9 @@ window.VIEWS = {
         "start_date": "2027-10-12",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 14,
+        "starts_low": 10,
         "starts_mid": 20,
-        "starts_high": 26
+        "starts_high": 30
       },
       {
         "cohort": "NDT581",
@@ -570,9 +570,9 @@ window.VIEWS = {
         "start_date": "2027-11-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 6,
+        "starts_low": 2,
         "starts_mid": 8,
-        "starts_high": 10
+        "starts_high": 14
       },
       {
         "cohort": "UDT581",
@@ -580,12 +580,12 @@ window.VIEWS = {
         "start_date": "2027-11-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 11,
+        "starts_low": 7,
         "starts_mid": 16,
-        "starts_high": 21
+        "starts_high": 25
       }
     ],
-    "model_confidence_note": "Model has calibrated confidence tier rates."
+    "model_confidence_note": "Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown."
   },
   "recognition": {
     "years": [
@@ -603,23 +603,23 @@ window.VIEWS = {
         "earned_projected": 0
       },
       "2026": {
-        "earned_low": 6449982,
+        "earned_low": 6466843,
         "earned_mid": 6583060,
-        "earned_high": 6729125,
+        "earned_high": 6701999,
         "earned_actual": 6237631,
         "earned_projected": 345429
       },
       "2027": {
-        "earned_low": 4442174,
+        "earned_low": 5338747,
         "earned_mid": 6065085,
-        "earned_high": 7725608,
+        "earned_high": 6804523,
         "earned_actual": 863742,
         "earned_projected": 5201343
       },
       "2028": {
-        "earned_low": 1699317,
+        "earned_low": 1947924,
         "earned_mid": 2397428,
-        "earned_high": 3095539,
+        "earned_high": 2856792,
         "earned_actual": 0,
         "earned_projected": 2397428
       }
@@ -1378,16 +1378,16 @@ window.VIEWS = {
       }
     ],
     "revenue_per_start": 25300,
-    "model_confidence_note": "Model has calibrated confidence tier rates."
+    "model_confidence_note": "Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown."
   },
   "management": {
     "fiscal_year": 2026,
     "headline_starts_mid": 252,
-    "headline_starts_low": 233,
-    "headline_starts_high": 273,
+    "headline_starts_low": 235,
+    "headline_starts_high": 269,
     "headline_actual_starts": 200,
     "headline_revenue_mid": 6375600,
-    "narrative": "As of 2026-09-14, the 2026 financial-year projection is 252 starts (range 233\u2013273) \u2014 200 booked plus 52 projected \u2014 implying $6,375,600 in mid-case revenue. Model has calibrated confidence tier rates. Red-flagged cohorts: none.",
+    "narrative": "As of 2026-09-14, the 2026 financial-year projection is 252 starts (range 235\u2013269) \u2014 200 booked plus 52 projected \u2014 implying $6,375,600 in mid-case revenue. Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown. Red-flagged cohorts: none.",
     "red_flagged_cohorts": []
   }
 };

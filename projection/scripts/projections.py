@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from scripts import utils
+from scripts import error_bands, utils
 from scripts.velocity import AccumulationCurve, load_accumulation_curves
 
 
@@ -312,17 +312,46 @@ def project_three_regime(
     return _project_near(wbh, vip, priority, tiers)
 
 
+BANDS_FROM_BASELINES = "baselines"
+"""Default for ``project_dataframe(bands=...)``: load the observed-error band
+table from baselines/. Pass ``None`` to keep each regime's own low/high (the
+band replay in error_bands does, since it only needs the mid)."""
+
+
+def apply_error_band(
+    proj: Projection, days_to_start: int, bands: error_bands.ErrorBands | None
+) -> Projection:
+    """Replace the regime's low/high with the band sized from observed error
+    around the unchanged mid. The regime's own band is kept when there is no
+    table or no bucket with enough history."""
+    if bands is None:
+        return proj
+    sized = bands.apply(proj.proj_mid, days_to_start)
+    if sized is None:
+        return proj
+    low, high, half, band = sized
+    low, mid, high = _enforce_order(low, proj.proj_mid, high)
+    basis = (
+        f"{proj.projection_basis} | band +/-{half:.1f} = {bands.k:.2f} x rms_z "
+        f"{band.rms_z:.2f} ({band.label}, n={band.n_cohorts} cohorts) x sqrt(mid)"
+    )
+    return Projection(low, mid, high, basis)
+
+
 def project_dataframe(
     cohort_df: pd.DataFrame,
     position_averages: dict[str, int] | None = None,
     ate_rates: dict[str, AteRange] | None = None,
     curve: AccumulationCurve | None = None,
     tiers: ConfidenceTierRates | None = None,
+    bands: error_bands.ErrorBands | str | None = BANDS_FROM_BASELINES,
 ) -> pd.DataFrame:
     pos = position_averages if position_averages is not None else load_position_averages()
     ate = ate_rates if ate_rates is not None else load_ate_rates()
     curve = curve if curve is not None else load_accumulation_curves()
     tiers = tiers if tiers is not None else load_confidence_tier_rates()
+    if bands == BANDS_FROM_BASELINES:
+        bands = error_bands.load_error_bands()
 
     proj_rows = []
     for _, row in cohort_df.iterrows():
@@ -333,6 +362,7 @@ def project_dataframe(
             curve,
             tiers,
         )
+        proj = apply_error_band(proj, int(row["days_to_start"]), bands)
         proj_rows.append(
             {
                 "cohort": row["cohort"],

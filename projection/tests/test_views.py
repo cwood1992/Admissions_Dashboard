@@ -65,9 +65,11 @@ def test_fy_view_blends_actuals_and_projections():
     assert out["fiscal_year"] == 2026
     t = out["total"]
     assert t["actual_starts"] == 10           # booked from UDT566
-    assert t["proj_low"] == 32                # 10 + 8 + 14
+    # Mids add; the two projected cohorts are each +/-2, combined as
+    # independent errors: sqrt(2^2 + 2^2) = 2.83. The booked cohort adds no width.
+    assert t["proj_low"] == 33                # 36 - 2.83
     assert t["proj_mid"] == 36                # 10 + 10 + 16
-    assert t["proj_high"] == 40               # 10 + 12 + 18
+    assert t["proj_high"] == 39               # 36 + 2.83
     assert t["proj_low"] <= t["proj_mid"] <= t["proj_high"]
     assert out["revenue_per_start"] == REVENUE_PER_START
     assert out["year_end_revenue_mid"] == 36 * REVENUE_PER_START

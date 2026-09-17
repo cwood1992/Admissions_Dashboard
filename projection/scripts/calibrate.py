@@ -21,7 +21,7 @@ from typing import Iterable
 
 import pandas as pd
 
-from scripts import utils
+from scripts import error_bands, utils
 
 DEFAULT_LEARNING_RATE = 0.2  # New observation gets this weight; prior keeps (1-rate).
 ESCALATION_ERROR_THRESHOLD = 0.30
@@ -549,6 +549,11 @@ def main() -> None:
         actuals.loc[pending_mask, "calibrated_at"] = date.today().isoformat()
         actuals.to_csv(actuals_path, index=False)
     write_calibration_log(log_path, result, title_suffix=title_suffix)
+    # Band widths are measured on the current model, so they are re-measured
+    # whenever the baselines it runs on (or the set of completed cohorts) change.
+    bands = error_bands.rebuild()
+    print("Rebuilt projection error bands:")
+    print(bands[["days_lo", "days_hi", "n_cohorts", "band_rms_z", "source"]].to_string(index=False))
     print(f"Processed {len(result.cohorts_processed)} cohorts. Log: {log_path}")
     if result.escalation_flag:
         print(f"ESCALATION: {result.escalation_reason}")

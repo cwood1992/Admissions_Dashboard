@@ -1,6 +1,6 @@
 window.REP_HEALTH = {
   "snapshot_date": "2026-09-14",
-  "generated_at": "2026-09-17T20:15:35.668059+00:00",
+  "generated_at": "2026-09-17T20:54:52.318704+00:00",
   "params": {
     "commitment_window_days": 45,
     "stale_lost_after_days": 14,

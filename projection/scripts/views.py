@@ -15,7 +15,7 @@ from dataclasses import asdict, dataclass
 
 import pandas as pd
 
-from scripts import recognition, utils
+from scripts import error_bands, recognition, utils
 
 REVENUE_PER_START = 25_300  # Per spec, blended UDT/NDT-Day/NDT-Night.
 PROGRAM_ORDER = ["UDT", "NDT-Day", "NDT-Night"]
@@ -148,7 +148,10 @@ def build_financial_year_view(
     calendar year of its start_date, so FY2026 = cohorts 562-571 (10 UDT / 10
     NDT-Day / 5 NDT-Night). Started cohorts contribute a fixed point value
     (low = mid = high = actual_starts); future cohorts contribute their
-    projection range. low <= mid <= high is preserved because each addend does.
+    projection range. Mids add; program and year lows/highs combine the cohort
+    ranges as independent errors (``error_bands.combine_independent``), not as
+    a sum of lows and a sum of highs, which assumes every cohort misses the
+    same way at once.
     """
     snap = utils.parse_snapshot_date(snapshot_date)
 
@@ -179,6 +182,7 @@ def build_financial_year_view(
         }
 
     per_program: dict[str, dict] = {p: _empty_program() for p in PROGRAM_ORDER}
+    ranges_by_program: dict[str, list[tuple[int, int, int]]] = {}
     cohorts: list[dict] = []
 
     for code, sd in sorted(start_dates.items(), key=lambda kv: (kv[1], kv[0])):
@@ -213,9 +217,7 @@ def build_financial_year_view(
             pp["started_count"] += 1
             if status == "actual":
                 pp["actual_starts"] += actual
-        pp["proj_low"] += low
-        pp["proj_mid"] += mid
-        pp["proj_high"] += high
+        ranges_by_program.setdefault(program, []).append((low, mid, high))
 
         cohorts.append(
             {
@@ -230,10 +232,15 @@ def build_financial_year_view(
             }
         )
 
+    for program, ranges in ranges_by_program.items():
+        pp = per_program[program]
+        pp["proj_low"], pp["proj_mid"], pp["proj_high"] = (
+            error_bands.combine_independent_int(ranges)
+        )
     by_program = {p: v for p, v in per_program.items() if v["cohort_count"] > 0}
-    total_low = sum(v["proj_low"] for v in by_program.values())
-    total_mid = sum(v["proj_mid"] for v in by_program.values())
-    total_high = sum(v["proj_high"] for v in by_program.values())
+    total_low, total_mid, total_high = error_bands.combine_independent_int(
+        r for ranges in ranges_by_program.values() for r in ranges
+    )
     total_actual = sum(v["actual_starts"] for v in by_program.values())
 
     return {
@@ -298,6 +305,8 @@ def build_revenue_recognition_view(
         }
 
     by_year: dict[int, dict] = {}
+    down_sq: dict[int, float] = {}
+    up_sq: dict[int, float] = {}
     cohorts: list[dict] = []
 
     for code, sd in sorted(start_dates.items(), key=lambda kv: (kv[1], kv[0])):
@@ -325,10 +334,11 @@ def build_revenue_recognition_view(
             b = by_year.setdefault(yr, _bucket())
             b["earned_mid"] += amt
             b["earned_actual" if is_actual else "earned_projected"] += amt
-        for yr, amt in spread_low.items():
-            by_year.setdefault(yr, _bucket())["earned_low"] += amt
-        for yr, amt in spread_high.items():
-            by_year.setdefault(yr, _bucket())["earned_high"] += amt
+        # Downside/upside distances combine as independent cohort errors (see
+        # error_bands.combine_independent); resolved into earned_low/high below.
+        for yr, amt in spread_mid.items():
+            down_sq[yr] = down_sq.get(yr, 0.0) + (amt - spread_low.get(yr, 0.0)) ** 2
+            up_sq[yr] = up_sq.get(yr, 0.0) + (spread_high.get(yr, 0.0) - amt) ** 2
 
         cohorts.append(
             {
@@ -341,6 +351,10 @@ def build_revenue_recognition_view(
                 "by_year": {str(y): round(a) for y, a in spread_mid.items()},
             }
         )
+
+    for yr, b in by_year.items():
+        b["earned_low"] = b["earned_mid"] - down_sq.get(yr, 0.0) ** 0.5
+        b["earned_high"] = b["earned_mid"] + up_sq.get(yr, 0.0) ** 0.5
 
     years = sorted(by_year)
     by_year_out = {

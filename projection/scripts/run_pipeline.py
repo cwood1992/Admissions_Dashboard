@@ -14,6 +14,7 @@ from pathlib import Path
 import pandas as pd
 
 from scripts import (
+    error_bands,
     export_dashboard_data,
     high_water,
     ingest,
@@ -123,6 +124,13 @@ def run(
         if tiers.is_placeholder
         else "Model has calibrated confidence tier rates."
     )
+    if error_bands.load_error_bands() is not None:
+        confidence_note += (
+            " Cohort low/high is sized from observed projection error (about 80% "
+            "target). Year and program ranges combine cohorts as independent "
+            "errors; cohorts share baselines, so a year with many far-out cohorts "
+            "is likely wider than shown."
+        )
     # Financial-year roll-ups: current FY blends booked actuals (already-started
     # cohorts) with projections; next FY is projection-only. FY = calendar year of
     # each cohort's start date.

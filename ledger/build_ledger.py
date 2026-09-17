@@ -35,6 +35,7 @@ PROJECTION = ROOT / "projection"
 # program labels, year-cycle position, and the blended revenue figure.
 sys.path.insert(0, str(PROJECTION))
 from scripts.utils import position_for_cohort, program_for_cohort  # noqa: E402
+from scripts.error_bands import combine_independent_int  # noqa: E402
 from scripts.views import REVENUE_PER_START  # noqa: E402
 
 ACTUALS_CSV = PROJECTION / "completed" / "cohort_actuals.csv"
@@ -216,9 +217,12 @@ def build() -> dict:
 
     booked_starts = sum(r["actual_starts"] or 0 for r in cohorts if r["lifecycle"] == "completed")
     booked_revenue = sum(r["booked_revenue"] or 0 for r in cohorts if r["lifecycle"] == "completed")
-    proj_low = sum(r["proj_low"] or 0 for r in cohorts if r["lifecycle"] == "in_flight")
-    proj_mid = sum(r["proj_mid"] or 0 for r in cohorts if r["lifecycle"] == "in_flight")
-    proj_high = sum(r["proj_high"] or 0 for r in cohorts if r["lifecycle"] == "in_flight")
+    # Cohort ranges combine as independent errors, matching the projection
+    # engine's FY roll-up (a sum of lows assumes every cohort misses together).
+    proj_low, proj_mid, proj_high = combine_independent_int(
+        (r["proj_low"] or 0, r["proj_mid"] or 0, r["proj_high"] or 0)
+        for r in cohorts if r["lifecycle"] == "in_flight"
+    )
     projected_mid_revenue = proj_mid * REVENUE_PER_START
 
     return {

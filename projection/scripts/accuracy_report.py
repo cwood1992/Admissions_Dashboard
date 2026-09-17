@@ -29,7 +29,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from . import utils
+from . import error_bands, utils
 
 REPORTS_DIR = utils.PROJECT_ROOT / "reports"
 REPORT_MD = "projection_accuracy.md"
@@ -259,7 +259,7 @@ def summarize(long: pd.DataFrame, by: str, order: list[str] | None = None) -> pd
 
 
 def class_totals(long: pd.DataFrame, actuals: dict[str, int]) -> pd.DataFrame:
-    """Per class x snapshot: summed cohort projections vs summed actuals. Only
+    """Per class x snapshot: combined cohort projections vs summed actuals. Only
     snapshots carrying every booked cohort of the class are graded."""
     booked: dict[int, set[str]] = {}
     for cohort in actuals:
@@ -269,7 +269,9 @@ def class_totals(long: pd.DataFrame, actuals: dict[str, int]) -> pd.DataFrame:
         if set(g["cohort"]) != booked.get(num, set()):
             continue
         actual = int(g["actual_starts"].sum())
-        low, mid, high = g["proj_low"].sum(), g["proj_mid"].sum(), g["proj_high"].sum()
+        low, mid, high = error_bands.combine_independent(
+            zip(g["proj_low"], g["proj_mid"], g["proj_high"])
+        )
         out.append({
             "class_number": num,
             "snapshot_date": snap,
@@ -383,7 +385,8 @@ def render_markdown(long: pd.DataFrame, diffs: pd.DataFrame, actuals: dict[str, 
     if len(totals):
         lines += [
             "## Whole class (all programs summed)", "",
-            "Low and high are the sums of the cohort lows and highs.", "",
+            "Low and high combine the cohort ranges as independent errors (mids add; the "
+            "distances to low and high add in quadrature), the same rule the FY roll-up uses.", "",
         ]
         rows = [[
             str(r["class_number"]), r["snapshot_date"], str(r["days_to_start"]),

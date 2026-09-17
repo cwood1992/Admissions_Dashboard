@@ -92,7 +92,8 @@ def test_class_totals_need_every_booked_cohort(tmp_path):
     # The near snapshot only carries UDT900, so only the far one is graded.
     assert list(totals["snapshot_date"]) == ["2030-01-01"]
     row = totals.iloc[0]
-    assert (row["proj_low"], row["proj_mid"], row["proj_high"]) == (26, 33, 40)
+    # Mids add (15 + 18); distances to low (3, 4) and high (3, 4) add in quadrature.
+    assert (row["proj_low"], row["proj_mid"], row["proj_high"]) == (28, 33, 38)
     assert row["actual_starts"] == 30 and row["error"] == 3
     assert bool(row["in_range"]) is True
 
