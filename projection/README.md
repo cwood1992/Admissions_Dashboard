@@ -91,6 +91,24 @@ The one-time historical seed (2022–2025 + early-2026) came from
 `scripts/import_historical_actuals.py` against the admissions_dashboard summary
 files; ongoing per-cohort ATE now comes from the booked-class CCS instead.
 
+### Grading the projections
+
+```powershell
+uv run python -m scripts.accuracy_report
+```
+
+Writes `reports/projection_accuracy.md` (tables) and `.csv` (long form): every
+weekly low/mid/high published for a completed cohort before it started, against
+`actual_starts`, with error summaries by days to start, regime and program, a
+whole-class roll-up and a per-cohort trajectory. Run it after each class is
+recorded. Snapshots are graded **as published**: the version is read from git
+(last commit within 3 days of the snapshot date), because a snapshot replayed
+after a model fix would grade the fixed model with hindsight. Rows where the
+current file differs are listed at the end of the report. Coverage starts at
+class 566 (first weekly snapshot 2026-05-12); the four snapshots before
+2026-06-01 were first committed on 2026-06-01 and are flagged
+`earliest-available`.
+
 ### Interim ATE before a class books
 
 Because EnrollList can't give total-ever-enrolled per cohort, the pipeline
@@ -146,6 +164,7 @@ as of 2026-09-17; extend it when the next cycle's dates are set.
 | `raw/YYYY-MM-DD/` | Weekly CCS exports. **Gitignored — may contain PII.** |
 | `snapshots/` | Processed per-snapshot CSVs (cohort-level + rep-level) and management markdown. |
 | `completed/` | Cohort actuals for the calibration loop. |
+| `reports/` | Projection accuracy report (`scripts.accuracy_report`). Aggregates only. |
 | `dashboard/` | Vanilla HTML/CSS/JS dashboard. Reads `dashboard/data/*.js`. |
 | `tests/` | pytest suite with hand-computable fixtures. |
 

@@ -32,6 +32,7 @@ velocity.py   → adds days_to_start, weekly_velocity, velocity_vs_historical
 projections.py → adds proj_low, proj_mid, proj_high, projection_basis (depends on velocity)
 rep_health.py → rep scorecard (reads raw/<date>, the raw/ snapshots ~28 and ~60 days back, and raw/booked/; independent of velocity/projections)
 calibrate.py  → updates baselines/ from completed/ (only when a cohort's start date has passed)
+accuracy_report.py → reports/projection_accuracy.md|.csv (every published snapshot vs actual_starts; run after a class is recorded)
 ```
 
 **Input format (2026-05-15+):** the weekly source is a single consolidated
@@ -78,6 +79,7 @@ These will not be evident from reading the code alone:
 - **Cohort count is configured at 10/10/5.** If a snapshot delivers a different count, `ingest.py` should flag — it may indicate a program change requiring reindex of position averages, not just a missing file.
 - **New reps** (fewer than 2 completed cohort cycles) should be excluded from rep quality scoring, not scored against the team average. Implemented as a per-metric minimum sample (`MIN_METRIC_SAMPLE`), not a tenure check: a thin rate is shown with its n but left out of `vs_team_avg`.
 - **Tier rates only mean something near start.** WBH tagging is 0% beyond 60 days out; rep tier progress is measured on classes 45 days or less from start. Do not reintroduce a pipeline-wide WBH rate.
+- **Accuracy is graded on snapshots as published.** `accuracy_report.py` reads each snapshot CSV from git (last commit within 3 days of its date), not the working file, because replayed snapshots (2026-09-04 was recomputed on 2026-09-14) would grade a fixed model with hindsight. Do not "simplify" it to read `snapshots/` directly.
 - **A cohort missing from `baselines/program_start_dates_2026.csv` is dropped silently** from projections, FY views and rep rosters (13 students in 576-578 were invisible until 2026-09-17). The table runs through 582; extend it each cycle.
 
 ## Inputs and Where They Come From
