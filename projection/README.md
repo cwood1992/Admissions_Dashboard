@@ -33,7 +33,7 @@ uv run python -m scripts.run_pipeline
 
 Four dashboard tabs:
 - **Thomas · Cohorts** — operational table with velocity, projections, basis.
-- **Reps** — pipeline-quality scorecards (cancel rate, WBH rate, durability, quality score).
+- **Reps** — forward pipeline per rep, tier progress in the 45-day window, 28-day loss and 60-day durability from the outcome classification, plus a rep by upcoming-class matrix. See "Reps tab" below.
 - **Clanton · Strategic** — year-end roll-up with revenue.
 - **Management** — three-number headline + narrative + red flags. Auto-exports markdown to `snapshots/YYYY-MM-DD_management.md` for email or vault distribution.
 
@@ -98,6 +98,44 @@ keeps a per-cohort **enrollment high-water mark** across weekly snapshots
 (`snapshots/enrollment_high_water.csv`) — peak concurrent enrollment is a
 close lower-bound proxy for the ATE denominator until the booked CCS supplies
 the exact figure.
+
+## Reps tab (EnrollList-native, reworked 2026-09)
+
+`scripts/rep_health.py` no longer uses the old CCS cancel signal (EnrollList has
+none). Three things to know:
+
+- **Forward roster only.** The EnrollList still carries "Enrolled Student" rows
+  for classes that already started (390 of 847 rows on 2026-09-14, back to
+  UDT559). A rep's pipeline is only their students in classes that have not
+  started, the same window the cohort ingest uses. `House` is excluded
+  (`NON_REP_NAMES`).
+- **Tier progress is measured inside the commitment window**
+  (`COMMITMENT_WINDOW_DAYS = 45`). Pooled history shows WBH tagging is 0% beyond
+  60 days out, so a pipeline-wide WBH rate is noise. The scored term is the
+  any-tag rate (WBH, VIP or priority); the WBH rate is shown but not scored.
+- **Retention is outcome-based, not "gone from the list".** Students who start
+  also leave the list. The forward roster from the snapshot nearest 60 days
+  back (and 28 days back for the loss rate; tolerance 10 days) is classified
+  per student: `retained` (still in a future class), `started` (Active in a
+  `raw/booked/` CCS), `pending` (still listed in a class that started under 14
+  days ago; excluded), `lost_listed` (still listed 14+ days after that class
+  started), `unknown` (gone, class started, booked CCS not staged; excluded),
+  `gone`. Durable = (retained + started) / (roster - pending - unknown).
+
+`vs Team` is the mean of each scored rate divided by the team rate (100 = team).
+A rate with n under `MIN_METRIC_SAMPLE` (10) is shown but not scored; this
+replaces the old "new rep under 30 students" rule. Every rate shows its n.
+Because retention needs the booked CCS, stage `raw/booked/CCS-*.csv` at class
+start before the weekly run or those students land in `unknown`.
+
+The tab also shows the outcome breakdown for both lookbacks and a rep by
+upcoming-class matrix (enrolled, WBH / VIP / priority, cold untagged) built
+from `rep_untagged` / `rep_cold` in the per-cohort rep breakdown.
+
+`baselines/program_start_dates_2026.csv` must cover every class students are
+enrolled in: a cohort with no start date is dropped from the projection, the
+FY views and the rep roster without an error. It runs through 582 (2028-01-03)
+as of 2026-09-17; extend it when the next cycle's dates are set.
 
 ## Project layout
 

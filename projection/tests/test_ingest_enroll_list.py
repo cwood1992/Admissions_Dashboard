@@ -84,6 +84,10 @@ def test_per_rep_breakdown(rep_df):
     assert mike["rep_new"] == 3
     assert mike["rep_wbh"] == 1
 
+    # Per-rep untagged/cold tie to the cohort totals (2 untagged, 1 cold).
+    assert udt566["rep_untagged"].sum() == 2
+    assert udt566["rep_cold"].sum() == 1
+
 
 def test_ndt566_and_udt567(cohort_df):
     ndt = _row(cohort_df, "NDT566")

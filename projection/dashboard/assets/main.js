@@ -217,34 +217,128 @@
   }
 
   // Render rep scorecards.
+  // A rate is null when there is no sample; never render a sentinel as a number.
+  const pct = (v, digits = 0) =>
+    v === null || v === undefined ? "—" : (v * 100).toFixed(digits) + "%";
+  const withN = (label, n) =>
+    `${label}${n > 0 ? ` <span class="muted">(n=${n})</span>` : ""}`;
+
   if (repData && Array.isArray(repData.reps) && repData.reps.length) {
-    const sortedReps = repData.reps.slice().sort((a, b) => b.quality_score - a.quality_score);
+    const p = repData.params || {};
+    const team = repData.team || {};
+    const win = p.commitment_window_days ?? 45;
+    document.getElementById("rep-th-near").textContent = `In ${win}d Window`;
+    document.getElementById("rep-caption").textContent =
+      `Forward pipeline = students in classes that have not started (stale listings in started classes are excluded). ` +
+      `WBH and any-tag rates cover only classes ${win} days or less from start. ` +
+      `vs Team averages each scored rate against the team rate (100 = team); rates with n under ${p.min_metric_sample ?? 10} are shown but not scored.`;
+
+    const retentionCells = (r) => `
+        <td class="num">${withN(pct(r.loss_rate_28d), r.retention_28d ? r.retention_28d.basis : 0)}</td>
+        <td class="num">${withN(pct(r.durability ? r.durability.rate : null), r.durability ? r.durability.basis : 0)}</td>`;
+
+    const sortedReps = repData.reps
+      .slice()
+      .sort((a, b) => (b.vs_team_avg ?? -1) - (a.vs_team_avg ?? -1));
     for (const r of sortedReps) {
       const tr = document.createElement("tr");
-      const durabilityLabel =
-        r.durability < 0 ? "—" : (r.durability * 100).toFixed(0) + "%";
-      const vsTeam = Number(r.vs_team_avg);
+      const vs = r.vs_team_avg;
       const vsClass =
-        r.is_new_rep
-          ? "vs-neutral"
-          : vsTeam >= 110
-          ? "vs-above"
-          : vsTeam <= 90
-          ? "vs-below"
-          : "vs-on";
+        vs === null || vs === undefined ? "vs-neutral" : vs >= 110 ? "vs-above" : vs <= 90 ? "vs-below" : "vs-on";
       tr.innerHTML = `
-        <td class="cohort">${r.rep_name}${r.is_new_rep ? ' <span class="tag-placeholder">new rep</span>' : ""}</td>
-        <td class="num">${r.total_assigned}</td>
-        <td class="num">${r.currently_enrolled}</td>
-        <td class="num">${r.cancelled}</td>
-        <td class="num">${(r.cancel_rate * 100).toFixed(1)}%</td>
-        <td class="num">${(r.wbh_rate * 100).toFixed(1)}%</td>
-        <td class="num">${durabilityLabel}${r.durability_basis_count > 0 ? ` <span class="muted">(n=${r.durability_basis_count})</span>` : ""}</td>
-        <td class="num">${(r.quality_score * 100).toFixed(1)}</td>
-        <td class="num"><span class="pace ${vsClass}">${vsTeam.toFixed(0)}</span></td>
+        <td class="cohort">${r.rep_name}</td>
+        <td class="num">${r.forward_enrolled}</td>
+        <td class="num">${r.near_enrolled}</td>
+        <td class="num">${r.wbh_near} <span class="muted">(${pct(r.wbh_rate_near, 1)})</span></td>
+        <td class="num">${r.tagged_near} <span class="muted">(${pct(r.tagged_rate_near)})</span></td>
+        ${retentionCells(r)}
+        <td class="num"><span class="pace ${vsClass}">${vs === null || vs === undefined ? "n/a" : vs.toFixed(0)}</span></td>
         <td class="basis">${r.note || "—"}</td>
       `;
       repTbody.appendChild(tr);
+    }
+    document.querySelector("#rep-table tfoot").innerHTML = `
+      <tr>
+        <td class="cohort">Team</td>
+        <td class="num">${team.forward_enrolled ?? "—"}</td>
+        <td class="num">${team.near_enrolled ?? "—"}</td>
+        <td class="num">${team.wbh_near ?? 0} <span class="muted">(${pct(team.wbh_rate_near, 1)})</span></td>
+        <td class="num">${team.tagged_near ?? 0} <span class="muted">(${pct(team.tagged_rate_near)})</span></td>
+        ${retentionCells(team)}
+        <td class="num">100</td>
+        <td class="basis">—</td>
+      </tr>`;
+
+    // Outcome breakdown: where each lookback roster went.
+    document.getElementById("rep-outcome-caption").textContent =
+      `Each rep's forward roster from the lookback snapshot, classified today. ` +
+      `Started = Active in the booked-class CCS. Listed in started class = still on the list in a class that started ` +
+      `${p.stale_lost_after_days ?? 14}+ days ago (counted lost); under that is Pending. ` +
+      `Unknown = gone after their class started but its booked CCS is not staged. ` +
+      `Durable = (started + still enrolled) / (roster - pending - unknown).`;
+    const outcomeBody = document.querySelector("#rep-outcome-table tbody");
+    const lookbacks = [
+      ["durability", p.durability_target_days ?? 60, p.durability_prior_date],
+      ["retention_28d", p.loss_target_days ?? 28, p.loss_prior_date],
+    ];
+    for (const [key, days, priorDate] of lookbacks) {
+      const label = priorDate ? `${days}d (${priorDate})` : `${days}d (no snapshot)`;
+      const rows = repData.reps
+        .map((r) => [r.rep_name, r[key]])
+        .concat([["Team", team[key]]])
+        .filter(([, m]) => m && m.n > 0);
+      rows.forEach(([name, m], i) => {
+        const o = m.outcomes;
+        const tr = document.createElement("tr");
+        if (i === 0) tr.className = "group-start";
+        tr.innerHTML = `
+          <td>${i === 0 ? label : ""}</td>
+          <td class="cohort">${name}</td>
+          <td class="num">${m.n}</td>
+          <td class="num">${o.started}</td>
+          <td class="num">${o.retained}</td>
+          <td class="num">${o.lost_listed}</td>
+          <td class="num">${o.gone}</td>
+          <td class="num">${o.pending}</td>
+          <td class="num">${o.unknown}</td>
+          <td class="num">${pct(m.rate)}</td>`;
+        outcomeBody.appendChild(tr);
+      });
+    }
+
+    // Rep x upcoming-class matrix from the per-cohort rep breakdown.
+    const excluded = new Set(p.excluded_names || []);
+    const byCohort = data.reps_by_cohort || {};
+    const repNames = Array.from(
+      new Set(Object.values(byCohort).flat().map((r) => r.rep_name))
+    ).filter((n) => !excluded.has(n)).sort();
+    document.querySelector("#rep-matrix thead").innerHTML =
+      `<tr><th>Class</th><th>Start</th><th class="num">Days</th>` +
+      repNames.map((n) => `<th class="num">${n}</th>`).join("") +
+      `<th class="num">Total</th></tr>`;
+    const matrixBody = document.querySelector("#rep-matrix tbody");
+    const cell = (r) =>
+      !r || !r.rep_currently_enrolled
+        ? `<td class="num muted">—</td>`
+        : `<td class="num">${r.rep_currently_enrolled}<span class="cell-sub">W${r.rep_wbh} V${r.rep_vip} P${r.rep_priority} · cold ${r.rep_cold ?? 0}</span></td>`;
+    for (const c of sorted) {
+      const reps = (byCohort[c.cohort] || []).filter((r) => !excluded.has(r.rep_name));
+      const total = reps.reduce((s, r) => s + Number(r.rep_currently_enrolled || 0), 0);
+      if (!total) continue;
+      const lookup = Object.fromEntries(reps.map((r) => [r.rep_name, r]));
+      const sum = (k) => reps.reduce((s, r) => s + Number(r[k] || 0), 0);
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        `<td class="cohort">${c.cohort}</td><td>${fmt(c.start_date)}</td><td class="num">${fmt(c.days_to_start)}</td>` +
+        repNames.map((n) => cell(lookup[n])).join("") +
+        cell({
+          rep_currently_enrolled: total,
+          rep_wbh: sum("rep_wbh"),
+          rep_vip: sum("rep_vip"),
+          rep_priority: sum("rep_priority"),
+          rep_cold: sum("rep_cold"),
+        });
+      matrixBody.appendChild(tr);
     }
   }
 })();

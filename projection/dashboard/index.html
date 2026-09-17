@@ -48,21 +48,49 @@
     </section>
     <section id="rep-table-section" data-view="reps" hidden>
       <h2>Rep Pipeline Health</h2>
+      <p class="muted" id="rep-caption"></p>
       <table id="rep-table">
         <thead>
           <tr>
             <th>Rep</th>
-            <th class="num">Assigned</th>
-            <th class="num">Enrolled</th>
-            <th class="num">Cancelled</th>
-            <th class="num">Cancel Rate</th>
-            <th class="num">WBH Rate</th>
-            <th class="num">Durability (60d)</th>
-            <th class="num">Quality Score</th>
-            <th class="num">vs Team Avg</th>
+            <th class="num">Forward Pipeline</th>
+            <th class="num" id="rep-th-near">In Window</th>
+            <th class="num">WBH (window)</th>
+            <th class="num">Any Tag (window)</th>
+            <th class="num">Loss (28d)</th>
+            <th class="num">Durable (60d)</th>
+            <th class="num">vs Team</th>
             <th>Note</th>
           </tr>
         </thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+      </table>
+
+      <h2 class="spaced">Where The Prior Roster Went</h2>
+      <p class="muted" id="rep-outcome-caption"></p>
+      <table id="rep-outcome-table">
+        <thead>
+          <tr>
+            <th>Lookback</th>
+            <th>Rep</th>
+            <th class="num">Roster</th>
+            <th class="num">Started</th>
+            <th class="num">Still Enrolled</th>
+            <th class="num">Listed In Started Class</th>
+            <th class="num">Gone</th>
+            <th class="num">Pending</th>
+            <th class="num">Unknown</th>
+            <th class="num">Durable</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <h2 class="spaced">Pipeline By Upcoming Class</h2>
+      <p class="muted">Enrolled per rep, with WBH / VIP / priority counts and untagged students enrolled 14+ days (cold). Classes with no enrollments are omitted.</p>
+      <table id="rep-matrix">
+        <thead></thead>
         <tbody></tbody>
       </table>
     </section>

@@ -39,6 +39,11 @@ class RepBreakdown:
     rep_wbh: int
     rep_vip: int
     rep_priority: int
+    # No WBH/VIP/priority tag at all. `rep_cold` is the subset enrolled longer
+    # than UNTAGGED_COLD_THRESHOLD_DAYS (EnrollList only; 0 on the legacy path,
+    # which has no enroll date).
+    rep_untagged: int = 0
+    rep_cold: int = 0
 
 
 @dataclass
@@ -146,6 +151,7 @@ def _per_rep_breakdown(
 ) -> list[RepBreakdown]:
     rep_series = _str_series(df, "rep_name")
     any_priority = flags[["p_fa", "p_va", "p_acc", "p_adm"]].any(axis=1)
+    any_tag = flags["wbh"] | flags["vip"] | any_priority
     reps: list[RepBreakdown] = []
     for rep_name in sorted(r for r in rep_series.unique() if r):
         mask = rep_series == rep_name
@@ -167,6 +173,7 @@ def _per_rep_breakdown(
                 rep_wbh=int((mask & is_enrolled & flags["wbh"]).sum()),
                 rep_vip=int((mask & is_enrolled & flags["vip"]).sum()),
                 rep_priority=int((mask & is_enrolled & any_priority).sum()),
+                rep_untagged=int((mask & is_enrolled & ~any_tag).sum()),
             )
         )
     return reps
@@ -340,10 +347,19 @@ def _parse_action_flags_el(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def _el_rep_breakdown(group: pd.DataFrame, flags: pd.DataFrame) -> list[RepBreakdown]:
+def _el_rep_breakdown(
+    group: pd.DataFrame,
+    flags: pd.DataFrame,
+    untagged: pd.Series | None = None,
+    cold: pd.Series | None = None,
+) -> list[RepBreakdown]:
     rep_series = _el_str(group, "rep_name")
     admission = _el_str(group, "admission_type").str.upper()
     any_priority = flags[["p_fa", "p_va", "p_acc", "p_adm"]].any(axis=1)
+    if untagged is None:
+        untagged = ~(flags["wbh"] | flags["vip"] | any_priority)
+    if cold is None:
+        cold = pd.Series(False, index=group.index)
     reps: list[RepBreakdown] = []
     for rep_name in sorted(r for r in rep_series.unique() if r):
         mask = rep_series == rep_name
@@ -360,6 +376,8 @@ def _el_rep_breakdown(group: pd.DataFrame, flags: pd.DataFrame) -> list[RepBreak
                 rep_wbh=int((mask & flags["wbh"]).sum()),
                 rep_vip=int((mask & flags["vip"]).sum()),
                 rep_priority=int((mask & any_priority).sum()),
+                rep_untagged=int((mask & untagged).sum()),
+                rep_cold=int((mask & cold).sum()),
             )
         )
     return reps
@@ -443,7 +461,7 @@ def _el_cohort_snapshot(
         new_untagged_count=int((untagged & is_recent).sum()),
         transferred_in_count=int((prev_cohort != "").sum()),
         weekly_velocity=int(enrolled_within_7d.sum()),
-        reps=_el_rep_breakdown(group, flags),
+        reps=_el_rep_breakdown(group, flags, untagged=untagged, cold=untagged & ~is_recent),
     )
 
 

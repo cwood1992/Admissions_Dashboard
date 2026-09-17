@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-09-14",
-  "generated_at": "2026-09-14T20:48:07.781433+00:00",
+  "generated_at": "2026-09-17T20:15:35.748395+00:00",
   "strategic": {
     "fiscal_year": 2026,
     "label": "2026",
@@ -299,38 +299,38 @@
     "label": "2027",
     "total": {
       "actual_starts": 0,
-      "proj_low": 53,
-      "proj_mid": 76,
-      "proj_high": 99
+      "proj_low": 168,
+      "proj_mid": 239,
+      "proj_high": 310
     },
     "revenue_per_start": 25300,
-    "year_end_revenue_low": 1340900,
-    "year_end_revenue_mid": 1922800,
-    "year_end_revenue_high": 2504700,
+    "year_end_revenue_low": 4250400,
+    "year_end_revenue_mid": 6046700,
+    "year_end_revenue_high": 7843000,
     "by_program": {
       "UDT": {
-        "cohort_count": 4,
+        "cohort_count": 10,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 34,
-        "proj_mid": 48,
-        "proj_high": 62
+        "proj_low": 103,
+        "proj_mid": 145,
+        "proj_high": 187
       },
       "NDT-Day": {
-        "cohort_count": 4,
+        "cohort_count": 10,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 16,
-        "proj_mid": 23,
-        "proj_high": 30
+        "proj_low": 51,
+        "proj_mid": 73,
+        "proj_high": 95
       },
       "NDT-Night": {
-        "cohort_count": 2,
+        "cohort_count": 5,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 3,
-        "proj_mid": 5,
-        "proj_high": 7
+        "proj_low": 14,
+        "proj_mid": 21,
+        "proj_high": 28
       }
     },
     "cohorts": [
@@ -433,6 +433,156 @@
         "starts_low": 7,
         "starts_mid": 10,
         "starts_high": 13
+      },
+      {
+        "cohort": "NDT576",
+        "program": "NDT-Day",
+        "start_date": "2027-05-17",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 3,
+        "starts_mid": 5,
+        "starts_high": 7
+      },
+      {
+        "cohort": "NDT576NC",
+        "program": "NDT-Night",
+        "start_date": "2027-05-17",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 1,
+        "starts_mid": 2,
+        "starts_high": 3
+      },
+      {
+        "cohort": "UDT576",
+        "program": "UDT",
+        "start_date": "2027-05-17",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 6,
+        "starts_mid": 9,
+        "starts_high": 12
+      },
+      {
+        "cohort": "NDT577",
+        "program": "NDT-Day",
+        "start_date": "2027-06-21",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 8,
+        "starts_mid": 12,
+        "starts_high": 16
+      },
+      {
+        "cohort": "UDT577",
+        "program": "UDT",
+        "start_date": "2027-06-21",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 11,
+        "starts_mid": 15,
+        "starts_high": 19
+      },
+      {
+        "cohort": "NDT578",
+        "program": "NDT-Day",
+        "start_date": "2027-07-26",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 5,
+        "starts_mid": 7,
+        "starts_high": 9
+      },
+      {
+        "cohort": "NDT578NC",
+        "program": "NDT-Night",
+        "start_date": "2027-07-26",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 6,
+        "starts_mid": 8,
+        "starts_high": 10
+      },
+      {
+        "cohort": "UDT578",
+        "program": "UDT",
+        "start_date": "2027-07-26",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 10,
+        "starts_mid": 14,
+        "starts_high": 18
+      },
+      {
+        "cohort": "NDT579",
+        "program": "NDT-Day",
+        "start_date": "2027-09-07",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 8,
+        "starts_mid": 11,
+        "starts_high": 14
+      },
+      {
+        "cohort": "UDT579",
+        "program": "UDT",
+        "start_date": "2027-09-07",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 17,
+        "starts_mid": 23,
+        "starts_high": 29
+      },
+      {
+        "cohort": "NDT580",
+        "program": "NDT-Day",
+        "start_date": "2027-10-12",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 5,
+        "starts_mid": 7,
+        "starts_high": 9
+      },
+      {
+        "cohort": "NDT580NC",
+        "program": "NDT-Night",
+        "start_date": "2027-10-12",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 4,
+        "starts_mid": 6,
+        "starts_high": 8
+      },
+      {
+        "cohort": "UDT580",
+        "program": "UDT",
+        "start_date": "2027-10-12",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 14,
+        "starts_mid": 20,
+        "starts_high": 26
+      },
+      {
+        "cohort": "NDT581",
+        "program": "NDT-Day",
+        "start_date": "2027-11-15",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 6,
+        "starts_mid": 8,
+        "starts_high": 10
+      },
+      {
+        "cohort": "UDT581",
+        "program": "UDT",
+        "start_date": "2027-11-15",
+        "status": "projected",
+        "actual_starts": null,
+        "starts_low": 11,
+        "starts_mid": 16,
+        "starts_high": 21
       }
     ],
     "model_confidence_note": "Model has calibrated confidence tier rates."
@@ -441,7 +591,8 @@
     "years": [
       "2025",
       "2026",
-      "2027"
+      "2027",
+      "2028"
     ],
     "by_year": {
       "2025": {
@@ -459,11 +610,18 @@
         "earned_projected": 345429
       },
       "2027": {
-        "earned_low": 2827191,
-        "earned_mid": 3756713,
-        "earned_high": 4723847,
+        "earned_low": 4442174,
+        "earned_mid": 6065085,
+        "earned_high": 7725608,
         "earned_actual": 863742,
-        "earned_projected": 2892971
+        "earned_projected": 5201343
+      },
+      "2028": {
+        "earned_low": 1699317,
+        "earned_mid": 2397428,
+        "earned_high": 3095539,
+        "earned_actual": 0,
+        "earned_projected": 2397428
       }
     },
     "cohorts": [
@@ -1006,6 +1164,216 @@
         "revenue_mid": 253000,
         "by_year": {
           "2027": 253000
+        }
+      },
+      {
+        "cohort": "NDT576",
+        "program": "NDT-Day",
+        "start_date": "2027-05-17",
+        "status": "projected",
+        "starts_mid": 5,
+        "revenue_mid": 126500,
+        "by_year": {
+          "2027": 126500
+        }
+      },
+      {
+        "cohort": "NDT576NC",
+        "program": "NDT-Night",
+        "start_date": "2027-05-17",
+        "status": "projected",
+        "starts_mid": 2,
+        "revenue_mid": 50600,
+        "by_year": {
+          "2027": 50600
+        }
+      },
+      {
+        "cohort": "UDT576",
+        "program": "UDT",
+        "start_date": "2027-05-17",
+        "status": "projected",
+        "starts_mid": 9,
+        "revenue_mid": 227700,
+        "by_year": {
+          "2027": 227700
+        }
+      },
+      {
+        "cohort": "NDT577",
+        "program": "NDT-Day",
+        "start_date": "2027-06-21",
+        "status": "projected",
+        "starts_mid": 12,
+        "revenue_mid": 303600,
+        "by_year": {
+          "2027": 259072,
+          "2028": 44528
+        }
+      },
+      {
+        "cohort": "UDT577",
+        "program": "UDT",
+        "start_date": "2027-06-21",
+        "status": "projected",
+        "starts_mid": 15,
+        "revenue_mid": 379500,
+        "by_year": {
+          "2027": 323840,
+          "2028": 55660
+        }
+      },
+      {
+        "cohort": "NDT578",
+        "program": "NDT-Day",
+        "start_date": "2027-07-26",
+        "status": "projected",
+        "starts_mid": 7,
+        "revenue_mid": 177100,
+        "by_year": {
+          "2027": 122789,
+          "2028": 54311
+        }
+      },
+      {
+        "cohort": "NDT578NC",
+        "program": "NDT-Night",
+        "start_date": "2027-07-26",
+        "status": "projected",
+        "starts_mid": 8,
+        "revenue_mid": 202400,
+        "by_year": {
+          "2027": 140331,
+          "2028": 62069
+        }
+      },
+      {
+        "cohort": "UDT578",
+        "program": "UDT",
+        "start_date": "2027-07-26",
+        "status": "projected",
+        "starts_mid": 14,
+        "revenue_mid": 354200,
+        "by_year": {
+          "2027": 245579,
+          "2028": 108621
+        }
+      },
+      {
+        "cohort": "NDT579",
+        "program": "NDT-Day",
+        "start_date": "2027-09-07",
+        "status": "projected",
+        "starts_mid": 11,
+        "revenue_mid": 278300,
+        "by_year": {
+          "2027": 137295,
+          "2028": 141005
+        }
+      },
+      {
+        "cohort": "UDT579",
+        "program": "UDT",
+        "start_date": "2027-09-07",
+        "status": "projected",
+        "starts_mid": 23,
+        "revenue_mid": 581900,
+        "by_year": {
+          "2027": 287071,
+          "2028": 294829
+        }
+      },
+      {
+        "cohort": "NDT580",
+        "program": "NDT-Day",
+        "start_date": "2027-10-12",
+        "status": "projected",
+        "starts_mid": 7,
+        "revenue_mid": 177100,
+        "by_year": {
+          "2027": 59033,
+          "2028": 118067
+        }
+      },
+      {
+        "cohort": "NDT580NC",
+        "program": "NDT-Night",
+        "start_date": "2027-10-12",
+        "status": "projected",
+        "starts_mid": 6,
+        "revenue_mid": 151800,
+        "by_year": {
+          "2027": 50600,
+          "2028": 101200
+        }
+      },
+      {
+        "cohort": "UDT580",
+        "program": "UDT",
+        "start_date": "2027-10-12",
+        "status": "projected",
+        "starts_mid": 20,
+        "revenue_mid": 506000,
+        "by_year": {
+          "2027": 168667,
+          "2028": 337333
+        }
+      },
+      {
+        "cohort": "NDT581",
+        "program": "NDT-Day",
+        "start_date": "2027-11-15",
+        "status": "projected",
+        "starts_mid": 8,
+        "revenue_mid": 202400,
+        "by_year": {
+          "2027": 36432,
+          "2028": 165968
+        }
+      },
+      {
+        "cohort": "UDT581",
+        "program": "UDT",
+        "start_date": "2027-11-15",
+        "status": "projected",
+        "starts_mid": 16,
+        "revenue_mid": 404800,
+        "by_year": {
+          "2027": 72864,
+          "2028": 331936
+        }
+      },
+      {
+        "cohort": "NDT582",
+        "program": "NDT-Day",
+        "start_date": "2028-01-03",
+        "status": "projected",
+        "starts_mid": 4,
+        "revenue_mid": 101200,
+        "by_year": {
+          "2028": 101200
+        }
+      },
+      {
+        "cohort": "NDT582NC",
+        "program": "NDT-Night",
+        "start_date": "2028-01-03",
+        "status": "projected",
+        "starts_mid": 2,
+        "revenue_mid": 50600,
+        "by_year": {
+          "2028": 50600
+        }
+      },
+      {
+        "cohort": "UDT582",
+        "program": "UDT",
+        "start_date": "2028-01-03",
+        "status": "projected",
+        "starts_mid": 17,
+        "revenue_mid": 430100,
+        "by_year": {
+          "2028": 430100
         }
       }
     ],

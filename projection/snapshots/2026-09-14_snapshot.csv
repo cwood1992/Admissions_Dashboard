@@ -8,9 +8,27 @@ snapshot_date,cohort,program,start_date,days_to_start,currently_enrolled,new_enr
 2026-09-14,NDT574,NDT-Day,2027-03-15,182,6,0,2,0,0,0,0,0,0,0,6,2,4,2,4,,,,,6,3,5,7,far-30+: accum_fill@182d=0.08 below 0.15 floor; position_avg=5 only,0.0,unknown
 2026-09-14,NDT574NC,NDT-Night,2027-03-15,182,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,2,3,4,far-30+: accum_fill@182d=0.10 below 0.15 floor; position_avg=3 only,0.0,unknown
 2026-09-14,NDT575,NDT-Day,2027-04-19,217,1,0,0,0,0,0,0,0,0,0,1,0,1,0,1,,,,,1,4,6,8,far-30+: accum_fill@217d=0.08 below 0.15 floor; position_avg=6 only,0.0,unknown
+2026-09-14,NDT576,NDT-Day,2027-05-17,245,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,3,5,7,far-30+: accum_fill@245d=0.08 below 0.15 floor; position_avg=5 only,0.0,unknown
+2026-09-14,NDT576NC,NDT-Night,2027-05-17,245,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,1,2,3,far-30+: accum_fill@245d=0.10 below 0.15 floor; position_avg=2 only,0.0,unknown
+2026-09-14,NDT577,NDT-Day,2027-06-21,280,1,0,0,0,0,0,0,0,0,0,1,0,1,0,1,,,,,1,8,12,16,far-30+: accum_fill@280d=0.08 below 0.15 floor; position_avg=12 only,0.0,unknown
+2026-09-14,NDT578,NDT-Day,2027-07-26,315,7,0,2,0,0,0,0,0,0,0,7,1,6,2,5,,,,,7,5,7,9,far-30+: accum_fill@315d=0.08 below 0.15 floor; position_avg=7 only,0.0,unknown
+2026-09-14,NDT578NC,NDT-Night,2027-07-26,315,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,6,8,10,far-30+: accum_fill@315d=0.10 below 0.15 floor; position_avg=8 only,0.0,unknown
+2026-09-14,NDT579,NDT-Day,2027-09-07,358,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,8,11,14,far-30+: accum_fill@358d=0.08 below 0.15 floor; position_avg=11 only,0.0,unknown
+2026-09-14,NDT580,NDT-Day,2027-10-12,393,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,5,7,9,far-30+: accum_fill@393d=0.08 below 0.15 floor; position_avg=7 only,0.0,unknown
+2026-09-14,NDT580NC,NDT-Night,2027-10-12,393,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,4,6,8,far-30+: accum_fill@393d=0.10 below 0.15 floor; position_avg=6 only,0.0,unknown
+2026-09-14,NDT581,NDT-Day,2027-11-15,427,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,6,8,10,far-30+: accum_fill@427d=0.08 below 0.15 floor; position_avg=8 only,0.0,unknown
+2026-09-14,NDT582,NDT-Day,2028-01-03,476,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,3,4,5,far-30+: accum_fill@476d=0.08 below 0.15 floor; position_avg=4 only,0.0,unknown
+2026-09-14,NDT582NC,NDT-Night,2028-01-03,476,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,1,2,3,far-30+: accum_fill@476d=0.10 below 0.15 floor; position_avg=2 only,0.0,unknown
 2026-09-14,UDT570,UDT,2026-10-13,29,109,69,37,0,6,32,10,2,11,0,67,50,17,37,6,,,,,109,10,17,26,"medium-14-30: blend(accum=20, tier_mid=14.0); WBH=6,VIP=32,Priority=23",0.5577142857142867,above
 2026-09-14,UDT571,UDT,2026-11-16,63,37,30,7,0,0,2,2,0,1,0,34,5,29,7,2,,,,,37,11,15,20,"far-30+: accum_fill@63d=0.30, proj_enrolled=122 x ate_mid=0.113 = 13.7 starts, blended_with_pos_avg=15.2 (prior_weight=0.67)",0.6703999999999999,above
 2026-09-14,UDT572,UDT,2027-01-04,112,62,45,16,0,0,0,1,0,0,0,61,17,44,16,25,,,,,62,12,17,22,far-30+: accum_fill@112d=0.09 below 0.15 floor; position_avg=17 only,0.0,unknown
 2026-09-14,UDT573,UDT,2027-02-08,147,12,11,0,0,0,0,0,0,0,0,12,0,12,1,12,,,,,12,5,7,9,far-30+: accum_fill@147d=0.09 below 0.15 floor; position_avg=7 only,0.0,unknown
 2026-09-14,UDT574,UDT,2027-03-15,182,12,0,4,0,0,0,0,0,0,0,12,4,8,4,8,,,,,12,10,14,18,far-30+: accum_fill@182d=0.09 below 0.15 floor; position_avg=14 only,0.0,unknown
 2026-09-14,UDT575,UDT,2027-04-19,217,2,0,0,0,0,0,0,0,0,0,2,0,2,0,2,,,,,2,7,10,13,far-30+: accum_fill@217d=0.09 below 0.15 floor; position_avg=10 only,0.0,unknown
+2026-09-14,UDT576,UDT,2027-05-17,245,2,0,0,0,0,0,0,0,0,0,2,0,2,0,2,,,,,2,6,9,12,far-30+: accum_fill@245d=0.09 below 0.15 floor; position_avg=9 only,0.0,unknown
+2026-09-14,UDT577,UDT,2027-06-21,280,2,0,0,0,0,0,0,0,0,0,2,0,2,0,2,,,,,2,11,15,19,far-30+: accum_fill@280d=0.09 below 0.15 floor; position_avg=15 only,0.0,unknown
+2026-09-14,UDT578,UDT,2027-07-26,315,1,0,0,0,0,0,0,0,0,0,1,0,1,0,1,,,,,1,10,14,18,far-30+: accum_fill@315d=0.09 below 0.15 floor; position_avg=14 only,0.0,unknown
+2026-09-14,UDT579,UDT,2027-09-07,358,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,17,23,29,far-30+: accum_fill@358d=0.09 below 0.15 floor; position_avg=23 only,0.0,unknown
+2026-09-14,UDT580,UDT,2027-10-12,393,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,14,20,26,far-30+: accum_fill@393d=0.09 below 0.15 floor; position_avg=20 only,0.0,unknown
+2026-09-14,UDT581,UDT,2027-11-15,427,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,11,16,21,far-30+: accum_fill@427d=0.09 below 0.15 floor; position_avg=16 only,0.0,unknown
+2026-09-14,UDT582,UDT,2028-01-03,476,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,0,12,17,22,far-30+: accum_fill@476d=0.09 below 0.15 floor; position_avg=17 only,0.0,unknown

@@ -30,7 +30,7 @@ ingest.py     → snapshots/YYYY-MM-DD_snapshot.csv (per-cohort + per-rep aggreg
 high_water.py → snapshots/enrollment_high_water.csv (per-cohort peak enrollment, interim ATE denominator)
 velocity.py   → adds days_to_start, weekly_velocity, velocity_vs_historical
 projections.py → adds proj_low, proj_mid, proj_high, projection_basis (depends on velocity)
-rep_health.py → rep scorecard (depends only on ingest, can run parallel to velocity/projections)
+rep_health.py → rep scorecard (reads raw/<date>, the raw/ snapshots ~28 and ~60 days back, and raw/booked/; independent of velocity/projections)
 calibrate.py  → updates baselines/ from completed/ (only when a cohort's start date has passed)
 ```
 
@@ -40,9 +40,14 @@ calibrate.py  → updates baselines/ from completed/ (only when a cohort's start
 25-file per-cohort CCS format (`utils.CCS_COLUMNS`, `load_ccs_csv`) is retained
 as the **booked-class calibration source** — staged in `raw/booked/` (e.g.
 `raw/booked/CCS-U566.csv`) and fed via `record_actuals.py --from-ccs` once a
-class starts. EnrollList has no cancellation signal, so per-rep `cancel_rate`
-and durability are week-over-week derivations and ATE-to-start comes from the
-booked CCS, not the weekly pull.
+class starts. EnrollList has no cancellation signal and still lists students in
+classes that already started, so `rep_health.py` scores the **forward roster
+only** and derives loss/durability by classifying a 28/60-day-old roster
+against today's list **and the booked CCS** (a student who started also leaves
+the list; "gone" alone is not a cancel). Still listed in a class that started
+14+ days ago counts as lost; under 14 days is pending and excluded (Clanton:
+most savable enrollments transfer by class-start week). ATE-to-start comes
+from the booked CCS, not the weekly pull. See README "Reps tab".
 
 Dashboard reads JSON written into `dashboard/data/` by the scripts. Scripts must not embed presentation logic — the HTML layer owns rendering.
 
@@ -71,7 +76,9 @@ These will not be evident from reading the code alone:
 - **Never single-point projections.** Always low/mid/high. The spec treats this as a hard rule.
 - **Don't overstate model confidence.** Especially early. Phrase outputs as "based on X data points, the model projects Y," not as predictions.
 - **Cohort count is configured at 10/10/5.** If a snapshot delivers a different count, `ingest.py` should flag — it may indicate a program change requiring reindex of position averages, not just a missing file.
-- **New reps** (fewer than 2 completed cohort cycles) should be excluded from rep quality scoring, not scored against the team average.
+- **New reps** (fewer than 2 completed cohort cycles) should be excluded from rep quality scoring, not scored against the team average. Implemented as a per-metric minimum sample (`MIN_METRIC_SAMPLE`), not a tenure check: a thin rate is shown with its n but left out of `vs_team_avg`.
+- **Tier rates only mean something near start.** WBH tagging is 0% beyond 60 days out; rep tier progress is measured on classes 45 days or less from start. Do not reintroduce a pipeline-wide WBH rate.
+- **A cohort missing from `baselines/program_start_dates_2026.csv` is dropped silently** from projections, FY views and rep rosters (13 students in 576-578 were invisible until 2026-09-17). The table runs through 582; extend it each cycle.
 
 ## Inputs and Where They Come From
 

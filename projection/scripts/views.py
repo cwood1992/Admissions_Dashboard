@@ -414,8 +414,9 @@ def render_management_markdown(management: dict, snapshot_date: str) -> str:
 
 def build_rep_aggregate_view(rep_scorecards: list[dict]) -> dict:
     # Re-export the same shape as the rep_health payload, with a stable sort.
+    # Unscored reps (vs_team_avg None) sort last.
     sorted_reps = sorted(
         rep_scorecards,
-        key=lambda r: (r.get("is_new_rep", False), -r.get("quality_score", 0)),
+        key=lambda r: (r.get("vs_team_avg") is None, -(r.get("vs_team_avg") or 0)),
     )
     return {"reps": sorted_reps}

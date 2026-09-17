@@ -108,20 +108,11 @@ def run(
     cohort_path, rep_path = ingest.write_snapshot_files(enriched, rep_df, snapshot_date)
     dashboard_json = export_dashboard_data.export(cohort_path, rep_path)
 
-    # Rep health scorecards across all cohorts in this snapshot.
-    cards = rep_health.build_scorecards_from_raw(snapshot_date, raw_dir)
-    rep_health_path = utils.DASHBOARD_DATA_DIR / "rep_health.json"
-    rep_health_path.parent.mkdir(parents=True, exist_ok=True)
-    rep_payload = {
-        "snapshot_date": str(snapshot_date),
-        "generated_at": pd.Timestamp.now(tz="UTC").isoformat(),
-        "reps": rep_health.scorecards_to_dicts(cards),
-    }
-    rep_health_path.write_text(json.dumps(rep_payload, indent=2), encoding="utf-8")
-    rep_health_path.with_suffix(".js").write_text(
-        f"window.REP_HEALTH = {json.dumps(rep_payload, indent=2)};\n",
-        encoding="utf-8",
-    )
+    # Rep health: forward roster + outcome-based retention. Lookback snapshots
+    # and the booked CCS are found next to this snapshot's raw dir.
+    rep_payload = rep_health.build_payload_from_raw(snapshot_date, raw_dir)
+    cards = rep_payload["reps"]
+    rep_health_path = rep_health.write_payload(rep_payload, snapshot_date)
 
     # Strategic + management views.
     tiers = projections.load_confidence_tier_rates()

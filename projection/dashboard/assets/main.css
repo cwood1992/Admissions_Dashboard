@@ -98,6 +98,12 @@ td.cohort { font-weight: 600; }
 
 .muted { color: var(--muted); font-size: 0.78rem; }
 
+section h2.spaced { margin-top: 2rem; }
+section p.muted { margin: 0 0 0.75rem 0; max-width: 70rem; }
+tfoot td { font-weight: 600; border-top: 2px solid var(--border); }
+.cell-sub { display: block; color: var(--muted); font-size: 0.72rem; font-weight: 400; }
+tr.group-start td { border-top: 2px solid var(--border); }
+
 #view-tabs {
   margin-top: 0.85rem;
   display: flex;
