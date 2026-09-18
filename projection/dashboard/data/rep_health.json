@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-09-18",
-  "generated_at": "2026-09-18T20:34:36.055925+00:00",
+  "generated_at": "2026-09-18T20:42:52.705263+00:00",
   "params": {
     "commitment_window_days": 45,
     "stale_lost_after_days": 14,

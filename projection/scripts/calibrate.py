@@ -8,6 +8,9 @@ Schema for completed/cohort_actuals.csv:
     wbh_at_start, wbh_that_started,
     vip_at_start, vip_that_started,
     priority_at_start, priority_that_started,
+    vip_priority_at_start, vip_priority_that_started,
+        (pooled tier: students with VIP or any P-xx and not WBH, counted once;
+         the only VIP/P-xx columns calibration reads)
     proj_at_60d, proj_at_30d, proj_at_14d, proj_at_7d,
     calibrated_at  (ISO date; blank = pending)
 """
@@ -69,20 +72,6 @@ def _safe_rate(num, den) -> float | None:
     return n / d
 
 
-def _sum_present(row: pd.Series, cols: list[str]) -> float | None:
-    """Sum of the columns that hold a number; None when none do (blank tier
-    columns mean the ID join was unavailable, not zero)."""
-    vals = []
-    for c in cols:
-        try:
-            v = float(row.get(c))
-        except (TypeError, ValueError):
-            continue
-        if not pd.isna(v):
-            vals.append(v)
-    return sum(vals) if vals else None
-
-
 def _pct_error(projection: float, actual: float) -> float:
     if actual == 0:
         return float("inf") if projection != 0 else 0.0
@@ -135,21 +124,23 @@ def update_tier_rates(
     """
     df = tier_df.copy()
     deltas: list[str] = []
-    # VIP and P-xx are one pooled tier: the actuals keep separate columns (for
-    # history) and are summed here per cohort.
+    # VIP and P-xx are one pooled tier, counted per student (not per flag) and
+    # excluding WBH students, who are already in the WBH floor. The separate
+    # vip_*/priority_* columns overlap each other and WBH, so they are never
+    # summed here; a row without the pooled columns is skipped for this tier.
     mapping = {
-        "WBH": (["wbh_at_start"], ["wbh_that_started"]),
+        "WBH": ("wbh_at_start", "wbh_that_started"),
         utils.CONFIDENCE_TIER_VIP_PRIORITY: (
-            ["vip_at_start", "priority_at_start"],
-            ["vip_that_started", "priority_that_started"],
+            "vip_priority_at_start",
+            "vip_priority_that_started",
         ),
     }
-    for tier, (denom_cols, num_cols) in mapping.items():
+    for tier, (denom_col, num_col) in mapping.items():
         if tier not in df.index:
             continue
         prior_rate = float(df.loc[tier, "conversion_rate"])
         for _, row in completed.iterrows():
-            obs = _safe_rate(_sum_present(row, num_cols), _sum_present(row, denom_cols))
+            obs = _safe_rate(row.get(num_col), row.get(denom_col))
             if obs is None:
                 continue
             new_rate = _blend(prior_rate, obs, lr)

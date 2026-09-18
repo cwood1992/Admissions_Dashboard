@@ -1,3 +1,3 @@
 tier,conversion_rate,confidence,source,notes
 WBH,0.8771,calibrated,judgment-2026-05-13,WBH-to-start rate; refine with calibration once first cohorts complete
-VIP+Priority,0.2653,calibrated,pooled-actuals-2026-09-18,"VIP and P-FA/P-VA/P-Acc/P-Adm pooled as one tier; seeded from 13 of 49 started across 8 recorded cohorts (566-569). Replaced separate VIP 0.2721 / Priority 0.565 rows."
+VIP+Priority,0.2026,calibrated,pooled-actuals-2026-09-18,"Students with VIP or any P-FA/P-VA/P-Acc/P-Adm and not WBH, counted once. Seeded from 566-569 snapshots 8-30d out vs booked Active (ID join): 77 of 380 student-snapshots started (not independent draws; same students repeat across snapshots). At-start-only was 4 of 31 (12.9%), too small and too late to apply at 14-30d. Replaced separate VIP 0.2721 / Priority 0.565 rows."

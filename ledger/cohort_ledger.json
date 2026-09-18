@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T20:34:47.009684+00:00",
+  "generated_at": "2026-09-18T20:43:03.135495+00:00",
   "snapshot_date": "2026-09-18",
   "revenue_per_start": 25300,
   "cohorts": [
@@ -2292,11 +2292,11 @@
       "actual_starts": null,
       "total_ever_enrolled": null,
       "currently_enrolled": 96,
-      "proj_low": 3,
-      "proj_mid": 10,
-      "proj_high": 17,
+      "proj_low": 1,
+      "proj_mid": 8,
+      "proj_high": 15,
       "booked_revenue": null,
-      "projected_revenue_mid": 253000,
+      "projected_revenue_mid": 202400,
       "reconciliation": null
     },
     {
@@ -2309,10 +2309,10 @@
       "total_ever_enrolled": null,
       "currently_enrolled": 9,
       "proj_low": 0,
-      "proj_mid": 5,
-      "proj_high": 10,
+      "proj_mid": 4,
+      "proj_high": 9,
       "booked_revenue": null,
-      "projected_revenue_mid": 126500,
+      "projected_revenue_mid": 101200,
       "reconciliation": null
     },
     {
@@ -2324,11 +2324,11 @@
       "actual_starts": null,
       "total_ever_enrolled": null,
       "currently_enrolled": 105,
-      "proj_low": 14,
-      "proj_mid": 24,
-      "proj_high": 34,
+      "proj_low": 9,
+      "proj_mid": 19,
+      "proj_high": 29,
       "booked_revenue": null,
-      "projected_revenue_mid": 607200,
+      "projected_revenue_mid": 480700,
       "reconciliation": null
     },
     {
@@ -2815,11 +2815,11 @@
   "totals": {
     "booked_starts": 1167,
     "booked_revenue": 29525100,
-    "projected_low_starts": 286,
-    "projected_mid_starts": 326,
-    "projected_high_starts": 366,
-    "projected_mid_revenue": 8247800,
-    "combined_mid_revenue": 37772900
+    "projected_low_starts": 278,
+    "projected_mid_starts": 318,
+    "projected_high_starts": 358,
+    "projected_mid_revenue": 8045400,
+    "combined_mid_revenue": 37570500
   },
   "reconciliation_warnings": []
 }

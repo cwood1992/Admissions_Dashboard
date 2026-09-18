@@ -188,6 +188,17 @@ def test_near_regime_selected_at_7_days(curve, ate, tiers):
     assert proj.proj_high == 10
 
 
+def test_pooled_count_preferred_over_per_flag_sum(curve, ate, tiers):
+    # 3 students carry both VIP and P-FA: per-flag sum is 6, students are 3.
+    proj = project_three_regime(
+        _row(days_to_start=7, wbh_count=0, vip_count=3, p_fa_count=3, vip_priority_count=3),
+        18, ate, curve, tiers,
+    )
+    # mid = 3 * 0.50 = 1.5 -> round 2 (banker's), not 6 * 0.50 = 3
+    assert proj.proj_mid == 2
+    assert "VIP+Priority(3)" in proj.projection_basis
+
+
 def test_near_regime_counts_priority_same_as_vip(curve, ate, tiers):
     # VIP and P-xx are one pooled tier: swapping one for the other is a no-op.
     as_vip = project_three_regime(

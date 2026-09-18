@@ -69,6 +69,12 @@ def derive_from_booked_ccs(cohort: str, ccs_path: Path) -> dict:
         any_prio = flags[["p_fa", "p_va", "p_acc", "p_adm"]].any(axis=1)
         prio_at = int(any_prio.sum())
         prio_started = int((any_prio & started).sum())
+    if flags is None:
+        pool_at = pool_started = 0
+    else:
+        pool = ingest.vip_priority_students(flags)
+        pool_at = int(pool.sum())
+        pool_started = int((pool & started).sum())
 
     return {
         "cohort": cohort,
@@ -81,6 +87,8 @@ def derive_from_booked_ccs(cohort: str, ccs_path: Path) -> dict:
         "vip_that_started": vip_started,
         "priority_at_start": prio_at,
         "priority_that_started": prio_started,
+        "vip_priority_at_start": pool_at,
+        "vip_priority_that_started": pool_started,
         "proj_at_60d": "",
         "proj_at_30d": "",
         "proj_at_14d": "",
@@ -213,6 +221,11 @@ def record_actuals_interactive(cohort: str, at_start_date_override: date | None 
     wbh_at_start = _ask("wbh_at_start", default=pre("wbh_count"), type_=int)
     vip_at_start = _ask("vip_at_start", default=pre("vip_count"), type_=int)
     priority_at_start = _ask("priority_at_start", default=priority_at_start_default, type_=int)
+    vip_priority_at_start = _ask(
+        "vip_priority_at_start (students with VIP or any P-xx and not WBH)",
+        default=pre("vip_priority_count"),
+        type_=int,
+    )
 
     print()
     print("Actual outcomes:")
@@ -228,6 +241,7 @@ def record_actuals_interactive(cohort: str, at_start_date_override: date | None 
     wbh_that_started = _ask("wbh_that_started", default=min(wbh_at_start, actual_starts), type_=int)
     vip_that_started = _ask("vip_that_started", default=0, type_=int)
     priority_that_started = _ask("priority_that_started", default=0, type_=int)
+    vip_priority_that_started = _ask("vip_priority_that_started", default=0, type_=int)
 
     # Optional retrospective projections.
     print()
@@ -250,6 +264,8 @@ def record_actuals_interactive(cohort: str, at_start_date_override: date | None 
         "vip_that_started": vip_that_started,
         "priority_at_start": priority_at_start,
         "priority_that_started": priority_that_started,
+        "vip_priority_at_start": vip_priority_at_start,
+        "vip_priority_that_started": vip_priority_that_started,
         **proj_values,
         "calibrated_at": "",
     }

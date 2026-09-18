@@ -265,6 +265,22 @@ def _project_near(
     return Projection(low, mid, high, basis)
 
 
+def _vip_priority_count(row: pd.Series) -> int:
+    """Students in the pooled VIP+Priority tier. Uses the per-student count;
+    only a snapshot that predates it falls back to summing the per-flag counts,
+    which double-counts students carrying more than one flag."""
+    pooled = row.get("vip_priority_count")
+    if pooled is not None and pd.notna(pooled):
+        return int(pooled)
+    return int(
+        (row.get("vip_count", 0) or 0)
+        + (row.get("p_fa_count", 0) or 0)
+        + (row.get("p_va_count", 0) or 0)
+        + (row.get("p_acc_count", 0) or 0)
+        + (row.get("p_adm_count", 0) or 0)
+    )
+
+
 def project_three_regime(
     row: pd.Series,
     position_avg: int | None,
@@ -279,13 +295,7 @@ def project_three_regime(
     accumulated = _accumulated_enrolled(row)
     program = str(row["program"])
     wbh = int(row.get("wbh_count", 0) or 0)
-    vip_priority = int(
-        (row.get("vip_count", 0) or 0)
-        + (row.get("p_fa_count", 0) or 0)
-        + (row.get("p_va_count", 0) or 0)
-        + (row.get("p_acc_count", 0) or 0)
-        + (row.get("p_adm_count", 0) or 0)
-    )
+    vip_priority = _vip_priority_count(row)
 
     if position_avg is None or ate is None:
         # Fall back to trivial when baseline data is missing.

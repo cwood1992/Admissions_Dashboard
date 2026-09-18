@@ -53,6 +53,8 @@ def _actuals_row(**overrides) -> dict:
         "vip_that_started": 3,
         "priority_at_start": 8,
         "priority_that_started": 3,
+        "vip_priority_at_start": 10,
+        "vip_priority_that_started": 5,
         "proj_at_60d": 18,
         "proj_at_30d": 17,
         "proj_at_14d": 16,
@@ -89,29 +91,16 @@ def test_tier_rate_updates_and_flips_confidence():
     new_tier, deltas = update_tier_rates(_tier_baseline(), actuals)
     assert new_tier.loc["WBH", "conversion_rate"] == pytest.approx(0.8867, abs=1e-3)
     assert new_tier.loc["WBH", "confidence"] == "calibrated"
-    # VIP+Priority pooled: (3+3)/(5+8) = 0.4615. Prior 0.40.
-    # new = 0.40*0.8 + 0.4615*0.2 = 0.4123
-    assert new_tier.loc["VIP+Priority", "conversion_rate"] == pytest.approx(0.4123, abs=1e-3)
+    # VIP+Priority reads the per-student pooled columns only: 5/10 = 0.50.
+    # new = 0.40*0.8 + 0.50*0.2 = 0.42 (NOT the overlapping per-flag columns).
+    assert new_tier.loc["VIP+Priority", "conversion_rate"] == pytest.approx(0.42, abs=1e-3)
 
 
-def test_pooled_tier_uses_present_side_when_other_blank():
-    # Priority columns blank (join unavailable): pool = VIP alone, 3/5 = 0.60.
-    # new = 0.40*0.8 + 0.60*0.2 = 0.44
+def test_pooled_tier_skipped_without_pooled_columns():
+    # Per-flag vip/priority columns overlap (one student can carry both, and
+    # WBH), so they are never summed as a fallback.
     actuals = pd.DataFrame(
-        [_actuals_row(priority_at_start=None, priority_that_started=None)]
-    )
-    new_tier, _ = update_tier_rates(_tier_baseline(), actuals)
-    assert new_tier.loc["VIP+Priority", "conversion_rate"] == pytest.approx(0.44, abs=1e-3)
-
-
-def test_pooled_tier_skipped_when_all_blank():
-    actuals = pd.DataFrame(
-        [
-            _actuals_row(
-                vip_at_start=None, vip_that_started=None,
-                priority_at_start=None, priority_that_started=None,
-            )
-        ]
+        [_actuals_row(vip_priority_at_start=None, vip_priority_that_started=None)]
     )
     new_tier, _ = update_tier_rates(_tier_baseline(), actuals)
     assert new_tier.loc["VIP+Priority", "conversion_rate"] == 0.40

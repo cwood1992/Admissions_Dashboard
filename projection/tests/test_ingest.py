@@ -1,7 +1,9 @@
 from datetime import date
 
+import pandas as pd
 import pytest
 
+from scripts import ingest
 from scripts.ingest import ingest_cohort_csv, snapshot_to_flat_dict
 from scripts.utils import PROJECT_ROOT
 
@@ -98,3 +100,19 @@ def test_no_start_date_yields_none_days_to_start():
     snap_no_date = ingest_cohort_csv(FIXTURE, "2026-05-12", start_dates={})
     assert snap_no_date.start_date is None
     assert snap_no_date.days_to_start is None
+
+
+def test_vip_priority_students_counts_each_student_once():
+    # Row 0: VIP + P-FA (one student, two flags). Row 1: P-FA + P-VA.
+    # Row 2: WBH + VIP (already in the WBH floor -> excluded). Row 3: untagged.
+    flags = pd.DataFrame(
+        {
+            "wbh": [False, False, True, False],
+            "vip": [True, False, True, False],
+            "p_fa": [True, True, False, False],
+            "p_va": [False, True, False, False],
+            "p_acc": [False, False, False, False],
+            "p_adm": [False, False, False, False],
+        }
+    )
+    assert ingest.vip_priority_students(flags).tolist() == [True, True, False, False]

@@ -69,6 +69,11 @@ class CohortSnapshot:
 
     untagged_count: int
 
+    # Students (not flags) in the pooled VIP+Priority tier: VIP or any P-xx,
+    # and not WBH -- each student counts once, in their highest tier. None on
+    # snapshots written before 2026-09-18 that were never backfilled.
+    vip_priority_count: int | None = None
+
     # EnrollList-only (None when ingested from old per-cohort CCS).
     cold_count: int | None = None
     new_untagged_count: int | None = None
@@ -239,6 +244,7 @@ def ingest_cohort_csv(
         p_va_count=int((is_enrolled & flags["p_va"]).sum()),
         p_acc_count=int((is_enrolled & flags["p_acc"]).sum()),
         p_adm_count=int((is_enrolled & flags["p_adm"]).sum()),
+        vip_priority_count=int((is_enrolled & vip_priority_students(flags)).sum()),
         untagged_count=int((is_enrolled & ~any_tier_or_priority).sum()),
         reps=_per_rep_breakdown(df, is_enrolled, is_cancelled, enroll_type, flags),
     )
@@ -295,6 +301,14 @@ def reps_to_rows(snap: CohortSnapshot) -> list[dict]:
         row["program"] = snap.program
         rows.append(row)
     return rows
+
+
+def vip_priority_students(flags: pd.DataFrame) -> pd.Series:
+    """Per-student mask for the pooled VIP+Priority tier. A student carrying
+    VIP and a P-xx flag (common), or several P-xx flags, is one student; a WBH
+    student is already in the WBH floor and is excluded here."""
+    pooled = flags["vip"] | flags["p_fa"] | flags["p_va"] | flags["p_acc"] | flags["p_adm"]
+    return pooled & ~flags["wbh"]
 
 
 class MissingCohortFilesError(ValueError):
@@ -413,6 +427,7 @@ def _el_cohort_snapshot(
             p_va_count=0,
             p_acc_count=0,
             p_adm_count=0,
+            vip_priority_count=0,
             untagged_count=0,
             cold_count=0,
             new_untagged_count=0,
@@ -456,6 +471,7 @@ def _el_cohort_snapshot(
         p_va_count=int(flags["p_va"].sum()),
         p_acc_count=int(flags["p_acc"].sum()),
         p_adm_count=int(flags["p_adm"].sum()),
+        vip_priority_count=int(vip_priority_students(flags).sum()),
         untagged_count=int(untagged.sum()),
         cold_count=int((untagged & ~is_recent).sum()),
         new_untagged_count=int((untagged & is_recent).sum()),
