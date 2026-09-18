@@ -10,7 +10,11 @@ Schema for completed/cohort_actuals.csv:
     priority_at_start, priority_that_started,
     vip_priority_at_start, vip_priority_that_started,
         (pooled tier: students with VIP or any P-xx and not WBH, counted once;
-         the only VIP/P-xx columns calibration reads)
+         the only at-start VIP/P-xx columns calibration reads)
+    wbh_obs_pairs, wbh_obs_started,
+    vip_priority_obs_pairs, vip_priority_obs_started
+        (horizon-matched: student-snapshot pairs across every EnrollList 0-29d
+         before start; preferred over the at-start pair when present)
     proj_at_60d, proj_at_30d, proj_at_14d, proj_at_7d,
     calibrated_at  (ISO date; blank = pending)
 """
@@ -128,25 +132,44 @@ def update_tier_rates(
     # excluding WBH students, who are already in the WBH floor. The separate
     # vip_*/priority_* columns overlap each other and WBH, so they are never
     # summed here; a row without the pooled columns is skipped for this tier.
+    #
+    # Each tier prefers the horizon-matched observation (*_obs_*: every tagged
+    # student in every EnrollList 0-29d before start, see tier_observations.py),
+    # because that is the window the rate is applied in. The at-start pair
+    # (~3d out) is the fallback for rows recorded without the obs columns.
+    #
+    # WBH deliberately stays at-start for now (Clanton, 2026-09-18). The window
+    # measures WBH lower (~0.79 vs ~0.86 on 566-569) and is the truer rate, but
+    # the model under-projects near start because untagged and late-enrolling
+    # starters have no term, and the higher at-start WBH rate partly covers
+    # that gap: replaying 566-569 on the window worsened the backtest. Flip WBH
+    # to its obs columns (still recorded) when the missing-starters term lands.
     mapping = {
-        "WBH": ("wbh_at_start", "wbh_that_started"),
-        utils.CONFIDENCE_TIER_VIP_PRIORITY: (
-            "vip_priority_at_start",
-            "vip_priority_that_started",
-        ),
+        "WBH": [
+            ("wbh_at_start", "wbh_that_started", "at start"),
+        ],
+        utils.CONFIDENCE_TIER_VIP_PRIORITY: [
+            ("vip_priority_obs_pairs", "vip_priority_obs_started", "0-29d window"),
+            ("vip_priority_at_start", "vip_priority_that_started", "at start"),
+        ],
     }
-    for tier, (denom_col, num_col) in mapping.items():
+    for tier, sources in mapping.items():
         if tier not in df.index:
             continue
         prior_rate = float(df.loc[tier, "conversion_rate"])
         for _, row in completed.iterrows():
-            obs = _safe_rate(row.get(num_col), row.get(denom_col))
+            obs = basis = None
+            for denom_col, num_col, label in sources:
+                obs = _safe_rate(row.get(num_col), row.get(denom_col))
+                if obs is not None:
+                    basis = label
+                    break
             if obs is None:
                 continue
             new_rate = _blend(prior_rate, obs, lr)
             deltas.append(
                 f"{tier} conversion: {prior_rate:.4f} -> {new_rate:.4f} "
-                f"(observed {obs:.4f} from {row['cohort']}, lr={lr})"
+                f"(observed {obs:.4f} from {row['cohort']}, {basis}, lr={lr})"
             )
             prior_rate = new_rate
         df.loc[tier, "conversion_rate"] = round(prior_rate, 4)

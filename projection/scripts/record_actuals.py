@@ -8,7 +8,8 @@ Usage:
 Workflow:
 1. Look up the cohort's start_date and program.
 2. Find the closest snapshot CSV <= start_date and pre-fill tier counts
-   (wbh_at_start, vip_at_start, priority_at_start) from it.
+   (wbh_at_start, vip_at_start, priority_at_start) from it. The --from-ccs path
+   instead fills every tier column by student-ID join (tier_observations.py).
 3. Try to find historical snapshots at start_date - 60/30/14/7 days for the
    retrospective projection values; pre-fill proj_at_*d when available.
 4. Prompt for actual_starts and per-tier started counts.
@@ -25,7 +26,7 @@ from pathlib import Path
 import pandas as pd
 
 from scripts import calibrate as calibrate_mod
-from scripts import high_water, ingest, utils
+from scripts import high_water, ingest, tier_observations, utils
 
 PROJECTION_INTERVALS = [60, 30, 14, 7]  # days before start
 
@@ -95,6 +96,47 @@ def derive_from_booked_ccs(cohort: str, ccs_path: Path) -> dict:
         "proj_at_7d": "",
         "calibrated_at": "",
     }
+
+
+_AT_START_TIER_COLUMNS = [
+    f"{tier}_{kind}"
+    for tier in ("wbh", "vip", "priority", "vip_priority")
+    for kind in ("at_start", "that_started")
+]
+_OBS_COLUMNS = [
+    "wbh_obs_pairs",
+    "wbh_obs_started",
+    "vip_priority_obs_pairs",
+    "vip_priority_obs_started",
+]
+
+
+def _blank_tier_columns() -> dict:
+    return {c: "" for c in _AT_START_TIER_COLUMNS + _OBS_COLUMNS}
+
+
+def tier_columns_by_id_join(cohort: str, start_date: date, ccs_path: Path) -> dict:
+    """Replace derive_from_booked_ccs's tier cross-tab (wrong: Action Status is
+    cleared on show) with the student-ID join against pre-start EnrollLists, plus
+    the horizon-matched observation columns calibration prefers. Columns are left
+    blank, never zero, when no EnrollList is available."""
+    started_ids = tier_observations.booked_active_ids(ccs_path)
+    out = _blank_tier_columns()
+    at_start = tier_observations.at_start_tiers(cohort, start_date, started_ids)
+    if at_start is None:
+        print(
+            f"  WARN: no EnrollList within the tier window before {start_date}; "
+            "tier columns left blank."
+        )
+        return out
+    basis = at_start.pop("at_start_snapshot")
+    print(f"  Tier at-start basis: {basis} EnrollList (student-ID join)")
+    out.update(at_start)
+    obs = tier_observations.observe(cohort, start_date, started_ids)
+    if obs is not None:
+        print(f"  Tier observations: {obs.snapshots_used} EnrollList(s) in window")
+        out.update(obs.as_row())
+    return out
 
 
 def _list_snapshots() -> list[tuple[date, Path]]:
@@ -316,8 +358,12 @@ def main() -> None:
         start_dates = ingest.load_program_start_dates()
         if args.cohort in start_dates:
             row.update(retrospective_projections(args.cohort, start_dates[args.cohort]))
+            row.update(
+                tier_columns_by_id_join(args.cohort, start_dates[args.cohort], Path(args.from_ccs))
+            )
         else:
             print(f"  WARN: {args.cohort} not in program_start_dates_2026.csv; proj_at_* left blank.")
+            row.update(_blank_tier_columns())
         print(f"Derived from {args.from_ccs}:")
         for k, v in row.items():
             if k not in ("cohort", "program", "calibrated_at"):

@@ -58,8 +58,7 @@ uv run python -m scripts.calibrate
 ```
 
 This auto-derives `total_ever_enrolled` (row count), `actual_starts`
-(`FULL Current Status` = "Active Earning"), the WBH/VIP/Priority
-at-start-vs-started cross-tabs, and `proj_at_{60,30,14,7}d` (the `proj_mid`
+(`FULL Current Status` = "Active Earning"), the tier columns (see below), and `proj_at_{60,30,14,7}d` (the `proj_mid`
 this pipeline published in the snapshot nearest each interval before start,
 within 3 days); you confirm; it appends to `completed/cohort_actuals.csv`,
 marks the cohort's high-water row superseded, and offers to run calibration.
@@ -81,10 +80,24 @@ Accumulation-curve notes:
   already stamped `calibrated_at` without re-blending ATE/tier rates (used on
   2026-09-14 to fold 566–569 in class by class after the gate fix).
 
-Known gaps in `--from-ccs`: it counts rows, not students (CCS-N569 carried 10
-exact-duplicate rows for 3 students), and Action Status is cleared once a
-student shows, so the tier cross-tabs need the at-start EnrollList student-ID
-join described in the class-start runbook. Check both before calibrating.
+Tier columns are filled by student-ID join (`scripts/tier_observations.py`,
+since 2026-09-18), not from the booked CCS's own Action Status, which STARS
+clears once a student shows:
+- `*_at_start` / `*_that_started`: flags from the last `raw/<date>/EnrollList.csv`
+  on or before start, matched to the booked CCS's Active IDs. Includes the pooled
+  `vip_priority_*` (VIP or any P-xx, not WBH, one per student).
+- `*_obs_pairs` / `*_obs_started`: the same join over every EnrollList 0-29 days
+  before start (student-snapshot pairs), the window the tier rates are applied in.
+- No EnrollList in the window: tier columns are left blank (never zero) and
+  calibration skips them.
+
+Calibration uses the window columns for VIP+Priority and the at-start columns
+for WBH. WBH stays at-start on purpose until the model has a term for untagged
+and late-enrolling starters (see the comment in `calibrate.update_tier_rates`).
+
+Remaining gap in `--from-ccs`: `total_ever_enrolled` and `actual_starts` count
+rows, not students (CCS-N569 carried 10 exact-duplicate rows for 3 students).
+Check before calibrating.
 
 Without `--from-ccs` the command falls back to the fully-manual guided prompt.
 The one-time historical seed (2022–2025 + early-2026) came from
