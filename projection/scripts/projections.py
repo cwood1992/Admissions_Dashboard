@@ -28,8 +28,9 @@ class AteRange:
 @dataclass(frozen=True)
 class ConfidenceTierRates:
     wbh_show_rate: float
-    vip_conversion_rate: float
-    priority_conversion_rate: float
+    # VIP and the P-xx flags (P-FA/P-VA/P-Acc/P-Adm) are one pooled tier: they
+    # convert alike and neither has the sample size to stand alone (2026-09-18).
+    vip_priority_conversion_rate: float
     is_placeholder: bool
 
 
@@ -83,13 +84,15 @@ def load_ate_rates(path: Path | None = None) -> dict[str, AteRange]:
     }
 
 
+VIP_PRIORITY_TIER = utils.CONFIDENCE_TIER_VIP_PRIORITY
+
+
 def load_confidence_tier_rates(path: Path | None = None) -> ConfidenceTierRates:
     path = path or utils.BASELINES_DIR / "confidence_tier_rates.csv"
     df = pd.read_csv(path).set_index("tier")
     return ConfidenceTierRates(
         wbh_show_rate=float(df.loc["WBH", "conversion_rate"]),
-        vip_conversion_rate=float(df.loc["VIP", "conversion_rate"]),
-        priority_conversion_rate=float(df.loc["Priority", "conversion_rate"]),
+        vip_priority_conversion_rate=float(df.loc[VIP_PRIORITY_TIER, "conversion_rate"]),
         is_placeholder=df["confidence"].str.contains("placeholder").any(),
     )
 
@@ -216,23 +219,24 @@ def _project_medium(
     days_to_start: int,
     program: str,
     wbh: int,
-    vip: int,
-    priority: int,
+    vip_priority: int,
     ate: AteRange,
     curve: AccumulationCurve,
     tiers: ConfidenceTierRates,
 ) -> Projection:
     far = _project_far(currently_enrolled, position_avg, days_to_start, program, ate, curve)
     tier_low = wbh * tiers.wbh_show_rate
-    tier_mid = tier_low + vip * tiers.vip_conversion_rate
-    tier_high = tier_mid + priority * tiers.priority_conversion_rate
+    tier_mid = tier_low + vip_priority * tiers.vip_priority_conversion_rate
+    # Ceiling: every pooled student shows. Only survives when no error band
+    # applies; production low/high are re-sized around the mid.
+    tier_high = tier_low + vip_priority
     low = round((far.proj_low + tier_low) / 2)
     mid = round((far.proj_mid + tier_mid) / 2)
     high = round((far.proj_high + tier_high) / 2)
     low, mid, high = _enforce_order(low, mid, high)
     basis = (
         f"{REGIME_MEDIUM}: blend(accum={far.proj_mid}, tier_mid={tier_mid:.1f}); "
-        f"WBH={wbh},VIP={vip},Priority={priority}"
+        f"WBH={wbh},VIP+Priority={vip_priority}"
     )
     if tiers.is_placeholder:
         basis += " [tier rates are placeholders, data-starved]"
@@ -241,21 +245,20 @@ def _project_medium(
 
 def _project_near(
     wbh: int,
-    vip: int,
-    priority: int,
+    vip_priority: int,
     tiers: ConfidenceTierRates,
 ) -> Projection:
     floor = wbh * tiers.wbh_show_rate
-    midline = floor + vip * tiers.vip_conversion_rate
-    upside = midline + priority * tiers.priority_conversion_rate
+    midline = floor + vip_priority * tiers.vip_priority_conversion_rate
+    # Ceiling: every pooled student shows (see _project_medium).
+    upside = floor + vip_priority
     low = max(0, round(floor))
     mid = round(midline)
     high = round(upside)
     low, mid, high = _enforce_order(low, mid, high)
     basis = (
         f"{REGIME_NEAR}: WBH({wbh})×{tiers.wbh_show_rate:.2f} floor, "
-        f"VIP({vip})×{tiers.vip_conversion_rate:.2f} + "
-        f"Priority({priority})×{tiers.priority_conversion_rate:.2f} upside"
+        f"VIP+Priority({vip_priority})×{tiers.vip_priority_conversion_rate:.2f} mid"
     )
     if tiers.is_placeholder:
         basis += " [tier rates are placeholders, data-starved]"
@@ -276,9 +279,9 @@ def project_three_regime(
     accumulated = _accumulated_enrolled(row)
     program = str(row["program"])
     wbh = int(row.get("wbh_count", 0) or 0)
-    vip = int(row.get("vip_count", 0) or 0)
-    priority = int(
-        (row.get("p_fa_count", 0) or 0)
+    vip_priority = int(
+        (row.get("vip_count", 0) or 0)
+        + (row.get("p_fa_count", 0) or 0)
         + (row.get("p_va_count", 0) or 0)
         + (row.get("p_acc_count", 0) or 0)
         + (row.get("p_adm_count", 0) or 0)
@@ -303,13 +306,12 @@ def project_three_regime(
             days,
             program,
             wbh,
-            vip,
-            priority,
+            vip_priority,
             ate,
             curve,
             tiers,
         )
-    return _project_near(wbh, vip, priority, tiers)
+    return _project_near(wbh, vip_priority, tiers)
 
 
 BANDS_FROM_BASELINES = "baselines"

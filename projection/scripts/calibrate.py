@@ -69,6 +69,20 @@ def _safe_rate(num, den) -> float | None:
     return n / d
 
 
+def _sum_present(row: pd.Series, cols: list[str]) -> float | None:
+    """Sum of the columns that hold a number; None when none do (blank tier
+    columns mean the ID join was unavailable, not zero)."""
+    vals = []
+    for c in cols:
+        try:
+            v = float(row.get(c))
+        except (TypeError, ValueError):
+            continue
+        if not pd.isna(v):
+            vals.append(v)
+    return sum(vals) if vals else None
+
+
 def _pct_error(projection: float, actual: float) -> float:
     if actual == 0:
         return float("inf") if projection != 0 else 0.0
@@ -121,17 +135,21 @@ def update_tier_rates(
     """
     df = tier_df.copy()
     deltas: list[str] = []
+    # VIP and P-xx are one pooled tier: the actuals keep separate columns (for
+    # history) and are summed here per cohort.
     mapping = {
-        "WBH": ("wbh_at_start", "wbh_that_started"),
-        "VIP": ("vip_at_start", "vip_that_started"),
-        "Priority": ("priority_at_start", "priority_that_started"),
+        "WBH": (["wbh_at_start"], ["wbh_that_started"]),
+        utils.CONFIDENCE_TIER_VIP_PRIORITY: (
+            ["vip_at_start", "priority_at_start"],
+            ["vip_that_started", "priority_that_started"],
+        ),
     }
-    for tier, (denom_col, num_col) in mapping.items():
+    for tier, (denom_cols, num_cols) in mapping.items():
         if tier not in df.index:
             continue
         prior_rate = float(df.loc[tier, "conversion_rate"])
         for _, row in completed.iterrows():
-            obs = _safe_rate(row[num_col], row[denom_col])
+            obs = _safe_rate(_sum_present(row, num_cols), _sum_present(row, denom_cols))
             if obs is None:
                 continue
             new_rate = _blend(prior_rate, obs, lr)

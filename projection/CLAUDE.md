@@ -58,8 +58,9 @@ Dashboard reads JSON written into `dashboard/data/` by the scripts. Scripts must
 `projections.py` switches strategy based on `days_to_start`. This is in the spec and is load-bearing:
 
 - **30+ days out:** accumulation curve projects final enrollment (`high_water_enrolled / expected_fill_pct`), the program's ATE-to-start mid converts it to **starts**, that is capped at 2.5x the position average and blended 1/3 with the position-average prior. Below `FAR_REGIME_MIN_FILL_PCT` (0.15, roughly 90+ days out) the position average is used alone. Units matter here: before 2026-09-14 the enrollment count was blended against the starts-denominated position average without applying ATE, so the cap always bound and every far cohort projected exactly 1.5x position average regardless of the curve.
-- **14–30 days out:** blend accumulation projection with confidence tiers (WBH × WBH-to-start rate + VIP × VIP-to-start rate + remainder at baseline).
-- **Under 14 days:** confidence tiers dominate. WBH count minus historical no-show rate is the floor; VIP × conversion is the upside.
+- **14–30 days out:** blend accumulation projection with confidence tiers (WBH × WBH-to-start rate + VIP+Priority × pooled rate).
+- **Under 14 days:** confidence tiers dominate. WBH × show rate is the floor; VIP+Priority × pooled rate is added for the mid. Published low/high are re-sized around the mid from observed error.
+- **VIP and P-xx (P-FA/P-VA/P-Acc/P-Adm) are one pooled tier** (`VIP+Priority` in `baselines/confidence_tier_rates.csv`), per Clanton 2026-09-18: they convert alike and neither has the sample to stand alone. `cohort_actuals.csv` keeps separate vip/priority columns for history; `calibrate.py` sums them per cohort. Do not split them back out.
 
 The regimes own the **mid only**. Low/high are overwritten by `error_bands` (half-width = k x observed rms_z for the days-to-start bucket x sqrt(mid); k and buckets in `baselines/projection_band_config.json`), and the regime's own band is only a fallback when no table exists. The band table is measured by replaying the current model over stored snapshots and is rebuilt by `calibrate`. Roll-ups use `error_bands.combine_independent`, not sums of lows/highs. See README "Low/high bands".
 

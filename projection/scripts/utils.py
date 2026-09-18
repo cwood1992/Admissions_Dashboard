@@ -60,6 +60,8 @@ ENROLLMENT_TYPE_REENROLL = "REENROLL"  # may not appear in real exports; kept fo
 # Confidence tier and priority labels (normalized).
 CONFIDENCE_TIER_WBH = "WBH"
 CONFIDENCE_TIER_VIP = "VIP"
+# VIP and the P-xx flags are calibrated and projected as one pooled tier.
+CONFIDENCE_TIER_VIP_PRIORITY = "VIP+Priority"
 PRIORITY_FLAGS = ("P-FA", "P-VA", "P-Acc", "P-Adm")
 
 # --- Consolidated EnrollList.csv format (new weekly source, 2026-05-15+) -----

@@ -33,8 +33,7 @@ def test_derived_row_feeds_calibration():
     tier = pd.DataFrame(
         [
             {"tier": "WBH", "conversion_rate": 0.90, "confidence": "placeholder-data-starved"},
-            {"tier": "VIP", "conversion_rate": 0.50, "confidence": "placeholder-data-starved"},
-            {"tier": "Priority", "conversion_rate": 0.30, "confidence": "placeholder-data-starved"},
+            {"tier": "VIP+Priority", "conversion_rate": 0.40, "confidence": "placeholder-data-starved"},
         ]
     ).set_index("tier")
 
@@ -93,8 +92,7 @@ def test_blank_total_skips_ate_but_not_tier():
     tier = pd.DataFrame(
         [
             {"tier": "WBH", "conversion_rate": 0.90, "confidence": "placeholder"},
-            {"tier": "VIP", "conversion_rate": 0.50, "confidence": "placeholder"},
-            {"tier": "Priority", "conversion_rate": 0.30, "confidence": "placeholder"},
+            {"tier": "VIP+Priority", "conversion_rate": 0.40, "confidence": "placeholder"},
         ]
     ).set_index("tier")
 

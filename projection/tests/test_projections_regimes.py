@@ -43,8 +43,7 @@ def ate() -> AteRange:
 def tiers() -> ConfidenceTierRates:
     return ConfidenceTierRates(
         wbh_show_rate=0.90,
-        vip_conversion_rate=0.50,
-        priority_conversion_rate=0.30,
+        vip_priority_conversion_rate=0.50,
         is_placeholder=True,
     )
 
@@ -139,13 +138,14 @@ def test_medium_regime_selected_at_21_days(curve, ate, tiers):
     # far_low = round(12.643 * 0.7826) = 10
     # far_mid = round(12.643) = 13
     # far_high = round(12.643 * 1.2174) = 15
+    # VIP+Priority pooled = 3 + 1 = 4
     # tier_low = 6*0.90 = 5.4
-    # tier_mid = 5.4 + 3*0.50 = 6.9
-    # tier_high = 6.9 + 1*0.30 = 7.2
+    # tier_mid = 5.4 + 4*0.50 = 7.4
+    # tier_high = 5.4 + 4 = 9.4 (every pooled student shows)
     # blend (avg of far and tier):
     # low = round((10+5.4)/2) = round(7.7) = 8
-    # mid = round((13+6.9)/2) = round(9.95) = 10
-    # high = round((15+7.2)/2) = round(11.1) = 11
+    # mid = round((13+7.4)/2) = round(10.2) = 10
+    # high = round((15+9.4)/2) = round(12.2) = 12
     proj = project_three_regime(
         _row(
             days_to_start=21,
@@ -160,17 +160,15 @@ def test_medium_regime_selected_at_21_days(curve, ate, tiers):
         tiers,
     )
     assert proj.projection_basis.startswith(REGIME_MEDIUM)
-    assert (proj.proj_low, proj.proj_mid, proj.proj_high) == (8, 10, 11)
+    assert (proj.proj_low, proj.proj_mid, proj.proj_high) == (8, 10, 12)
     assert "placeholders" in proj.projection_basis
 
 
 def test_near_regime_selected_at_7_days(curve, ate, tiers):
-    # WBH=8, VIP=2, Priority=1, placeholder rates 0.90/0.50/0.30
-    # floor = 8*0.90 = 7.2 → round 7
-    # mid = 7.2 + 2*0.50 = 8.2 → round 8
-    # high = 8.2 + 1*0.30 = 8.5 → round 8, but order requires ≥ mid → 8
-    # Actually round(8.5) is banker's rounding in Python 3: round(8.5)=8.
-    # So enforce_order may leave high=mid=8, which still satisfies low<=mid<=high.
+    # WBH=8, VIP=2, Priority=1 -> pooled 3; placeholder rates 0.90/0.50
+    # floor = 8*0.90 = 7.2 -> round 7
+    # mid = 7.2 + 3*0.50 = 8.7 -> round 9
+    # high = 7.2 + 3 = 10.2 -> round 10 (every pooled student shows)
     proj = project_three_regime(
         _row(
             days_to_start=7,
@@ -186,8 +184,21 @@ def test_near_regime_selected_at_7_days(curve, ate, tiers):
     )
     assert proj.projection_basis.startswith(REGIME_NEAR)
     assert proj.proj_low == 7
-    assert proj.proj_mid == 8
-    assert proj.proj_high == 8
+    assert proj.proj_mid == 9
+    assert proj.proj_high == 10
+
+
+def test_near_regime_counts_priority_same_as_vip(curve, ate, tiers):
+    # VIP and P-xx are one pooled tier: swapping one for the other is a no-op.
+    as_vip = project_three_regime(
+        _row(days_to_start=7, wbh_count=4, vip_count=4), 18, ate, curve, tiers
+    )
+    as_priority = project_three_regime(
+        _row(days_to_start=7, wbh_count=4, p_fa_count=2, p_adm_count=2), 18, ate, curve, tiers
+    )
+    assert (as_vip.proj_low, as_vip.proj_mid, as_vip.proj_high) == (
+        as_priority.proj_low, as_priority.proj_mid, as_priority.proj_high
+    )
 
 
 def test_near_regime_zero_wbh_yields_zero_floor(curve, ate, tiers):

@@ -36,8 +36,7 @@ def _tier_baseline() -> pd.DataFrame:
     return pd.DataFrame(
         [
             {"tier": "WBH", "conversion_rate": 0.90, "confidence": "placeholder-data-starved"},
-            {"tier": "VIP", "conversion_rate": 0.50, "confidence": "placeholder-data-starved"},
-            {"tier": "Priority", "conversion_rate": 0.30, "confidence": "placeholder-data-starved"},
+            {"tier": "VIP+Priority", "conversion_rate": 0.40, "confidence": "placeholder-data-starved"},
         ]
     ).set_index("tier")
 
@@ -90,10 +89,32 @@ def test_tier_rate_updates_and_flips_confidence():
     new_tier, deltas = update_tier_rates(_tier_baseline(), actuals)
     assert new_tier.loc["WBH", "conversion_rate"] == pytest.approx(0.8867, abs=1e-3)
     assert new_tier.loc["WBH", "confidence"] == "calibrated"
-    # VIP: 3/5 = 0.60. Prior 0.50. new = 0.50*0.8 + 0.60*0.2 = 0.52
-    assert new_tier.loc["VIP", "conversion_rate"] == pytest.approx(0.52, abs=1e-3)
-    # Priority: 3/8 = 0.375. Prior 0.30. new = 0.30*0.8 + 0.375*0.2 = 0.315
-    assert new_tier.loc["Priority", "conversion_rate"] == pytest.approx(0.315, abs=1e-3)
+    # VIP+Priority pooled: (3+3)/(5+8) = 0.4615. Prior 0.40.
+    # new = 0.40*0.8 + 0.4615*0.2 = 0.4123
+    assert new_tier.loc["VIP+Priority", "conversion_rate"] == pytest.approx(0.4123, abs=1e-3)
+
+
+def test_pooled_tier_uses_present_side_when_other_blank():
+    # Priority columns blank (join unavailable): pool = VIP alone, 3/5 = 0.60.
+    # new = 0.40*0.8 + 0.60*0.2 = 0.44
+    actuals = pd.DataFrame(
+        [_actuals_row(priority_at_start=None, priority_that_started=None)]
+    )
+    new_tier, _ = update_tier_rates(_tier_baseline(), actuals)
+    assert new_tier.loc["VIP+Priority", "conversion_rate"] == pytest.approx(0.44, abs=1e-3)
+
+
+def test_pooled_tier_skipped_when_all_blank():
+    actuals = pd.DataFrame(
+        [
+            _actuals_row(
+                vip_at_start=None, vip_that_started=None,
+                priority_at_start=None, priority_that_started=None,
+            )
+        ]
+    )
+    new_tier, _ = update_tier_rates(_tier_baseline(), actuals)
+    assert new_tier.loc["VIP+Priority", "conversion_rate"] == 0.40
 
 
 def test_escalation_triggers_on_three_consistent_overshoots():

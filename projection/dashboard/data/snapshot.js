@@ -1,6 +1,6 @@
 window.SNAPSHOT_DATA = {
   "snapshot_date": "2026-09-18",
-  "generated_at": "2026-09-18T20:18:33.528336+00:00",
+  "generated_at": "2026-09-18T20:34:35.915437+00:00",
   "cohorts": [
     {
       "snapshot_date": "2026-09-18",
@@ -28,10 +28,10 @@ window.SNAPSHOT_DATA = {
       "cancelled_gone": NaN,
       "cancelled_moved_later": NaN,
       "high_water_enrolled": 102,
-      "proj_low": 1,
-      "proj_mid": 8,
-      "proj_high": 15,
-      "projection_basis": "medium-14-30: blend(accum=9, tier_mid=6.7); WBH=3,VIP=15,Priority=14 | band +/-6.2 = 1.28 x rms_z 1.71 (15-30d, n=7 cohorts) x sqrt(mid)",
+      "proj_low": 3,
+      "proj_mid": 10,
+      "proj_high": 17,
+      "projection_basis": "medium-14-30: blend(accum=9, tier_mid=10.3); WBH=3,VIP+Priority=29 | band +/-6.1 = 1.28 x rms_z 1.52 (15-30d, n=7 cohorts) x sqrt(mid)",
       "expected_weekly_velocity": 0.4365000000000005,
       "velocity_vs_historical": "above"
     },
@@ -62,9 +62,9 @@ window.SNAPSHOT_DATA = {
       "cancelled_moved_later": NaN,
       "high_water_enrolled": 9,
       "proj_low": 0,
-      "proj_mid": 4,
-      "proj_high": 9,
-      "projection_basis": "medium-14-30: blend(accum=5, tier_mid=2.8); WBH=1,VIP=7,Priority=6 | band +/-4.4 = 1.28 x rms_z 1.71 (15-30d, n=7 cohorts) x sqrt(mid)",
+      "proj_mid": 5,
+      "proj_high": 10,
+      "projection_basis": "medium-14-30: blend(accum=5, tier_mid=4.3); WBH=1,VIP+Priority=13 | band +/-4.3 = 1.28 x rms_z 1.52 (15-30d, n=7 cohorts) x sqrt(mid)",
       "expected_weekly_velocity": 0.2469257142857142,
       "velocity_vs_historical": "above"
     },
@@ -688,10 +688,10 @@ window.SNAPSHOT_DATA = {
       "cancelled_gone": NaN,
       "cancelled_moved_later": NaN,
       "high_water_enrolled": 109,
-      "proj_low": 9,
-      "proj_mid": 19,
-      "proj_high": 29,
-      "projection_basis": "medium-14-30: blend(accum=20, tier_mid=18.9); WBH=11,VIP=34,Priority=32 | band +/-9.6 = 1.28 x rms_z 1.71 (15-30d, n=7 cohorts) x sqrt(mid)",
+      "proj_low": 14,
+      "proj_mid": 24,
+      "proj_high": 34,
+      "projection_basis": "medium-14-30: blend(accum=20, tier_mid=27.2); WBH=11,VIP+Priority=66 | band +/-9.5 = 1.28 x rms_z 1.52 (15-30d, n=7 cohorts) x sqrt(mid)",
       "expected_weekly_velocity": 0.7112000000000016,
       "velocity_vs_historical": "above"
     },
