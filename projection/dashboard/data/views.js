@@ -1,35 +1,35 @@
 window.VIEWS = {
-  "snapshot_date": "2026-09-14",
-  "generated_at": "2026-09-17T20:54:52.426196+00:00",
+  "snapshot_date": "2026-09-18",
+  "generated_at": "2026-09-18T20:18:33.758975+00:00",
   "strategic": {
     "fiscal_year": 2026,
     "label": "2026",
     "total": {
       "actual_starts": 200,
-      "proj_low": 235,
-      "proj_mid": 252,
-      "proj_high": 269
+      "proj_low": 238,
+      "proj_mid": 256,
+      "proj_high": 274
     },
     "revenue_per_start": 25300,
-    "year_end_revenue_low": 5945500,
-    "year_end_revenue_mid": 6375600,
-    "year_end_revenue_high": 6805700,
+    "year_end_revenue_low": 6021400,
+    "year_end_revenue_mid": 6476800,
+    "year_end_revenue_high": 6932200,
     "by_program": {
       "UDT": {
         "cohort_count": 10,
         "started_count": 8,
         "actual_starts": 110,
-        "proj_low": 129,
-        "proj_mid": 142,
-        "proj_high": 155
+        "proj_low": 131,
+        "proj_mid": 144,
+        "proj_high": 157
       },
       "NDT-Day": {
         "cohort_count": 10,
         "started_count": 8,
         "actual_starts": 69,
         "proj_low": 76,
-        "proj_mid": 85,
-        "proj_high": 94
+        "proj_mid": 87,
+        "proj_high": 98
       },
       "NDT-Night": {
         "cohort_count": 5,
@@ -248,8 +248,8 @@ window.VIEWS = {
         "status": "projected",
         "actual_starts": null,
         "starts_low": 1,
-        "starts_mid": 7,
-        "starts_high": 13
+        "starts_mid": 8,
+        "starts_high": 15
       },
       {
         "cohort": "NDT570NC",
@@ -267,9 +267,9 @@ window.VIEWS = {
         "start_date": "2026-10-13",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 7,
-        "starts_mid": 17,
-        "starts_high": 27
+        "starts_low": 9,
+        "starts_mid": 19,
+        "starts_high": 29
       },
       {
         "cohort": "NDT571",
@@ -278,8 +278,8 @@ window.VIEWS = {
         "status": "projected",
         "actual_starts": null,
         "starts_low": 2,
-        "starts_mid": 9,
-        "starts_high": 16
+        "starts_mid": 10,
+        "starts_high": 18
       },
       {
         "cohort": "UDT571",
@@ -603,18 +603,18 @@ window.VIEWS = {
         "earned_projected": 0
       },
       "2026": {
-        "earned_low": 6466843,
-        "earned_mid": 6583060,
-        "earned_high": 6701999,
+        "earned_low": 6491497,
+        "earned_mid": 6612914,
+        "earned_high": 6736939,
         "earned_actual": 6237631,
-        "earned_projected": 345429
+        "earned_projected": 375283
       },
       "2027": {
-        "earned_low": 5338747,
-        "earned_mid": 6065085,
-        "earned_high": 6804523,
+        "earned_low": 5403136,
+        "earned_mid": 6136431,
+        "earned_high": 6882703,
         "earned_actual": 863742,
-        "earned_projected": 5201343
+        "earned_projected": 5272689
       },
       "2028": {
         "earned_low": 1947924,
@@ -1001,11 +1001,11 @@ window.VIEWS = {
         "program": "NDT-Day",
         "start_date": "2026-10-13",
         "status": "projected",
-        "starts_mid": 7,
-        "revenue_mid": 177100,
+        "starts_mid": 8,
+        "revenue_mid": 202400,
         "by_year": {
-          "2026": 59033,
-          "2027": 118067
+          "2026": 67467,
+          "2027": 134933
         }
       },
       {
@@ -1025,11 +1025,11 @@ window.VIEWS = {
         "program": "UDT",
         "start_date": "2026-10-13",
         "status": "projected",
-        "starts_mid": 17,
-        "revenue_mid": 430100,
+        "starts_mid": 19,
+        "revenue_mid": 480700,
         "by_year": {
-          "2026": 143367,
-          "2027": 286733
+          "2026": 160233,
+          "2027": 320467
         }
       },
       {
@@ -1037,11 +1037,11 @@ window.VIEWS = {
         "program": "NDT-Day",
         "start_date": "2026-11-16",
         "status": "projected",
-        "starts_mid": 9,
-        "revenue_mid": 227700,
+        "starts_mid": 10,
+        "revenue_mid": 253000,
         "by_year": {
-          "2026": 40986,
-          "2027": 186714
+          "2026": 45540,
+          "2027": 207460
         }
       },
       {
@@ -1382,12 +1382,20 @@ window.VIEWS = {
   },
   "management": {
     "fiscal_year": 2026,
-    "headline_starts_mid": 252,
-    "headline_starts_low": 235,
-    "headline_starts_high": 269,
+    "headline_starts_mid": 256,
+    "headline_starts_low": 238,
+    "headline_starts_high": 274,
     "headline_actual_starts": 200,
-    "headline_revenue_mid": 6375600,
-    "narrative": "As of 2026-09-14, the 2026 financial-year projection is 252 starts (range 235\u2013269) \u2014 200 booked plus 52 projected \u2014 implying $6,375,600 in mid-case revenue. Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown. Red-flagged cohorts: none.",
-    "red_flagged_cohorts": []
+    "headline_revenue_mid": 6476800,
+    "narrative": "As of 2026-09-18, the 2026 financial-year projection is 256 starts (range 238\u2013274) \u2014 200 booked plus 56 projected \u2014 implying $6,476,800 in mid-case revenue. Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown. Red-flagged cohorts: NDT570: WBH-implied start rate 2.6% (3 WBH x 88% show rate on 102 ever enrolled) is below the NDT-Day historical low 4.1% with 25d to start.",
+    "red_flagged_cohorts": [
+      {
+        "cohort": "NDT570",
+        "program": "NDT-Day",
+        "days_to_start": 25,
+        "proj_mid": 8,
+        "reason": "WBH-implied start rate 2.6% (3 WBH x 88% show rate on 102 ever enrolled) is below the NDT-Day historical low 4.1% with 25d to start"
+      }
+    ]
   }
 };

@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-09-17T20:55:08.362130+00:00",
- "ledger_snapshot_date": "2026-09-14",
+ "generated_at": "2026-09-18T20:18:58.605388+00:00",
+ "ledger_snapshot_date": "2026-09-18",
  "assumptions": [
   "Title IV (Pell/SEOG/Sub/Unsub/PLUS) arrives 50% on the 1st disbursement date and 50% on the 2nd, net of origination fees (1.057% Sub/Unsub, 4.228% PLUS).",
   "VA benefits arrive 100% on the first VA release date (~46th class day).",
@@ -670,19 +670,19 @@
      "program": "NDT",
      "proj_starts": {
       "low": 1,
-      "mid": 7,
-      "high": 13
+      "mid": 8,
+      "high": 15
      },
      "funds_gross": {
-      "VA": 50178.0,
-      "PELL": 31026.3,
-      "SEOG": 1275.0,
-      "SUB": 15400.0,
-      "UNSUB": 20211.5,
-      "PLUS": 22455.9,
+      "VA": 57346.29,
+      "PELL": 35458.63,
+      "SEOG": 1457.14,
+      "SUB": 17600.0,
+      "UNSUB": 23098.86,
+      "PLUS": 25663.89,
       "SCHOL": 0.0
      },
-     "total_net": 139220.84
+     "total_net": 159109.55
     },
     {
      "program": "NDT-NC",
@@ -705,20 +705,20 @@
     {
      "program": "UDT",
      "proj_starts": {
-      "low": 7,
-      "mid": 17,
-      "high": 27
+      "low": 9,
+      "mid": 19,
+      "high": 29
      },
      "funds_gross": {
-      "VA": 119120.01,
-      "PELL": 59811.33,
-      "SEOG": 2038.56,
-      "SUB": 33938.77,
-      "UNSUB": 45741.53,
-      "PLUS": 84943.09,
-      "SCHOL": 360.17
+      "VA": 133134.13,
+      "PELL": 66847.96,
+      "SEOG": 2278.39,
+      "SUB": 37931.57,
+      "UNSUB": 51122.88,
+      "PLUS": 94936.4,
+      "SCHOL": 402.54
      },
-     "total_net": 341519.85
+     "total_net": 381698.65
     }
    ]
   },
@@ -739,19 +739,19 @@
      "program": "NDT",
      "proj_starts": {
       "low": 2,
-      "mid": 9,
-      "high": 16
+      "mid": 10,
+      "high": 18
      },
      "funds_gross": {
-      "VA": 64514.57,
-      "PELL": 39890.96,
-      "SEOG": 1639.29,
-      "SUB": 19800.0,
-      "UNSUB": 25986.21,
-      "PLUS": 28871.87,
+      "VA": 71682.86,
+      "PELL": 44323.29,
+      "SEOG": 1821.43,
+      "SUB": 22000.0,
+      "UNSUB": 28873.57,
+      "PLUS": 32079.86,
       "SCHOL": 0.0
      },
-     "total_net": 178998.24
+     "total_net": 198886.94
     },
     {
      "program": "UDT",
@@ -3838,9 +3838,9 @@
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 15513.15,
+   "amount": 17729.31,
    "low": 2216.16,
-   "high": 28810.14
+   "high": 33242.46
   },
   {
    "date": "2026-11-13",
@@ -3862,9 +3862,9 @@
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 29905.67,
-   "low": 12314.1,
-   "high": 47497.23
+   "amount": 33423.98,
+   "low": 15832.41,
+   "high": 51015.55
   },
   {
    "date": "2026-11-13",
@@ -3874,9 +3874,9 @@
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 10753.23,
+   "amount": 12289.41,
    "low": 1536.18,
-   "high": 19970.29
+   "high": 23042.64
   },
   {
    "date": "2026-11-13",
@@ -3898,9 +3898,9 @@
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 40675.85,
-   "low": 16748.88,
-   "high": 64602.82
+   "amount": 45461.24,
+   "low": 21534.27,
+   "high": 69388.21
   },
   {
    "date": "2026-11-13",
@@ -3910,9 +3910,9 @@
    "fund": "SCHOL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 360.17,
-   "low": 148.31,
-   "high": 572.03
+   "amount": 402.54,
+   "low": 190.68,
+   "high": 614.41
   },
   {
    "date": "2026-11-13",
@@ -3922,9 +3922,9 @@
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 637.5,
+   "amount": 728.57,
    "low": 91.07,
-   "high": 1183.93
+   "high": 1366.07
   },
   {
    "date": "2026-11-13",
@@ -3946,9 +3946,9 @@
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 1019.28,
-   "low": 419.7,
-   "high": 1618.86
+   "amount": 1139.19,
+   "low": 539.62,
+   "high": 1738.77
   },
   {
    "date": "2026-11-13",
@@ -3958,9 +3958,9 @@
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 7618.61,
+   "amount": 8706.98,
    "low": 1088.37,
-   "high": 14148.85
+   "high": 16325.6
   },
   {
    "date": "2026-11-13",
@@ -3982,9 +3982,9 @@
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 16790.02,
-   "low": 6913.54,
-   "high": 26666.5
+   "amount": 18765.32,
+   "low": 8888.83,
+   "high": 28641.8
   },
   {
    "date": "2026-11-13",
@@ -3994,9 +3994,9 @@
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 9998.93,
+   "amount": 11427.35,
    "low": 1428.42,
-   "high": 18569.45
+   "high": 21426.28
   },
   {
    "date": "2026-11-13",
@@ -4018,9 +4018,9 @@
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 22629.02,
-   "low": 9317.83,
-   "high": 35940.21
+   "amount": 25291.26,
+   "low": 11980.07,
+   "high": 38602.44
   },
   {
    "date": "2026-11-20",
@@ -4170,9 +4170,9 @@
    "fund": "PELL",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 19945.48,
+   "amount": 22161.64,
    "low": 4432.33,
-   "high": 35458.63
+   "high": 39890.96
   },
   {
    "date": "2026-12-16",
@@ -4194,9 +4194,9 @@
    "fund": "PLUS",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 13825.58,
+   "amount": 15361.76,
    "low": 3072.35,
-   "high": 24578.82
+   "high": 27651.17
   },
   {
    "date": "2026-12-16",
@@ -4230,9 +4230,9 @@
    "fund": "SEOG",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 819.64,
+   "amount": 910.71,
    "low": 182.14,
-   "high": 1457.14
+   "high": 1639.29
   },
   {
    "date": "2026-12-16",
@@ -4254,9 +4254,9 @@
    "fund": "SUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 9795.36,
+   "amount": 10883.73,
    "low": 2176.75,
-   "high": 17413.97
+   "high": 19590.71
   },
   {
    "date": "2026-12-16",
@@ -4278,9 +4278,9 @@
    "fund": "UNSUB",
    "tranche": "disb1",
    "kind": "projected",
-   "amount": 12855.77,
+   "amount": 14284.19,
    "low": 2856.84,
-   "high": 22854.7
+   "high": 25711.54
   },
   {
    "date": "2026-12-16",
@@ -4302,9 +4302,9 @@
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 50178.0,
+   "amount": 57346.29,
    "low": 7168.29,
-   "high": 93187.71
+   "high": 107524.29
   },
   {
    "date": "2026-12-18",
@@ -4326,9 +4326,9 @@
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 119120.01,
-   "low": 49049.42,
-   "high": 189190.6
+   "amount": 133134.13,
+   "low": 63063.53,
+   "high": 203204.72
   },
   {
    "date": "2027-01-07",
@@ -4458,9 +4458,9 @@
    "fund": "VA",
    "tranche": "va1",
    "kind": "projected",
-   "amount": 64514.57,
+   "amount": 71682.86,
    "low": 14336.57,
-   "high": 114692.57
+   "high": 129029.14
   },
   {
    "date": "2027-02-01",
@@ -4674,9 +4674,9 @@
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 15513.15,
+   "amount": 17729.31,
    "low": 2216.16,
-   "high": 28810.14
+   "high": 33242.46
   },
   {
    "date": "2027-02-11",
@@ -4698,9 +4698,9 @@
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 29905.67,
-   "low": 12314.1,
-   "high": 47497.23
+   "amount": 33423.98,
+   "low": 15832.41,
+   "high": 51015.55
   },
   {
    "date": "2027-02-11",
@@ -4710,9 +4710,9 @@
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 10753.23,
+   "amount": 12289.41,
    "low": 1536.18,
-   "high": 19970.29
+   "high": 23042.64
   },
   {
    "date": "2027-02-11",
@@ -4734,9 +4734,9 @@
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 40675.85,
-   "low": 16748.88,
-   "high": 64602.82
+   "amount": 45461.24,
+   "low": 21534.27,
+   "high": 69388.21
   },
   {
    "date": "2027-02-11",
@@ -4746,9 +4746,9 @@
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 637.5,
+   "amount": 728.57,
    "low": 91.07,
-   "high": 1183.93
+   "high": 1366.07
   },
   {
    "date": "2027-02-11",
@@ -4770,9 +4770,9 @@
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 1019.28,
-   "low": 419.7,
-   "high": 1618.86
+   "amount": 1139.19,
+   "low": 539.62,
+   "high": 1738.77
   },
   {
    "date": "2027-02-11",
@@ -4782,9 +4782,9 @@
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 7618.61,
+   "amount": 8706.98,
    "low": 1088.37,
-   "high": 14148.85
+   "high": 16325.6
   },
   {
    "date": "2027-02-11",
@@ -4806,9 +4806,9 @@
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 16790.02,
-   "low": 6913.54,
-   "high": 26666.5
+   "amount": 18765.32,
+   "low": 8888.83,
+   "high": 28641.8
   },
   {
    "date": "2027-02-11",
@@ -4818,9 +4818,9 @@
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 9998.93,
+   "amount": 11427.35,
    "low": 1428.42,
-   "high": 18569.45
+   "high": 21426.28
   },
   {
    "date": "2027-02-11",
@@ -4842,9 +4842,9 @@
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 22629.02,
-   "low": 9317.83,
-   "high": 35940.21
+   "amount": 25291.26,
+   "low": 11980.07,
+   "high": 38602.44
   },
   {
    "date": "2027-03-08",
@@ -5022,9 +5022,9 @@
    "fund": "PELL",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 19945.48,
+   "amount": 22161.64,
    "low": 4432.33,
-   "high": 35458.63
+   "high": 39890.96
   },
   {
    "date": "2027-03-17",
@@ -5046,9 +5046,9 @@
    "fund": "PLUS",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 13825.58,
+   "amount": 15361.76,
    "low": 3072.35,
-   "high": 24578.82
+   "high": 27651.17
   },
   {
    "date": "2027-03-17",
@@ -5070,9 +5070,9 @@
    "fund": "SEOG",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 819.64,
+   "amount": 910.71,
    "low": 182.14,
-   "high": 1457.14
+   "high": 1639.29
   },
   {
    "date": "2027-03-17",
@@ -5094,9 +5094,9 @@
    "fund": "SUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 9795.36,
+   "amount": 10883.73,
    "low": 2176.75,
-   "high": 17413.97
+   "high": 19590.71
   },
   {
    "date": "2027-03-17",
@@ -5118,9 +5118,9 @@
    "fund": "UNSUB",
    "tranche": "disb2",
    "kind": "projected",
-   "amount": 12855.77,
+   "amount": 14284.19,
    "low": 2856.84,
-   "high": 22854.7
+   "high": 25711.54
   },
   {
    "date": "2027-03-17",

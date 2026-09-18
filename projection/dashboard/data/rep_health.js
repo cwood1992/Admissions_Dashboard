@@ -1,12 +1,12 @@
 window.REP_HEALTH = {
-  "snapshot_date": "2026-09-14",
-  "generated_at": "2026-09-17T20:54:52.318704+00:00",
+  "snapshot_date": "2026-09-18",
+  "generated_at": "2026-09-18T20:18:33.685587+00:00",
   "params": {
     "commitment_window_days": 45,
     "stale_lost_after_days": 14,
     "min_metric_sample": 10,
     "durability_target_days": 60,
-    "durability_prior_date": "2026-07-13",
+    "durability_prior_date": "2026-07-20",
     "loss_target_days": 28,
     "loss_prior_date": "2026-08-18",
     "booked_cohorts": [
@@ -26,78 +26,78 @@ window.REP_HEALTH = {
     ]
   },
   "team": {
-    "forward_enrolled": 457,
-    "near_enrolled": 219,
-    "wbh_near": 9,
-    "wbh_rate_near": 0.0411,
-    "tagged_near": 66,
-    "tagged_rate_near": 0.3014,
+    "forward_enrolled": 490,
+    "near_enrolled": 210,
+    "wbh_near": 15,
+    "wbh_rate_near": 0.0714,
+    "tagged_near": 76,
+    "tagged_rate_near": 0.3619,
     "durability": {
-      "n": 275,
-      "basis": 265,
-      "rate": 0.2906,
+      "n": 341,
+      "basis": 321,
+      "rate": 0.2804,
       "outcomes": {
-        "retained": 41,
-        "started": 36,
-        "pending": 10,
-        "lost_listed": 33,
+        "retained": 48,
+        "started": 42,
+        "pending": 20,
+        "lost_listed": 34,
         "unknown": 0,
-        "gone": 155
+        "gone": 197
       }
     },
     "retention_28d": {
       "n": 481,
-      "basis": 387,
-      "rate": 0.4599,
+      "basis": 397,
+      "rate": 0.398,
       "outcomes": {
-        "retained": 150,
+        "retained": 130,
         "started": 28,
-        "pending": 94,
+        "pending": 84,
         "lost_listed": 0,
         "unknown": 0,
-        "gone": 209
+        "gone": 239
       }
     },
-    "loss_rate_28d": 0.5401
+    "loss_rate_28d": 0.602
   },
   "reps": [
     {
       "rep_name": "Anna",
-      "forward_enrolled": 141,
-      "near_enrolled": 72,
-      "wbh_near": 5,
-      "wbh_rate_near": 0.0694,
+      "forward_enrolled": 145,
+      "near_enrolled": 59,
+      "wbh_near": 6,
+      "wbh_rate_near": 0.1017,
       "tagged_near": 29,
-      "tagged_rate_near": 0.4028,
+      "tagged_rate_near": 0.4915,
       "durability": {
-        "n": 63,
-        "basis": 63,
-        "rate": 0.3016,
+        "n": 77,
+        "basis": 77,
+        "rate": 0.3377,
         "outcomes": {
-          "retained": 16,
-          "started": 3,
+          "retained": 19,
+          "started": 7,
           "pending": 0,
           "lost_listed": 2,
           "unknown": 0,
-          "gone": 42
+          "gone": 49
         }
       },
       "retention_28d": {
         "n": 150,
         "basis": 150,
-        "rate": 0.4067,
+        "rate": 0.3533,
         "outcomes": {
-          "retained": 52,
+          "retained": 44,
           "started": 9,
           "pending": 0,
           "lost_listed": 0,
           "unknown": 0,
-          "gone": 89
+          "gone": 97
         }
       },
-      "loss_rate_28d": 0.5933,
-      "quality_score": 0.3704,
-      "vs_team_avg": 108.6,
+      "loss_rate_28d": 0.6467,
+      "quality_score": 0.3942,
+      "vs_team_avg": 115.0,
       "terms_used": [
         "tagged_rate_near",
         "durability_60d",
@@ -107,41 +107,41 @@ window.REP_HEALTH = {
     },
     {
       "rep_name": "Randy",
-      "forward_enrolled": 164,
-      "near_enrolled": 76,
-      "wbh_near": 4,
-      "wbh_rate_near": 0.0526,
-      "tagged_near": 31,
-      "tagged_rate_near": 0.4079,
+      "forward_enrolled": 176,
+      "near_enrolled": 72,
+      "wbh_near": 5,
+      "wbh_rate_near": 0.0694,
+      "tagged_near": 32,
+      "tagged_rate_near": 0.4444,
       "durability": {
-        "n": 94,
-        "basis": 93,
-        "rate": 0.2688,
+        "n": 120,
+        "basis": 116,
+        "rate": 0.2328,
         "outcomes": {
-          "retained": 12,
-          "started": 13,
-          "pending": 1,
+          "retained": 13,
+          "started": 14,
+          "pending": 4,
           "lost_listed": 0,
           "unknown": 0,
-          "gone": 68
+          "gone": 89
         }
       },
       "retention_28d": {
         "n": 144,
-        "basis": 101,
-        "rate": 0.5446,
+        "basis": 111,
+        "rate": 0.4324,
         "outcomes": {
-          "retained": 47,
+          "retained": 40,
           "started": 8,
-          "pending": 43,
+          "pending": 33,
           "lost_listed": 0,
           "unknown": 0,
-          "gone": 46
+          "gone": 63
         }
       },
-      "loss_rate_28d": 0.4554,
-      "quality_score": 0.4071,
-      "vs_team_avg": 115.4,
+      "loss_rate_28d": 0.5676,
+      "quality_score": 0.3699,
+      "vs_team_avg": 104.8,
       "terms_used": [
         "tagged_rate_near",
         "durability_60d",
@@ -151,41 +151,41 @@ window.REP_HEALTH = {
     },
     {
       "rep_name": "Sue",
-      "forward_enrolled": 110,
-      "near_enrolled": 52,
-      "wbh_near": 0,
-      "wbh_rate_near": 0.0,
-      "tagged_near": 3,
-      "tagged_rate_near": 0.0577,
+      "forward_enrolled": 128,
+      "near_enrolled": 61,
+      "wbh_near": 4,
+      "wbh_rate_near": 0.0656,
+      "tagged_near": 12,
+      "tagged_rate_near": 0.1967,
       "durability": {
-        "n": 80,
-        "basis": 78,
-        "rate": 0.3077,
+        "n": 97,
+        "basis": 93,
+        "rate": 0.3011,
         "outcomes": {
-          "retained": 9,
-          "started": 15,
-          "pending": 2,
+          "retained": 12,
+          "started": 16,
+          "pending": 4,
           "lost_listed": 15,
           "unknown": 0,
-          "gone": 39
+          "gone": 50
         }
       },
       "retention_28d": {
         "n": 122,
         "basis": 107,
-        "rate": 0.3832,
+        "rate": 0.3551,
         "outcomes": {
-          "retained": 35,
+          "retained": 32,
           "started": 6,
           "pending": 15,
           "lost_listed": 0,
           "unknown": 0,
-          "gone": 66
+          "gone": 69
         }
       },
-      "loss_rate_28d": 0.6168,
-      "quality_score": 0.2495,
-      "vs_team_avg": 69.5,
+      "loss_rate_28d": 0.6449,
+      "quality_score": 0.2843,
+      "vs_team_avg": 83.7,
       "terms_used": [
         "tagged_rate_near",
         "durability_60d",
@@ -195,41 +195,41 @@ window.REP_HEALTH = {
     },
     {
       "rep_name": "Thomas",
-      "forward_enrolled": 42,
-      "near_enrolled": 19,
+      "forward_enrolled": 41,
+      "near_enrolled": 18,
       "wbh_near": 0,
       "wbh_rate_near": 0.0,
       "tagged_near": 3,
-      "tagged_rate_near": 0.1579,
+      "tagged_rate_near": 0.1667,
       "durability": {
-        "n": 38,
-        "basis": 31,
-        "rate": 0.2903,
+        "n": 47,
+        "basis": 35,
+        "rate": 0.2571,
         "outcomes": {
           "retained": 4,
           "started": 5,
-          "pending": 7,
-          "lost_listed": 16,
+          "pending": 12,
+          "lost_listed": 17,
           "unknown": 0,
-          "gone": 6
+          "gone": 9
         }
       },
       "retention_28d": {
         "n": 65,
         "basis": 29,
-        "rate": 0.7241,
+        "rate": 0.6552,
         "outcomes": {
-          "retained": 16,
+          "retained": 14,
           "started": 5,
           "pending": 36,
           "lost_listed": 0,
           "unknown": 0,
-          "gone": 8
+          "gone": 10
         }
       },
-      "loss_rate_28d": 0.2759,
-      "quality_score": 0.3908,
-      "vs_team_avg": 103.2,
+      "loss_rate_28d": 0.3448,
+      "quality_score": 0.3597,
+      "vs_team_avg": 100.8,
       "terms_used": [
         "tagged_rate_near",
         "durability_60d",
