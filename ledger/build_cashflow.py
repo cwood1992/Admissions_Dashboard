@@ -26,6 +26,7 @@ import re
 import shutil
 import sys
 import tempfile
+import zipfile
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -95,6 +96,38 @@ def _tmp_copy(path: Path) -> Path:
     return dst
 
 
+def _strip_auto_filters(src: Path) -> Path:
+    """Rewrite a workbook copy with every <autoFilter> element removed.
+
+    openpyxl refuses a customFilter whose `val` is neither numeric nor a
+    wildcard; Excel writes exactly that for a "not equal to blank" filter
+    (568 Class.xlsx, 2026-09-25) and the whole workbook then fails to load.
+    The filters carry no data we read, so drop them and retry.
+    """
+    dst = src.with_name(src.stem + "_nofilter" + src.suffix)
+    with zipfile.ZipFile(src) as zin, zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as zout:
+        for item in zin.infolist():
+            data = zin.read(item.filename)
+            if item.filename.startswith("xl/worksheets/") and item.filename.endswith(".xml"):
+                text = data.decode("utf-8")
+                text = re.sub(r"<autoFilter.*?</autoFilter>", "", text, flags=re.S)
+                text = re.sub(r"<autoFilter[^>]*/>", "", text)
+                data = text.encode("utf-8")
+            zout.writestr(item, data)
+    return dst
+
+
+def _load_workbook(path: Path):
+    """Copy out of OneDrive and open, tolerating filters openpyxl rejects."""
+    local = _tmp_copy(path)
+    try:
+        return openpyxl.load_workbook(local, data_only=True)
+    except ValueError:
+        print(f"  note: {path.name} has an autofilter openpyxl cannot parse; "
+              f"reloading without filters")
+        return openpyxl.load_workbook(_strip_auto_filters(local), data_only=True)
+
+
 def _num(value) -> float:
     """Coerce a cell to a dollar amount; text like '-', 'Declined', 'HOLD' -> 0."""
     if isinstance(value, bool):
@@ -116,7 +149,7 @@ def _iso(value) -> str | None:
 def parse_schedule() -> dict[int, dict]:
     """Sheet '24-26': class row (start, disb1, disb2, grad) followed by a
     companion row carrying the two VA release dates in the same columns."""
-    wb = openpyxl.load_workbook(_tmp_copy(SCHEDULE_PATH), data_only=True)
+    wb = _load_workbook(SCHEDULE_PATH)
     ws = wb[SCHEDULE_SHEET]
     schedule: dict[int, dict] = {}
     current: dict | None = None
@@ -225,7 +258,7 @@ def parse_expected_funds(path: Path, file_class: int) -> dict:
     Returns {(class_num, program): {students, cash_payers, funds{...gross}}}
     plus a reconciliation list of (row_sum_col, row_parsed_total) pairs.
     """
-    wb = openpyxl.load_workbook(_tmp_copy(path), data_only=True)
+    wb = _load_workbook(path)
     ws = _pick_check_list(wb)
     sections: dict[tuple[int, str], dict] = {}
     recon = {"sum_col": 0.0, "parsed": 0.0}
