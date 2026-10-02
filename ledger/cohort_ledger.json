@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-25T18:19:27.977852+00:00",
-  "snapshot_date": "2026-09-25",
+  "generated_at": "2026-10-02T20:52:52.227876+00:00",
+  "snapshot_date": "2026-10-02",
   "revenue_per_start": 25300,
   "cohorts": [
     {
@@ -2291,10 +2291,10 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 89,
-      "proj_low": 1,
+      "currently_enrolled": 86,
+      "proj_low": 3,
       "proj_mid": 7,
-      "proj_high": 13,
+      "proj_high": 11,
       "booked_revenue": null,
       "projected_revenue_mid": 177100,
       "reconciliation": null
@@ -2307,12 +2307,12 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 9,
-      "proj_low": 0,
-      "proj_mid": 4,
-      "proj_high": 9,
+      "currently_enrolled": 11,
+      "proj_low": 2,
+      "proj_mid": 5,
+      "proj_high": 8,
       "booked_revenue": null,
-      "projected_revenue_mid": 101200,
+      "projected_revenue_mid": 126500,
       "reconciliation": null
     },
     {
@@ -2323,12 +2323,12 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 92,
-      "proj_low": 10,
-      "proj_mid": 20,
+      "currently_enrolled": 79,
+      "proj_low": 16,
+      "proj_mid": 23,
       "proj_high": 30,
       "booked_revenue": null,
-      "projected_revenue_mid": 506000,
+      "projected_revenue_mid": 581900,
       "reconciliation": null
     },
     {
@@ -2339,12 +2339,12 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 69,
-      "proj_low": 3,
-      "proj_mid": 11,
-      "proj_high": 19,
+      "currently_enrolled": 75,
+      "proj_low": 2,
+      "proj_mid": 10,
+      "proj_high": 18,
       "booked_revenue": null,
-      "projected_revenue_mid": 278300,
+      "projected_revenue_mid": 253000,
       "reconciliation": null
     },
     {
@@ -2355,7 +2355,7 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 46,
+      "currently_enrolled": 52,
       "proj_low": 6,
       "proj_mid": 15,
       "proj_high": 24,
@@ -2371,7 +2371,7 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 42,
+      "currently_enrolled": 44,
       "proj_low": 0,
       "proj_mid": 4,
       "proj_high": 9,
@@ -2403,7 +2403,7 @@
       "lifecycle": "in_flight",
       "actual_starts": null,
       "total_ever_enrolled": null,
-      "currently_enrolled": 77,
+      "currently_enrolled": 81,
       "proj_low": 8,
       "proj_mid": 17,
       "proj_high": 26,
@@ -2815,11 +2815,11 @@
   "totals": {
     "booked_starts": 1167,
     "booked_revenue": 29525100,
-    "projected_low_starts": 279,
-    "projected_mid_starts": 319,
-    "projected_high_starts": 359,
-    "projected_mid_revenue": 8070700,
-    "combined_mid_revenue": 37595800
+    "projected_low_starts": 283,
+    "projected_mid_starts": 322,
+    "projected_high_starts": 361,
+    "projected_mid_revenue": 8146600,
+    "combined_mid_revenue": 37671700
   },
   "reconciliation_warnings": []
 }
