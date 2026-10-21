@@ -1,43 +1,43 @@
 window.VIEWS = {
-  "snapshot_date": "2026-10-09",
-  "generated_at": "2026-10-09T16:20:57.802986+00:00",
+  "snapshot_date": "2026-10-21",
+  "generated_at": "2026-10-21T19:50:35.916616+00:00",
   "strategic": {
     "fiscal_year": 2026,
     "label": "2026",
     "total": {
-      "actual_starts": 200,
-      "proj_low": 242,
-      "proj_mid": 254,
-      "proj_high": 266
+      "actual_starts": 234,
+      "proj_low": 241,
+      "proj_mid": 250,
+      "proj_high": 259
     },
     "revenue_per_start": 25300,
-    "year_end_revenue_low": 6122600,
-    "year_end_revenue_mid": 6426200,
-    "year_end_revenue_high": 6729800,
+    "year_end_revenue_low": 6097300,
+    "year_end_revenue_mid": 6325000,
+    "year_end_revenue_high": 6552700,
     "by_program": {
       "UDT": {
         "cohort_count": 10,
-        "started_count": 8,
-        "actual_starts": 110,
-        "proj_low": 134,
-        "proj_mid": 144,
-        "proj_high": 154
+        "started_count": 9,
+        "actual_starts": 133,
+        "proj_low": 136,
+        "proj_mid": 143,
+        "proj_high": 150
       },
       "NDT-Day": {
         "cohort_count": 10,
-        "started_count": 8,
-        "actual_starts": 69,
-        "proj_low": 77,
-        "proj_mid": 84,
-        "proj_high": 91
+        "started_count": 9,
+        "actual_starts": 74,
+        "proj_low": 74,
+        "proj_mid": 80,
+        "proj_high": 86
       },
       "NDT-Night": {
         "cohort_count": 5,
-        "started_count": 4,
-        "actual_starts": 21,
-        "proj_low": 24,
-        "proj_mid": 26,
-        "proj_high": 28
+        "started_count": 5,
+        "actual_starts": 27,
+        "proj_low": 27,
+        "proj_mid": 27,
+        "proj_high": 27
       }
     },
     "cohorts": [
@@ -245,31 +245,31 @@ window.VIEWS = {
         "cohort": "NDT570",
         "program": "NDT-Day",
         "start_date": "2026-10-13",
-        "status": "projected",
-        "actual_starts": null,
-        "starts_low": 4,
-        "starts_mid": 6,
-        "starts_high": 8
+        "status": "actual",
+        "actual_starts": 5,
+        "starts_low": 5,
+        "starts_mid": 5,
+        "starts_high": 5
       },
       {
         "cohort": "NDT570NC",
         "program": "NDT-Night",
         "start_date": "2026-10-13",
-        "status": "projected",
-        "actual_starts": null,
-        "starts_low": 3,
-        "starts_mid": 5,
-        "starts_high": 7
+        "status": "actual",
+        "actual_starts": 6,
+        "starts_low": 6,
+        "starts_mid": 6,
+        "starts_high": 6
       },
       {
         "cohort": "UDT570",
         "program": "UDT",
         "start_date": "2026-10-13",
-        "status": "projected",
-        "actual_starts": null,
-        "starts_low": 16,
-        "starts_mid": 20,
-        "starts_high": 24
+        "status": "actual",
+        "actual_starts": 23,
+        "starts_low": 23,
+        "starts_mid": 23,
+        "starts_high": 23
       },
       {
         "cohort": "NDT571",
@@ -277,9 +277,9 @@ window.VIEWS = {
         "start_date": "2026-11-16",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 2,
-        "starts_mid": 9,
-        "starts_high": 16
+        "starts_low": 0,
+        "starts_mid": 6,
+        "starts_high": 12
       },
       {
         "cohort": "UDT571",
@@ -287,9 +287,9 @@ window.VIEWS = {
         "start_date": "2026-11-16",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 5,
-        "starts_mid": 14,
-        "starts_high": 23
+        "starts_low": 3,
+        "starts_mid": 10,
+        "starts_high": 17
       }
     ],
     "model_confidence_note": "Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown."
@@ -299,37 +299,37 @@ window.VIEWS = {
     "label": "2027",
     "total": {
       "actual_starts": 0,
-      "proj_low": 205,
-      "proj_mid": 239,
-      "proj_high": 274
+      "proj_low": 220,
+      "proj_mid": 249,
+      "proj_high": 278
     },
     "revenue_per_start": 25300,
-    "year_end_revenue_low": 5186500,
-    "year_end_revenue_mid": 6046700,
-    "year_end_revenue_high": 6932200,
+    "year_end_revenue_low": 5566000,
+    "year_end_revenue_mid": 6299700,
+    "year_end_revenue_high": 7033400,
     "by_program": {
       "UDT": {
         "cohort_count": 10,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 118,
-        "proj_mid": 145,
-        "proj_high": 172
+        "proj_low": 131,
+        "proj_mid": 154,
+        "proj_high": 177
       },
       "NDT-Day": {
         "cohort_count": 10,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 54,
+        "proj_low": 57,
         "proj_mid": 73,
-        "proj_high": 92
+        "proj_high": 89
       },
       "NDT-Night": {
         "cohort_count": 5,
         "started_count": 0,
         "actual_starts": 0,
-        "proj_low": 12,
-        "proj_mid": 21,
+        "proj_low": 14,
+        "proj_mid": 22,
         "proj_high": 31
       }
     },
@@ -342,7 +342,7 @@ window.VIEWS = {
         "actual_starts": null,
         "starts_low": 0,
         "starts_mid": 4,
-        "starts_high": 9
+        "starts_high": 8
       },
       {
         "cohort": "NDT572NC",
@@ -351,8 +351,8 @@ window.VIEWS = {
         "status": "projected",
         "actual_starts": null,
         "starts_low": 0,
-        "starts_mid": 2,
-        "starts_high": 5
+        "starts_mid": 3,
+        "starts_high": 6
       },
       {
         "cohort": "UDT572",
@@ -360,9 +360,9 @@ window.VIEWS = {
         "start_date": "2027-01-04",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 8,
-        "starts_mid": 17,
-        "starts_high": 26
+        "starts_low": 17,
+        "starts_mid": 26,
+        "starts_high": 35
       },
       {
         "cohort": "NDT573",
@@ -370,9 +370,9 @@ window.VIEWS = {
         "start_date": "2027-02-08",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 2,
+        "starts_low": 3,
         "starts_mid": 8,
-        "starts_high": 14
+        "starts_high": 13
       },
       {
         "cohort": "UDT573",
@@ -380,9 +380,9 @@ window.VIEWS = {
         "start_date": "2027-02-08",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 1,
+        "starts_low": 2,
         "starts_mid": 7,
-        "starts_high": 13
+        "starts_high": 12
       },
       {
         "cohort": "NDT574",
@@ -390,9 +390,9 @@ window.VIEWS = {
         "start_date": "2027-03-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 0,
+        "starts_low": 1,
         "starts_mid": 5,
-        "starts_high": 10
+        "starts_high": 9
       },
       {
         "cohort": "NDT574NC",
@@ -402,7 +402,7 @@ window.VIEWS = {
         "actual_starts": null,
         "starts_low": 0,
         "starts_mid": 3,
-        "starts_high": 7
+        "starts_high": 6
       },
       {
         "cohort": "UDT574",
@@ -410,9 +410,9 @@ window.VIEWS = {
         "start_date": "2027-03-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 6,
+        "starts_low": 7,
         "starts_mid": 14,
-        "starts_high": 22
+        "starts_high": 21
       },
       {
         "cohort": "NDT575",
@@ -420,9 +420,9 @@ window.VIEWS = {
         "start_date": "2027-04-19",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 0,
+        "starts_low": 1,
         "starts_mid": 6,
-        "starts_high": 12
+        "starts_high": 11
       },
       {
         "cohort": "UDT575",
@@ -430,9 +430,9 @@ window.VIEWS = {
         "start_date": "2027-04-19",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 3,
+        "starts_low": 4,
         "starts_mid": 10,
-        "starts_high": 17
+        "starts_high": 16
       },
       {
         "cohort": "NDT576",
@@ -440,9 +440,9 @@ window.VIEWS = {
         "start_date": "2027-05-17",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 0,
+        "starts_low": 1,
         "starts_mid": 5,
-        "starts_high": 10
+        "starts_high": 9
       },
       {
         "cohort": "NDT576NC",
@@ -460,9 +460,9 @@ window.VIEWS = {
         "start_date": "2027-05-17",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 2,
+        "starts_low": 3,
         "starts_mid": 9,
-        "starts_high": 16
+        "starts_high": 15
       },
       {
         "cohort": "NDT577",
@@ -470,9 +470,9 @@ window.VIEWS = {
         "start_date": "2027-06-21",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 4,
+        "starts_low": 6,
         "starts_mid": 12,
-        "starts_high": 20
+        "starts_high": 18
       },
       {
         "cohort": "UDT577",
@@ -480,9 +480,9 @@ window.VIEWS = {
         "start_date": "2027-06-21",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 6,
+        "starts_low": 8,
         "starts_mid": 15,
-        "starts_high": 24
+        "starts_high": 22
       },
       {
         "cohort": "NDT578",
@@ -490,9 +490,9 @@ window.VIEWS = {
         "start_date": "2027-07-26",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 1,
+        "starts_low": 2,
         "starts_mid": 7,
-        "starts_high": 13
+        "starts_high": 12
       },
       {
         "cohort": "NDT578NC",
@@ -500,9 +500,9 @@ window.VIEWS = {
         "start_date": "2027-07-26",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 2,
+        "starts_low": 3,
         "starts_mid": 8,
-        "starts_high": 14
+        "starts_high": 13
       },
       {
         "cohort": "UDT578",
@@ -510,9 +510,9 @@ window.VIEWS = {
         "start_date": "2027-07-26",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 6,
+        "starts_low": 7,
         "starts_mid": 14,
-        "starts_high": 22
+        "starts_high": 21
       },
       {
         "cohort": "NDT579",
@@ -520,9 +520,9 @@ window.VIEWS = {
         "start_date": "2027-09-07",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 4,
+        "starts_low": 5,
         "starts_mid": 11,
-        "starts_high": 18
+        "starts_high": 17
       },
       {
         "cohort": "UDT579",
@@ -530,9 +530,9 @@ window.VIEWS = {
         "start_date": "2027-09-07",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 12,
+        "starts_low": 14,
         "starts_mid": 23,
-        "starts_high": 34
+        "starts_high": 32
       },
       {
         "cohort": "NDT580",
@@ -540,9 +540,9 @@ window.VIEWS = {
         "start_date": "2027-10-12",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 1,
+        "starts_low": 2,
         "starts_mid": 7,
-        "starts_high": 13
+        "starts_high": 12
       },
       {
         "cohort": "NDT580NC",
@@ -550,9 +550,9 @@ window.VIEWS = {
         "start_date": "2027-10-12",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 0,
+        "starts_low": 1,
         "starts_mid": 6,
-        "starts_high": 12
+        "starts_high": 11
       },
       {
         "cohort": "UDT580",
@@ -560,9 +560,9 @@ window.VIEWS = {
         "start_date": "2027-10-12",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 10,
+        "starts_low": 12,
         "starts_mid": 20,
-        "starts_high": 30
+        "starts_high": 28
       },
       {
         "cohort": "NDT581",
@@ -570,9 +570,9 @@ window.VIEWS = {
         "start_date": "2027-11-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 2,
+        "starts_low": 3,
         "starts_mid": 8,
-        "starts_high": 14
+        "starts_high": 13
       },
       {
         "cohort": "UDT581",
@@ -580,9 +580,9 @@ window.VIEWS = {
         "start_date": "2027-11-15",
         "status": "projected",
         "actual_starts": null,
-        "starts_low": 7,
+        "starts_low": 9,
         "starts_mid": 16,
-        "starts_high": 25
+        "starts_high": 23
       }
     ],
     "model_confidence_note": "Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown."
@@ -603,23 +603,23 @@ window.VIEWS = {
         "earned_projected": 0
       },
       "2026": {
-        "earned_low": 6537451,
-        "earned_mid": 6603806,
-        "earned_high": 6670161,
-        "earned_actual": 6237631,
-        "earned_projected": 366175
+        "earned_low": 6555242,
+        "earned_mid": 6597228,
+        "earned_high": 6639214,
+        "earned_actual": 6524364,
+        "earned_projected": 72864
       },
       "2027": {
-        "earned_low": 5394116,
-        "earned_mid": 6094939,
-        "earned_high": 6807536,
-        "earned_actual": 863742,
-        "earned_projected": 5231197
+        "earned_low": 5656119,
+        "earned_mid": 6253317,
+        "earned_high": 6853188,
+        "earned_actual": 1437209,
+        "earned_projected": 4816108
       },
       "2028": {
-        "earned_low": 1947924,
+        "earned_low": 2017424,
         "earned_mid": 2397428,
-        "earned_high": 2856792,
+        "earned_high": 2781620,
         "earned_actual": 0,
         "earned_projected": 2397428
       }
@@ -1000,19 +1000,7 @@ window.VIEWS = {
         "cohort": "NDT570",
         "program": "NDT-Day",
         "start_date": "2026-10-13",
-        "status": "projected",
-        "starts_mid": 6,
-        "revenue_mid": 151800,
-        "by_year": {
-          "2026": 50600,
-          "2027": 101200
-        }
-      },
-      {
-        "cohort": "NDT570NC",
-        "program": "NDT-Night",
-        "start_date": "2026-10-13",
-        "status": "projected",
+        "status": "actual",
         "starts_mid": 5,
         "revenue_mid": 126500,
         "by_year": {
@@ -1021,15 +1009,27 @@ window.VIEWS = {
         }
       },
       {
+        "cohort": "NDT570NC",
+        "program": "NDT-Night",
+        "start_date": "2026-10-13",
+        "status": "actual",
+        "starts_mid": 6,
+        "revenue_mid": 151800,
+        "by_year": {
+          "2026": 50600,
+          "2027": 101200
+        }
+      },
+      {
         "cohort": "UDT570",
         "program": "UDT",
         "start_date": "2026-10-13",
-        "status": "projected",
-        "starts_mid": 20,
-        "revenue_mid": 506000,
+        "status": "actual",
+        "starts_mid": 23,
+        "revenue_mid": 581900,
         "by_year": {
-          "2026": 168667,
-          "2027": 337333
+          "2026": 193967,
+          "2027": 387933
         }
       },
       {
@@ -1037,11 +1037,11 @@ window.VIEWS = {
         "program": "NDT-Day",
         "start_date": "2026-11-16",
         "status": "projected",
-        "starts_mid": 9,
-        "revenue_mid": 227700,
+        "starts_mid": 6,
+        "revenue_mid": 151800,
         "by_year": {
-          "2026": 40986,
-          "2027": 186714
+          "2026": 27324,
+          "2027": 124476
         }
       },
       {
@@ -1049,11 +1049,11 @@ window.VIEWS = {
         "program": "UDT",
         "start_date": "2026-11-16",
         "status": "projected",
-        "starts_mid": 14,
-        "revenue_mid": 354200,
+        "starts_mid": 10,
+        "revenue_mid": 253000,
         "by_year": {
-          "2026": 63756,
-          "2027": 290444
+          "2026": 45540,
+          "2027": 207460
         }
       },
       {
@@ -1072,10 +1072,10 @@ window.VIEWS = {
         "program": "NDT-Night",
         "start_date": "2027-01-04",
         "status": "projected",
-        "starts_mid": 2,
-        "revenue_mid": 50600,
+        "starts_mid": 3,
+        "revenue_mid": 75900,
         "by_year": {
-          "2027": 50600
+          "2027": 75900
         }
       },
       {
@@ -1083,10 +1083,10 @@ window.VIEWS = {
         "program": "UDT",
         "start_date": "2027-01-04",
         "status": "projected",
-        "starts_mid": 17,
-        "revenue_mid": 430100,
+        "starts_mid": 26,
+        "revenue_mid": 657800,
         "by_year": {
-          "2027": 430100
+          "2027": 657800
         }
       },
       {
@@ -1382,12 +1382,27 @@ window.VIEWS = {
   },
   "management": {
     "fiscal_year": 2026,
-    "headline_starts_mid": 254,
-    "headline_starts_low": 242,
-    "headline_starts_high": 266,
-    "headline_actual_starts": 200,
-    "headline_revenue_mid": 6426200,
-    "narrative": "As of 2026-10-09, the 2026 financial-year projection is 254 starts (range 242\u2013266) \u2014 200 booked plus 54 projected \u2014 implying $6,426,200 in mid-case revenue. Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown. Red-flagged cohorts: none.",
-    "red_flagged_cohorts": []
+    "headline_starts_mid": 250,
+    "headline_starts_low": 241,
+    "headline_starts_high": 259,
+    "headline_actual_starts": 234,
+    "headline_revenue_mid": 6325000,
+    "narrative": "As of 2026-10-21, the 2026 financial-year projection is 250 starts (range 241\u2013259) \u2014 234 booked plus 16 projected \u2014 implying $6,325,000 in mid-case revenue. Model has calibrated confidence tier rates. Cohort low/high is sized from observed projection error (about 80% target). Year and program ranges combine cohorts as independent errors; cohorts share baselines, so a year with many far-out cohorts is likely wider than shown. Red-flagged cohorts: NDT571: WBH-implied start rate 0.0% (0 WBH x 87% show rate on 128 ever enrolled) is below the NDT-Day historical low 3.2% with 26d to start \u00b7 UDT571: WBH-implied start rate 0.0% (0 WBH x 87% show rate on 67 ever enrolled) is below the UDT historical low 8.5% with 26d to start.",
+    "red_flagged_cohorts": [
+      {
+        "cohort": "NDT571",
+        "program": "NDT-Day",
+        "days_to_start": 26,
+        "proj_mid": 6,
+        "reason": "WBH-implied start rate 0.0% (0 WBH x 87% show rate on 128 ever enrolled) is below the NDT-Day historical low 3.2% with 26d to start"
+      },
+      {
+        "cohort": "UDT571",
+        "program": "UDT",
+        "days_to_start": 26,
+        "proj_mid": 10,
+        "reason": "WBH-implied start rate 0.0% (0 WBH x 87% show rate on 67 ever enrolled) is below the UDT historical low 8.5% with 26d to start"
+      }
+    ]
   }
 };
